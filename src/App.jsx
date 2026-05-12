@@ -147,6 +147,26 @@ function Button({ children, dark = true, onClick, href, target }) {
   );
 }
 
+function TypingDots() {
+  return (
+    <div className="flex items-center gap-1 rounded-2xl bg-white px-3 py-2 shadow-sm">
+      {[0, 1, 2].map((dot) => (
+        <motion.span
+          key={dot}
+          animate={{ opacity: [0.3, 1, 0.3], y: [0, -2, 0] }}
+          transition={{
+            repeat: Infinity,
+            duration: 1,
+            delay: dot * 0.15,
+            ease: "easeInOut",
+          }}
+          className="h-1.5 w-1.5 rounded-full bg-neutral-500"
+        />
+      ))}
+    </div>
+  );
+}
+
 function Navbar({ setPage }) {
   const [open, setOpen] = useState(false);
 
@@ -185,19 +205,34 @@ function Navbar({ setPage }) {
         </button>
 
         <nav className="hidden items-center gap-8 md:flex">
-          <button onClick={goHome} className="text-sm font-medium text-neutral-600 hover:text-black">
+          <button
+            onClick={goHome}
+            className="text-sm font-medium text-neutral-600 hover:text-black"
+          >
             Home
           </button>
-          <a href="#services" className="text-sm font-medium text-neutral-600 hover:text-black">
+          <a
+            href="#services"
+            className="text-sm font-medium text-neutral-600 hover:text-black"
+          >
             Services
           </a>
-          <a href="#process" className="text-sm font-medium text-neutral-600 hover:text-black">
+          <a
+            href="#process"
+            className="text-sm font-medium text-neutral-600 hover:text-black"
+          >
             Process
           </a>
-          <button onClick={goPricing} className="text-sm font-medium text-neutral-600 hover:text-black">
+          <button
+            onClick={goPricing}
+            className="text-sm font-medium text-neutral-600 hover:text-black"
+          >
             Pricing
           </button>
-          <a href="#contact" className="text-sm font-medium text-neutral-600 hover:text-black">
+          <a
+            href="#contact"
+            className="text-sm font-medium text-neutral-600 hover:text-black"
+          >
             Contact
           </a>
         </nav>
@@ -216,11 +251,33 @@ function Navbar({ setPage }) {
       {open && (
         <div className="border-t border-neutral-200 bg-white px-6 py-5 md:hidden">
           <div className="flex flex-col gap-4">
-            <button onClick={goHome} className="text-left text-neutral-700">Home</button>
-            <a href="#services" onClick={() => setOpen(false)} className="text-neutral-700">Services</a>
-            <a href="#process" onClick={() => setOpen(false)} className="text-neutral-700">Process</a>
-            <button onClick={goPricing} className="text-left text-neutral-700">Pricing</button>
-            <a href="#contact" onClick={() => setOpen(false)} className="text-neutral-700">Contact</a>
+            <button onClick={goHome} className="text-left text-neutral-700">
+              Home
+            </button>
+            <a
+              href="#services"
+              onClick={() => setOpen(false)}
+              className="text-neutral-700"
+            >
+              Services
+            </a>
+            <a
+              href="#process"
+              onClick={() => setOpen(false)}
+              className="text-neutral-700"
+            >
+              Process
+            </a>
+            <button onClick={goPricing} className="text-left text-neutral-700">
+              Pricing
+            </button>
+            <a
+              href="#contact"
+              onClick={() => setOpen(false)}
+              className="text-neutral-700"
+            >
+              Contact
+            </a>
             <a
               href={contactLinks.whatsapp}
               target="_blank"
@@ -242,7 +299,7 @@ function AutoCompanyPreview() {
   useEffect(() => {
     const timer = setInterval(() => {
       setActive((current) => (current + 1) % previewSystems.length);
-    }, 3200);
+    }, 4300);
 
     return () => clearInterval(timer);
   }, []);
@@ -252,30 +309,43 @@ function AutoCompanyPreview() {
 
   const renderMainPreview = () => {
     if (active === 0) {
+      const chats = [
+        ["customer", "Hi, mata booking ekak danna puluwanda?"],
+        ["ai", "ඔව්, පුළුවන්. දිනය සහ වේලාව කියන්න."],
+        ["customer", "Can you explain your services?"],
+        ["ai", "Yes. We provide AI WhatsApp bots and automation."],
+      ];
+
       return (
-        <div className="rounded-[1.3rem] bg-[#eaf7ee] p-3 text-black">
+        <div className="rounded-[1.3rem] bg-[#eaf7ee] p-3 text-black shadow-inner">
           <div className="flex items-center gap-3 border-b border-black/10 pb-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#25D366] text-white">
+            <motion.div
+              animate={{ scale: [1, 1.06, 1] }}
+              transition={{ repeat: Infinity, duration: 2.2 }}
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-[#25D366] text-white"
+            >
               <MessageCircle className="h-4 w-4" />
-            </div>
+            </motion.div>
+
             <div>
               <p className="text-xs font-bold">Sinovex AI Bot</p>
               <p className="text-[11px] text-neutral-600">WhatsApp Business</p>
             </div>
+
+            <span className="ml-auto rounded-full bg-white px-2 py-1 text-[9px] font-bold text-[#128C7E]">
+              online
+            </span>
           </div>
 
-          {[
-            ["customer", "Hi, mata booking ekak danna puluwanda?"],
-            ["ai", "ඔව්, පුළුවන්. දිනය සහ වේලාව කියන්න."],
-            ["customer", "Can you explain your services?"],
-            ["ai", "Yes. We provide AI WhatsApp bots and automation."],
-          ].map(([role, text], index) => (
+          {chats.map(([role, text], index) => (
             <motion.div
               key={text}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.18 }}
-              className={`mt-2 flex ${role === "ai" ? "justify-end" : "justify-start"}`}
+              initial={{ opacity: 0, y: 10, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: index * 0.25, duration: 0.35 }}
+              className={`mt-2 flex ${
+                role === "ai" ? "justify-end" : "justify-start"
+              }`}
             >
               <div
                 className={`max-w-[86%] rounded-2xl px-3 py-2 text-xs leading-5 shadow-sm ${
@@ -287,6 +357,15 @@ function AutoCompanyPreview() {
             </motion.div>
           ))}
 
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.1 }}
+            className="mt-3 flex justify-start"
+          >
+            <TypingDots />
+          </motion.div>
+
           <div className="mt-3 rounded-full bg-white px-3 py-2 text-[11px] text-neutral-500">
             Type a message...
           </div>
@@ -295,33 +374,56 @@ function AutoCompanyPreview() {
     }
 
     if (active === 1) {
+      const chats = [
+        ["visitor", "What services do you offer?"],
+        ["ai", "We build AI chatbots, voice agents, and automations."],
+        ["visitor", "Can I get pricing?"],
+        ["ai", "Sure. I can guide you to the best package."],
+      ];
+
       return (
         <div className="rounded-[1.3rem] bg-white p-3 text-black">
           <div className="rounded-2xl border border-neutral-200 bg-[#f5f5f7] p-3">
             <div className="mb-3 flex items-center justify-between">
-              <p className="text-xs font-bold">businesswebsite.com</p>
+              <div className="flex gap-1">
+                <span className="h-2 w-2 rounded-full bg-red-400" />
+                <span className="h-2 w-2 rounded-full bg-yellow-400" />
+                <span className="h-2 w-2 rounded-full bg-green-400" />
+              </div>
+
+              <p className="text-[10px] font-bold text-neutral-500">
+                businesswebsite.com
+              </p>
+
               <span className="rounded-full bg-black px-2 py-1 text-[10px] text-white">
                 AI Chat
               </span>
             </div>
 
             <div className="rounded-2xl bg-white p-3 shadow-sm">
-              <p className="text-[11px] font-semibold text-neutral-500">
-                Website Assistant
-              </p>
+              <div className="mb-2 flex items-center justify-between">
+                <p className="text-[11px] font-semibold text-neutral-500">
+                  Website Assistant
+                </p>
 
-              {[
-                ["visitor", "What services do you offer?"],
-                ["ai", "We build AI chatbots, voice agents, and automations."],
-                ["visitor", "Can I get pricing?"],
-                ["ai", "Sure. I can guide you to the best package."],
-              ].map(([role, text], index) => (
+                <motion.span
+                  animate={{ opacity: [0.45, 1, 0.45] }}
+                  transition={{ repeat: Infinity, duration: 1.6 }}
+                  className="rounded-full bg-green-100 px-2 py-1 text-[9px] font-bold text-green-700"
+                >
+                  live
+                </motion.span>
+              </div>
+
+              {chats.map(([role, text], index) => (
                 <motion.div
                   key={text}
-                  initial={{ opacity: 0, x: role === "ai" ? 12 : -12 }}
+                  initial={{ opacity: 0, x: role === "ai" ? 14 : -14 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.18 }}
-                  className={`mt-2 flex ${role === "ai" ? "justify-end" : "justify-start"}`}
+                  transition={{ delay: index * 0.23, duration: 0.35 }}
+                  className={`mt-2 flex ${
+                    role === "ai" ? "justify-end" : "justify-start"
+                  }`}
                 >
                   <div
                     className={`max-w-[86%] rounded-2xl px-3 py-2 text-xs leading-5 ${
@@ -332,6 +434,14 @@ function AutoCompanyPreview() {
                   </div>
                 </motion.div>
               ))}
+
+              <motion.div
+                animate={{ y: [0, -3, 0] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+                className="mt-3 rounded-full border border-neutral-200 bg-white px-3 py-2 text-[11px] text-neutral-400"
+              >
+                Ask something about services...
+              </motion.div>
             </div>
           </div>
         </div>
@@ -342,11 +452,24 @@ function AutoCompanyPreview() {
       return (
         <div className="rounded-[1.3rem] bg-neutral-900 p-4 text-white">
           <div className="text-center">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white text-black">
+            <motion.div
+              animate={{
+                scale: [1, 1.08, 1],
+                boxShadow: [
+                  "0 0 0 0 rgba(255,255,255,0.18)",
+                  "0 0 0 14px rgba(255,255,255,0)",
+                  "0 0 0 0 rgba(255,255,255,0)",
+                ],
+              }}
+              transition={{ repeat: Infinity, duration: 2 }}
+              className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white text-black"
+            >
               <PhoneCall className="h-7 w-7" />
-            </div>
+            </motion.div>
 
-            <p className="mt-3 text-xs text-neutral-400">Incoming customer call</p>
+            <p className="mt-3 text-xs text-neutral-400">
+              Incoming customer call
+            </p>
             <h3 className="mt-1 text-xl font-bold">AI Voice Agent</h3>
           </div>
 
@@ -354,11 +477,12 @@ function AutoCompanyPreview() {
             {[25, 42, 62, 35, 54, 72, 38, 58, 30].map((height, index) => (
               <motion.div
                 key={index}
-                animate={{ height: [height, height + 20, height] }}
+                animate={{ height: [height, height + 22, height] }}
                 transition={{
                   repeat: Infinity,
-                  duration: 1,
-                  delay: index * 0.08,
+                  duration: 0.9,
+                  delay: index * 0.07,
+                  ease: "easeInOut",
                 }}
                 className="w-2 rounded-full bg-white"
                 style={{ height }}
@@ -366,9 +490,27 @@ function AutoCompanyPreview() {
             ))}
           </div>
 
-          <div className="mt-5 rounded-2xl bg-white/10 p-3 text-xs leading-5 text-neutral-200">
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-5 rounded-2xl bg-white/10 p-3 text-xs leading-5 text-neutral-200"
+          >
             “Hello, this is Sinovex AI assistant. I can help with bookings,
             services, and customer support.”
+          </motion.div>
+
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            {["Listen", "Reply", "Summarize"].map((label, index) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.15 }}
+                className="rounded-xl bg-white/10 px-2 py-2 text-center text-[10px] text-neutral-300"
+              >
+                {label}
+              </motion.div>
+            ))}
           </div>
         </div>
       );
@@ -387,12 +529,20 @@ function AutoCompanyPreview() {
               key={title}
               initial={{ opacity: 0, x: -18 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.2 }}
-              className="flex items-center gap-3 rounded-2xl bg-[#f5f5f7] p-3"
+              transition={{ delay: index * 0.22, duration: 0.35 }}
+              className="relative flex items-center gap-3 rounded-2xl bg-[#f5f5f7] p-3"
             >
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white">
+              <motion.div
+                animate={{ scale: [1, 1.08, 1] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 2,
+                  delay: index * 0.2,
+                }}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white"
+              >
                 <Check className="h-4 w-4" />
-              </div>
+              </motion.div>
 
               <div>
                 <p className="text-xs font-bold">{title}</p>
@@ -402,11 +552,17 @@ function AutoCompanyPreview() {
           ))}
         </div>
 
-        <motion.div
-          animate={{ width: ["20%", "100%"] }}
-          transition={{ repeat: Infinity, duration: 2.4 }}
-          className="mt-4 h-2 rounded-full bg-black"
-        />
+        <div className="mt-4 overflow-hidden rounded-full bg-neutral-200">
+          <motion.div
+            animate={{ width: ["15%", "100%", "15%"] }}
+            transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+            className="h-2 rounded-full bg-black"
+          />
+        </div>
+
+        <p className="mt-3 text-center text-[11px] font-semibold text-neutral-500">
+          Automation running...
+        </p>
       </div>
     );
   };
@@ -419,30 +575,47 @@ function AutoCompanyPreview() {
           <h2 className="text-lg font-semibold">See Sinovex AI in action</h2>
         </div>
 
-        <span className="rounded-full bg-white px-3 py-1 text-[10px] font-bold text-black">
+        <motion.span
+          animate={{ opacity: [0.65, 1, 0.65] }}
+          transition={{ repeat: Infinity, duration: 1.8 }}
+          className="rounded-full bg-white px-3 py-1 text-[10px] font-bold text-black"
+        >
           LIVE
-        </span>
+        </motion.span>
       </div>
 
       <div className="relative overflow-hidden bg-neutral-950 p-3">
-        <div className="absolute left-8 top-10 h-24 w-24 rounded-full bg-blue-500/20 blur-3xl" />
-        <div className="absolute bottom-8 right-8 h-28 w-28 rounded-full bg-purple-500/20 blur-3xl" />
+        <motion.div
+          animate={{ opacity: [0.4, 0.75, 0.4], scale: [1, 1.08, 1] }}
+          transition={{ repeat: Infinity, duration: 5 }}
+          className="absolute left-8 top-10 h-24 w-24 rounded-full bg-blue-500/20 blur-3xl"
+        />
+        <motion.div
+          animate={{ opacity: [0.35, 0.7, 0.35], scale: [1, 1.1, 1] }}
+          transition={{ repeat: Infinity, duration: 5.5 }}
+          className="absolute bottom-8 right-8 h-28 w-28 rounded-full bg-purple-500/20 blur-3xl"
+        />
 
         <motion.div
           key={item.label}
           initial={{ opacity: 0, y: 15, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.45 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="relative z-10 grid gap-3 lg:grid-cols-[1.05fr_0.95fr]"
         >
           <div className="rounded-[1.5rem] border border-white/10 bg-white p-2">
             {renderMainPreview()}
           </div>
 
-          <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-white">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-black">
+          <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-white backdrop-blur-xl">
+            <motion.div
+              animate={{ y: [0, -3, 0] }}
+              transition={{ repeat: Infinity, duration: 2.8 }}
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-black"
+            >
               <Icon className="h-5 w-5" />
-            </div>
+            </motion.div>
 
             <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-200">
               {item.tag}
@@ -457,15 +630,21 @@ function AutoCompanyPreview() {
             </p>
 
             <div className="mt-4 space-y-2">
-              {item.points.map((point) => (
-                <div key={point} className="flex items-center gap-2">
+              {item.points.map((point, index) => (
+                <motion.div
+                  key={point}
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.12 }}
+                  className="flex items-center gap-2"
+                >
                   <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white text-black">
                     <Check className="h-3 w-3" />
                   </div>
                   <span className="text-xs font-medium text-neutral-200">
                     {point}
                   </span>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -693,7 +872,10 @@ function WhyChoose() {
             const Icon = item.icon;
 
             return (
-              <div key={item.title} className="rounded-[2rem] bg-white p-7 shadow-sm">
+              <div
+                key={item.title}
+                className="rounded-[2rem] bg-white p-7 shadow-sm"
+              >
                 <Icon className="h-7 w-7" />
                 <h3 className="mt-6 text-xl font-semibold">{item.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-neutral-600">
@@ -796,7 +978,11 @@ function Contact({ setPage }) {
 
         <div className="mt-14 grid gap-5 text-left md:grid-cols-3">
           {[
-            { title: "WhatsApp", value: DISPLAY_PHONE, href: contactLinks.whatsapp },
+            {
+              title: "WhatsApp",
+              value: DISPLAY_PHONE,
+              href: contactLinks.whatsapp,
+            },
             { title: "Email", value: EMAIL, href: contactLinks.email },
             {
               title: "Services",
