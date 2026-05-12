@@ -20,7 +20,7 @@ import { motion } from "framer-motion";
 
 const WHATSAPP_NUMBER = "94706857171";
 const DISPLAY_PHONE = "070 6857171";
-const EMAIL = "hello@sinovexai.com";
+const EMAIL = "sinovexai@outlook.com";
 
 const contactLinks = {
   whatsapp: `https://wa.me/${WHATSAPP_NUMBER}`,
