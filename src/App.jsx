@@ -317,7 +317,7 @@ function AutoCompanyPreview() {
       ];
 
       return (
-        <div className="rounded-[1.3rem] bg-[#eaf7ee] p-3 text-black shadow-inner">
+        <div className="flex h-full flex-col rounded-[1.3rem] bg-[#eaf7ee] p-3 text-black shadow-inner">
           <div className="flex items-center gap-3 border-b border-black/10 pb-2">
             <motion.div
               animate={{ scale: [1, 1.06, 1] }}
@@ -337,34 +337,36 @@ function AutoCompanyPreview() {
             </span>
           </div>
 
-          {chats.map(([role, text], index) => (
-            <motion.div
-              key={text}
-              initial={{ opacity: 0, y: 10, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: index * 0.25, duration: 0.35 }}
-              className={`mt-2 flex ${
-                role === "ai" ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div
-                className={`max-w-[86%] rounded-2xl px-3 py-2 text-xs leading-5 shadow-sm ${
-                  role === "ai" ? "bg-[#dcf8c6]" : "bg-white"
+          <div className="flex-1">
+            {chats.map(([role, text], index) => (
+              <motion.div
+                key={text}
+                initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: index * 0.25, duration: 0.35 }}
+                className={`mt-2 flex ${
+                  role === "ai" ? "justify-end" : "justify-start"
                 }`}
               >
-                {text}
-              </div>
-            </motion.div>
-          ))}
+                <div
+                  className={`max-w-[86%] rounded-2xl px-3 py-2 text-xs leading-5 shadow-sm ${
+                    role === "ai" ? "bg-[#dcf8c6]" : "bg-white"
+                  }`}
+                >
+                  {text}
+                </div>
+              </motion.div>
+            ))}
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1 }}
-            className="mt-3 flex justify-start"
-          >
-            <TypingDots />
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.1 }}
+              className="mt-3 flex justify-start"
+            >
+              <TypingDots />
+            </motion.div>
+          </div>
 
           <div className="mt-3 rounded-full bg-white px-3 py-2 text-[11px] text-neutral-500">
             Type a message...
@@ -382,8 +384,8 @@ function AutoCompanyPreview() {
       ];
 
       return (
-        <div className="rounded-[1.3rem] bg-white p-3 text-black">
-          <div className="rounded-2xl border border-neutral-200 bg-[#f5f5f7] p-3">
+        <div className="flex h-full flex-col rounded-[1.3rem] bg-white p-3 text-black">
+          <div className="flex h-full flex-col rounded-2xl border border-neutral-200 bg-[#f5f5f7] p-3">
             <div className="mb-3 flex items-center justify-between">
               <div className="flex gap-1">
                 <span className="h-2 w-2 rounded-full bg-red-400" />
@@ -400,7 +402,7 @@ function AutoCompanyPreview() {
               </span>
             </div>
 
-            <div className="rounded-2xl bg-white p-3 shadow-sm">
+            <div className="flex flex-1 flex-col rounded-2xl bg-white p-3 shadow-sm">
               <div className="mb-2 flex items-center justify-between">
                 <p className="text-[11px] font-semibold text-neutral-500">
                   Website Assistant
@@ -415,25 +417,27 @@ function AutoCompanyPreview() {
                 </motion.span>
               </div>
 
-              {chats.map(([role, text], index) => (
-                <motion.div
-                  key={text}
-                  initial={{ opacity: 0, x: role === "ai" ? 14 : -14 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.23, duration: 0.35 }}
-                  className={`mt-2 flex ${
-                    role === "ai" ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  <div
-                    className={`max-w-[86%] rounded-2xl px-3 py-2 text-xs leading-5 ${
-                      role === "ai" ? "bg-black text-white" : "bg-neutral-100"
+              <div className="flex-1">
+                {chats.map(([role, text], index) => (
+                  <motion.div
+                    key={text}
+                    initial={{ opacity: 0, x: role === "ai" ? 14 : -14 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.23, duration: 0.35 }}
+                    className={`mt-2 flex ${
+                      role === "ai" ? "justify-end" : "justify-start"
                     }`}
                   >
-                    {text}
-                  </div>
-                </motion.div>
-              ))}
+                    <div
+                      className={`max-w-[86%] rounded-2xl px-3 py-2 text-xs leading-5 ${
+                        role === "ai" ? "bg-black text-white" : "bg-neutral-100"
+                      }`}
+                    >
+                      {text}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
 
               <motion.div
                 animate={{ y: [0, -3, 0] }}
@@ -450,7 +454,7 @@ function AutoCompanyPreview() {
 
     if (active === 2) {
       return (
-        <div className="rounded-[1.3rem] bg-neutral-900 p-4 text-white">
+        <div className="flex h-full flex-col justify-center rounded-[1.3rem] bg-neutral-900 p-4 text-white">
           <div className="text-center">
             <motion.div
               animate={{
@@ -517,7 +521,7 @@ function AutoCompanyPreview() {
     }
 
     return (
-      <div className="rounded-[1.3rem] bg-white p-4 text-black">
+      <div className="flex h-full flex-col justify-center rounded-[1.3rem] bg-white p-4 text-black">
         <div className="space-y-3">
           {[
             ["New lead received", "WhatsApp / Website"],
@@ -584,7 +588,7 @@ function AutoCompanyPreview() {
         </motion.span>
       </div>
 
-      <div className="relative overflow-hidden bg-neutral-950 p-3">
+      <div className="relative h-[430px] overflow-hidden bg-neutral-950 p-3">
         <motion.div
           animate={{ opacity: [0.4, 0.75, 0.4], scale: [1, 1.08, 1] }}
           transition={{ repeat: Infinity, duration: 5 }}
@@ -600,15 +604,14 @@ function AutoCompanyPreview() {
           key={item.label}
           initial={{ opacity: 0, y: 15, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="relative z-10 grid gap-3 lg:grid-cols-[1.05fr_0.95fr]"
+          className="relative z-10 grid h-full gap-3 lg:grid-cols-[1.05fr_0.95fr]"
         >
-          <div className="rounded-[1.5rem] border border-white/10 bg-white p-2">
+          <div className="h-full rounded-[1.5rem] border border-white/10 bg-white p-2">
             {renderMainPreview()}
           </div>
 
-          <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-white backdrop-blur-xl">
+          <div className="flex h-full flex-col rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-white backdrop-blur-xl">
             <motion.div
               animate={{ y: [0, -3, 0] }}
               transition={{ repeat: Infinity, duration: 2.8 }}
@@ -646,6 +649,15 @@ function AutoCompanyPreview() {
                   </span>
                 </motion.div>
               ))}
+            </div>
+
+            <div className="mt-auto rounded-2xl border border-white/10 bg-white/5 p-3">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+                System status
+              </p>
+              <p className="mt-1 text-xs font-semibold text-white">
+                Running smoothly
+              </p>
             </div>
           </div>
         </motion.div>
