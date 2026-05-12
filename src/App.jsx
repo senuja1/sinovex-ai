@@ -16,7 +16,6 @@ import {
   MessageCircle,
   Phone,
   PhoneCall,
-  Play,
   ShieldCheck,
   Sparkles,
   Workflow,
@@ -26,7 +25,7 @@ import {
 
 const WHATSAPP_NUMBER = "94706857171";
 const DISPLAY_PHONE = "070 6857171";
-const EMAIL = "hello@sinovexai.com";
+const EMAIL = "sinovexai@outlook.com";
 
 const contactLinks = {
   whatsapp: `https://wa.me/${WHATSAPP_NUMBER}`,
@@ -689,7 +688,7 @@ function AutoCompanyPreview() {
   );
 }
 
-function Hero({ onWatchDemo, setPage }) {
+function Hero({ setPage }) {
   return (
     <section
       id="home"
@@ -726,10 +725,6 @@ function Hero({ onWatchDemo, setPage }) {
 
             <Button dark={false} onClick={() => setPage("pricing")}>
               View Pricing
-            </Button>
-
-            <Button dark={false} onClick={onWatchDemo}>
-              <Play className="h-4 w-4" /> Watch Demo
             </Button>
           </div>
 
@@ -1019,46 +1014,6 @@ function Contact({ setPage }) {
   );
 }
 
-function DemoPage({ onBack }) {
-  return (
-    <main className="min-h-screen bg-[#f5f5f7] px-6 py-8 text-black">
-      <div className="mx-auto max-w-6xl">
-        <button
-          onClick={onBack}
-          className="rounded-full bg-white px-5 py-3 text-sm font-semibold shadow-sm hover:bg-neutral-100"
-        >
-          ← Back
-        </button>
-
-        <section className="py-16 text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-5xl font-semibold tracking-[-0.04em] sm:text-7xl"
-          >
-            Sinovex AI Demo
-          </motion.h1>
-
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-neutral-600">
-            A live-style preview of our AI WhatsApp bots, website assistants,
-            voice systems, and business automations.
-          </p>
-        </section>
-
-        <div className="rounded-[2.5rem] bg-white p-4 shadow-2xl">
-          <AutoCompanyPreview />
-        </div>
-
-        <div className="mt-10 flex justify-center">
-          <Button href={contactLinks.whatsapp} target="_blank">
-            Contact on WhatsApp
-          </Button>
-        </div>
-      </div>
-    </main>
-  );
-}
-
 export default function App() {
   const [page, setPage] = useState("home");
 
@@ -1066,14 +1021,10 @@ export default function App() {
     return <Pricing logo={logo} setPage={setPage} />;
   }
 
-  if (page === "demo") {
-    return <DemoPage onBack={() => setPage("home")} />;
-  }
-
   return (
     <main className="min-h-screen bg-white font-sans">
       <Navbar setPage={setPage} />
-      <Hero onWatchDemo={() => setPage("demo")} setPage={setPage} />
+      <Hero setPage={setPage} />
       <Services />
       <WhyChoose />
       <Process />
