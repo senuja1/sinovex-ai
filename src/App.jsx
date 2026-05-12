@@ -85,84 +85,36 @@ const previewSystems = [
     icon: MessageCircle,
     label: "AI WhatsApp Bot",
     tag: "WHATSAPP AI",
-    title: "Sinhala + English WhatsApp replies",
+    title: "Automated WhatsApp customer chat",
     description:
-      "AI replies instantly, handles bookings, captures leads, and supports customers 24/7.",
-    messages: [
-      { role: "customer", text: "Hi, mata booking ekak danna puluwanda?" },
-      {
-        role: "ai",
-        text: "ඔව්, පුළුවන්. කරුණාකර දිනය සහ වේලාව කියන්න.",
-      },
-      { role: "customer", text: "Can you explain your services?" },
-      {
-        role: "ai",
-        text: "Yes. We provide AI WhatsApp bots, voice systems, website chatbots, and business automation.",
-      },
-    ],
-    points: ["24/7 replies", "Bookings", "Lead capture"],
+      "AI replies instantly in Sinhala and English, handles bookings, answers FAQs, and captures leads.",
+    points: ["Sinhala + English", "Bookings", "24/7 replies"],
   },
   {
     icon: Bot,
     label: "Website AI Assistant",
-    tag: "WEB CHATBOT",
-    title: "Smart website chatbot system",
+    tag: "WEBSITE AI",
+    title: "Smart website assistant chat",
     description:
-      "A website AI assistant answers visitor questions, explains services, and collects leads.",
-    messages: [
-      { role: "customer", text: "What services do you provide?" },
-      {
-        role: "ai",
-        text: "We build AI chatbots, WhatsApp bots, voice agents, and automation systems.",
-      },
-      { role: "customer", text: "Can I contact your team?" },
-      {
-        role: "ai",
-        text: "Yes. I can collect your details and connect you with Sinovex AI.",
-      },
-    ],
-    points: ["Website support", "Visitor answers", "Lead collection"],
+      "A website chatbot answers visitors, explains services, collects leads, and guides customers.",
+    points: ["Visitor support", "Lead capture", "Product answers"],
   },
   {
     icon: PhoneCall,
     label: "AI Voice System",
     tag: "AI VOICE",
-    title: "Real AI voice call automation",
+    title: "AI voice call system",
     description:
-      "AI voice agents answer calls, book appointments, qualify customers, and send summaries.",
-    messages: [
-      { role: "customer", text: "Incoming call from customer..." },
-      {
-        role: "ai",
-        text: "Hello, this is Sinovex AI assistant. How can I help you today?",
-      },
-      { role: "customer", text: "I want to book an appointment." },
-      {
-        role: "ai",
-        text: "Sure. I can check availability and confirm your booking.",
-      },
-    ],
-    points: ["Call answering", "Appointments", "Call summaries"],
+      "AI answers calls, speaks naturally, books appointments, and sends call summaries.",
+    points: ["Call answering", "Voice replies", "Appointments"],
   },
   {
     icon: Workflow,
     label: "Business Automation",
     tag: "AUTOMATION",
-    title: "Automated business workflows",
+    title: "Automated AI business workflow",
     description:
-      "Connect customer messages, reports, CRM updates, follow-ups, and notifications.",
-    messages: [
-      { role: "customer", text: "New lead received from WhatsApp." },
-      {
-        role: "ai",
-        text: "Lead saved to CRM. Follow-up reminder created automatically.",
-      },
-      { role: "customer", text: "Generate today's report." },
-      {
-        role: "ai",
-        text: "Daily sales and customer support report generated successfully.",
-      },
-    ],
+      "AI connects leads, CRM updates, reports, reminders, follow-ups, and daily business tasks.",
     points: ["CRM updates", "Auto reports", "Follow-ups"],
   },
 ];
@@ -227,7 +179,6 @@ function Navbar({ setPage }) {
             <p className="text-xl font-bold tracking-tight text-neutral-950">
               Sinovex AI
             </p>
-
             <p className="text-sm text-neutral-500">
               AI Solutions & Automation
             </p>
@@ -349,89 +300,213 @@ function AutoCompanyPreview() {
   const item = previewSystems[active];
   const Icon = item.icon;
 
-  return (
-    <div className="overflow-hidden rounded-[2.2rem] bg-black">
-      <div className="flex items-center justify-between px-6 py-5 text-white">
-        <div>
-          <p className="text-sm text-neutral-400">Company Preview</p>
-          <h2 className="text-2xl font-semibold">See Sinovex AI in action</h2>
+  const renderMainPreview = () => {
+    if (active === 0) {
+      return (
+        <div className="rounded-[1.5rem] bg-[#eaf7ee] p-4 text-black">
+          <div className="flex items-center gap-3 border-b border-black/10 pb-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#25D366] text-white">
+              <MessageCircle className="h-5 w-5" />
+            </div>
+
+            <div>
+              <p className="text-sm font-bold">Sinovex AI Bot</p>
+              <p className="text-xs text-neutral-600">WhatsApp Business</p>
+            </div>
+          </div>
+
+          {[
+            ["customer", "Hi, mata booking ekak danna puluwanda?"],
+            ["ai", "ඔව්, පුළුවන්. දිනය සහ වේලාව කියන්න."],
+            ["customer", "Can you explain your services?"],
+            ["ai", "Yes. We provide AI WhatsApp bots and automation."],
+          ].map(([role, text], index) => (
+            <motion.div
+              key={text}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.18 }}
+              className={`mt-3 flex ${
+                role === "ai" ? "justify-end" : "justify-start"
+              }`}
+            >
+              <div
+                className={`max-w-[84%] rounded-2xl px-4 py-3 text-sm leading-6 shadow-sm ${
+                  role === "ai" ? "bg-[#dcf8c6]" : "bg-white"
+                }`}
+              >
+                {text}
+              </div>
+            </motion.div>
+          ))}
+
+          <div className="mt-4 rounded-full bg-white px-4 py-3 text-xs text-neutral-500">
+            Type a message...
+          </div>
+        </div>
+      );
+    }
+
+    if (active === 1) {
+      return (
+        <div className="rounded-[1.5rem] bg-white p-4 text-black">
+          <div className="rounded-2xl border border-neutral-200 bg-[#f5f5f7] p-4">
+            <div className="mb-4 flex items-center justify-between">
+              <p className="text-sm font-bold">businesswebsite.com</p>
+              <span className="rounded-full bg-black px-3 py-1 text-xs text-white">
+                AI Chat
+              </span>
+            </div>
+
+            <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <p className="text-xs font-semibold text-neutral-500">
+                Website Assistant
+              </p>
+
+              {[
+                ["visitor", "What services do you offer?"],
+                ["ai", "We build AI chatbots, voice agents, and automations."],
+                ["visitor", "Can I get pricing?"],
+                ["ai", "Sure. I can guide you to the best package."],
+              ].map(([role, text], index) => (
+                <motion.div
+                  key={text}
+                  initial={{ opacity: 0, x: role === "ai" ? 12 : -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.18 }}
+                  className={`mt-3 flex ${
+                    role === "ai" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`max-w-[84%] rounded-2xl px-4 py-3 text-sm leading-6 ${
+                      role === "ai" ? "bg-black text-white" : "bg-neutral-100"
+                    }`}
+                  >
+                    {text}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (active === 2) {
+      return (
+        <div className="rounded-[1.5rem] bg-neutral-900 p-5 text-white">
+          <div className="text-center">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white text-black">
+              <PhoneCall className="h-9 w-9" />
+            </div>
+
+            <p className="mt-4 text-sm text-neutral-400">
+              Incoming customer call
+            </p>
+
+            <h3 className="mt-2 text-2xl font-bold">AI Voice Agent</h3>
+          </div>
+
+          <div className="mt-7 flex items-end justify-center gap-2">
+            {[35, 55, 80, 45, 70, 95, 50, 75, 40].map((height, index) => (
+              <motion.div
+                key={index}
+                animate={{ height: [height, height + 28, height] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 1,
+                  delay: index * 0.08,
+                }}
+                className="w-3 rounded-full bg-white"
+                style={{ height }}
+              />
+            ))}
+          </div>
+
+          <div className="mt-7 rounded-2xl bg-white/10 p-4 text-sm leading-6 text-neutral-200">
+            “Hello, this is Sinovex AI assistant. I can help with bookings,
+            services, and customer support.”
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="rounded-[1.5rem] bg-white p-5 text-black">
+        <div className="space-y-4">
+          {[
+            ["New lead received", "WhatsApp / Website"],
+            ["Save lead to CRM", "Customer details stored"],
+            ["Create follow-up", "Reminder scheduled"],
+            ["Generate report", "Daily summary sent"],
+          ].map(([title, sub], index) => (
+            <motion.div
+              key={title}
+              initial={{ opacity: 0, x: -18 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.2 }}
+              className="flex items-center gap-4 rounded-2xl bg-[#f5f5f7] p-4"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
+                <Check className="h-5 w-5" />
+              </div>
+
+              <div>
+                <p className="text-sm font-bold">{title}</p>
+                <p className="text-xs text-neutral-500">{sub}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-black">
+        <motion.div
+          animate={{ width: ["20%", "100%"] }}
+          transition={{ repeat: Infinity, duration: 2.4 }}
+          className="mt-6 h-2 rounded-full bg-black"
+        />
+      </div>
+    );
+  };
+
+  return (
+    <div className="overflow-hidden rounded-[2rem] bg-black">
+      <div className="flex items-center justify-between px-5 py-4 text-white">
+        <div>
+          <p className="text-xs text-neutral-400">Company Preview</p>
+          <h2 className="text-xl font-semibold">See Sinovex AI in action</h2>
+        </div>
+
+        <span className="rounded-full bg-white px-3 py-1 text-[10px] font-bold text-black">
           LIVE
         </span>
       </div>
 
-      <div className="relative min-h-[430px] overflow-hidden bg-neutral-950 p-5">
-        <div className="absolute left-8 top-10 h-40 w-40 rounded-full bg-blue-500/20 blur-3xl" />
-        <div className="absolute bottom-8 right-8 h-44 w-44 rounded-full bg-purple-500/20 blur-3xl" />
+      <div className="relative min-h-[330px] overflow-hidden bg-neutral-950 p-4">
+        <div className="absolute left-8 top-10 h-32 w-32 rounded-full bg-blue-500/20 blur-3xl" />
+        <div className="absolute bottom-8 right-8 h-36 w-36 rounded-full bg-purple-500/20 blur-3xl" />
 
         <motion.div
           key={item.label}
-          initial={{ opacity: 0, y: 18, scale: 0.98 }}
+          initial={{ opacity: 0, y: 15, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.45 }}
-          className="relative z-10 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]"
+          className="relative z-10 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]"
         >
-          <div className="rounded-[2rem] border border-white/10 bg-white p-3 shadow-2xl">
-            <div className="rounded-[1.5rem] bg-[#eaf7ee] p-4 text-black">
-              <div className="flex items-center justify-between border-b border-black/10 pb-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#25D366] text-white">
-                    <MessageCircle className="h-5 w-5" />
-                  </div>
-
-                  <div>
-                    <p className="text-sm font-bold">Sinovex AI Bot</p>
-                    <p className="text-xs text-neutral-600">online now</p>
-                  </div>
-                </div>
-
-                <span className="rounded-full bg-white px-3 py-1 text-[10px] font-bold text-[#128C7E]">
-                  WhatsApp
-                </span>
-              </div>
-
-              <div className="mt-4 space-y-3">
-                {item.messages.map((message, index) => (
-                  <motion.div
-                    key={`${message.text}-${index}`}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.18 }}
-                    className={`flex ${
-                      message.role === "ai" ? "justify-end" : "justify-start"
-                    }`}
-                  >
-                    <div
-                      className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-6 shadow-sm ${
-                        message.role === "ai"
-                          ? "bg-[#dcf8c6] text-black"
-                          : "bg-white text-black"
-                      }`}
-                    >
-                      {message.text}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="mt-4 rounded-full bg-white px-4 py-3 text-xs text-neutral-500">
-                Type a message...
-              </div>
-            </div>
+          <div className="rounded-[1.8rem] border border-white/10 bg-white p-3">
+            {renderMainPreview()}
           </div>
 
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-5 text-white backdrop-blur">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-black">
-              <Icon className="h-7 w-7" />
+          <div className="rounded-[1.8rem] border border-white/10 bg-white/5 p-5 text-white">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-black">
+              <Icon className="h-6 w-6" />
             </div>
 
-            <p className="mt-6 text-xs font-semibold uppercase tracking-[0.22em] text-blue-200">
+            <p className="mt-5 text-xs font-semibold uppercase tracking-[0.22em] text-blue-200">
               {item.tag}
             </p>
 
-            <h3 className="mt-3 text-3xl font-semibold tracking-[-0.04em]">
+            <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em]">
               {item.title}
             </h3>
 
@@ -439,12 +514,13 @@ function AutoCompanyPreview() {
               {item.description}
             </p>
 
-            <div className="mt-6 space-y-3">
+            <div className="mt-5 space-y-3">
               {item.points.map((point) => (
                 <div key={point} className="flex items-center gap-3">
                   <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-black">
                     <Check className="h-4 w-4" />
                   </div>
+
                   <span className="text-sm font-medium text-neutral-200">
                     {point}
                   </span>
@@ -455,7 +531,7 @@ function AutoCompanyPreview() {
         </motion.div>
       </div>
 
-      <div className="grid gap-3 p-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-4">
         {previewSystems.map((system, index) => {
           const SystemIcon = system.icon;
 
@@ -463,14 +539,16 @@ function AutoCompanyPreview() {
             <button
               key={system.label}
               onClick={() => setActive(index)}
-              className={`rounded-2xl border p-4 text-left transition ${
+              className={`rounded-2xl border p-3 text-left transition ${
                 active === index
                   ? "border-white bg-white text-black"
                   : "border-white/10 bg-white/5 text-neutral-300 hover:bg-white/10"
               }`}
             >
-              <SystemIcon className="mb-3 h-5 w-5" />
-              <p className="text-xs font-bold">{system.label}</p>
+              <SystemIcon className="mb-2 h-5 w-5" />
+              <p className="text-[11px] font-bold leading-tight">
+                {system.label}
+              </p>
             </button>
           );
         })}
@@ -483,12 +561,12 @@ function Hero({ onWatchDemo, setPage }) {
   return (
     <section
       id="home"
-      className="relative overflow-hidden bg-[#f5f5f7] px-6 pt-40 text-black"
+      className="relative overflow-hidden bg-[#f5f5f7] px-6 pt-32 text-black"
     >
       <div className="absolute left-1/2 top-24 h-96 w-96 -translate-x-1/2 rounded-full bg-blue-200/40 blur-3xl" />
       <div className="absolute right-10 top-72 h-80 w-80 rounded-full bg-purple-200/30 blur-3xl" />
 
-      <div className="relative mx-auto grid min-h-screen max-w-7xl items-start gap-16 pt-10 lg:grid-cols-2 lg:pt-16">
+      <div className="relative mx-auto grid min-h-[calc(100vh-90px)] max-w-7xl items-center gap-10 py-10 lg:grid-cols-[1fr_0.95fr]">
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
@@ -499,17 +577,17 @@ function Hero({ onWatchDemo, setPage }) {
             AI systems for modern businesses
           </div>
 
-          <h1 className="mt-8 max-w-5xl text-5xl font-semibold leading-tight tracking-[-0.06em] sm:text-7xl lg:text-8xl">
+          <h1 className="mt-8 max-w-4xl text-5xl font-semibold leading-tight tracking-[-0.06em] sm:text-6xl lg:text-7xl">
             Build smarter customer support, sales, and automation with AI.
           </h1>
 
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-neutral-600">
+          <p className="mt-7 max-w-2xl text-base leading-7 text-neutral-600 sm:text-lg sm:leading-8">
             Sinovex AI builds premium AI WhatsApp bots, website AI assistants,
             AI voice systems, and business automations for companies that want
             to save time, reply faster, and grow smarter.
           </p>
 
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
             <Button href={contactLinks.whatsapp} target="_blank">
               Start on WhatsApp <ArrowRight className="h-4 w-4" />
             </Button>
@@ -523,7 +601,7 @@ function Hero({ onWatchDemo, setPage }) {
             </Button>
           </div>
 
-          <div className="mt-10 grid max-w-xl gap-4 sm:grid-cols-3">
+          <div className="mt-8 grid max-w-xl gap-4 sm:grid-cols-3">
             {[
               "Sinhala + English AI",
               "Business-ready systems",
@@ -544,7 +622,7 @@ function Hero({ onWatchDemo, setPage }) {
           initial={{ opacity: 0, scale: 0.96, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="-mt-6 rounded-[2.8rem] bg-white p-4 shadow-2xl shadow-neutral-300/40 lg:-mt-16"
+          className="rounded-[2.3rem] bg-white p-3 shadow-2xl shadow-neutral-300/40"
         >
           <AutoCompanyPreview />
         </motion.div>
