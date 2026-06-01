@@ -1,16 +1,156 @@
-# React + Vite
+# Sinovex AI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+Sinovex AI is a research and development project focused on building intelligent software systems that enhance human-computer interaction through artificial intelligence. The project aims to combine modern software engineering principles, scalable architecture, and AI technologies to create a platform capable of supporting future intelligent assistant applications.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The project serves as both a learning initiative and a technical portfolio project, demonstrating the application of frontend development, software design, and AI-oriented system planning.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Project Objectives
 
-## Expanding the ESLint configuration
+The primary objectives of Sinovex AI are:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* Design and develop a modern AI-powered application.
+* Explore intelligent user interaction systems.
+* Research scalable software architectures for AI integration.
+* Improve accessibility and productivity through automation.
+* Create a foundation for future conversational AI features.
+* Apply software engineering best practices in a real-world project environment.
+
+---
+
+## Core Features
+
+### Intelligent User Interface
+
+A modern interface designed to provide a seamless user experience while supporting future AI-powered interactions and dynamic content generation.
+
+### Responsive Design
+
+The application is designed to function efficiently across desktop, tablet, and mobile devices while maintaining consistency in usability and visual presentation.
+
+### Scalable Architecture
+
+The project follows a modular structure that supports future expansion, maintenance, and integration of additional technologies and services.
+
+### Performance-Oriented Development
+
+Emphasis is placed on optimized loading times, maintainable code, and efficient resource management to ensure a reliable user experience.
+
+---
+
+## Technologies
+
+The project utilizes modern web technologies including:
+
+* HTML5
+* CSS3
+* JavaScript
+* Git
+* GitHub
+
+Additional technologies and AI frameworks may be incorporated as the project evolves.
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/senuja1/sinovex-ai.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd sinovex-ai
+```
+
+Install required dependencies:
+
+```bash
+npm install
+```
+
+Start the development environment:
+
+```bash
+npm run dev
+```
+
+---
+
+## Project Structure
+
+```text
+sinovex-ai/
+│
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── styles/
+│   └── scripts/
+│
+├── public/
+├── index.html
+├── package.json
+├── package-lock.json
+├── README.md
+└── .gitignore
+```
+
+---
+
+## Development Roadmap
+
+Planned future developments include:
+
+* Conversational AI integration
+* Voice interaction capabilities
+* Context-aware assistance
+* Personalization features
+* Workflow automation tools
+* Cloud-based services
+* Enhanced security mechanisms
+* Cross-platform compatibility
+
+---
+
+## Academic and Professional Value
+
+This project demonstrates competencies in:
+
+* Software Engineering
+* Frontend Development
+* User Interface Design
+* System Architecture Planning
+* Version Control Practices
+* Project Documentation
+* AI-Oriented Software Development
+
+---
+
+## Author
+
+**Senuja Ekanayaka**
+Software Engineering Undergraduate
+NSBM Green University
+
+GitHub: https://github.com/senuja1
+
+---
+
+## Status
+
+This project is currently under active development. Features, architecture, and functionality may continue to evolve as research and implementation progress.
+
+---
+
+## License
+
+This project is provided for educational, research, and portfolio purposes.
+
+Copyright © 2026 Senuja Ekanayaka. All rights reserved.
