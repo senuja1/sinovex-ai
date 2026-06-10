@@ -342,7 +342,8 @@ export default function SinexaChat({ logo, setPage }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [listening, setListening] = useState(false);
   const [intelligenceLevel, setIntelligenceLevel] = useState("smart");
-  const [showLevelPicker, setShowLevelPicker] = useState(false);
+  const [showTopPicker, setShowTopPicker] = useState(false);
+  const [showBottomPicker, setShowBottomPicker] = useState(false);
 
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -582,9 +583,9 @@ export default function SinexaChat({ logo, setPage }) {
             </div>
 
             {/* Intelligence Level Selector */}
-            <div className={`relative ml-1 ${showLevelPicker ? "z-[1205]" : "z-10"}`}>
+            <div className={`relative ml-1 ${showTopPicker ? "z-[1205]" : "z-10"}`}>
               <button
-                onClick={() => setShowLevelPicker((v) => !v)}
+                onClick={() => setShowTopPicker((v) => !v)}
                 className={`flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-bold transition hover:bg-white/10 ${
                   INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.borderColor || "border-white/10"
                 } ${
@@ -595,15 +596,15 @@ export default function SinexaChat({ logo, setPage }) {
                 <span className={INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.textColor || "text-white/60"}>
                   {INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.label}
                 </span>
-                <ChevronDown className={`h-3 w-3 transition ${showLevelPicker ? "rotate-180" : ""} ${
+                <ChevronDown className={`h-3 w-3 transition ${showTopPicker ? "rotate-180" : ""} ${
                   INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.textColor || "text-white/40"
                 }`} />
               </button>
 
               <AnimatePresence>
-                {showLevelPicker && (
+                {showTopPicker && (
                   <>
-                    <div className="fixed inset-0 z-[1200]" onClick={() => setShowLevelPicker(false)} />
+                    <div className="fixed inset-0 z-[1200]" onClick={() => setShowTopPicker(false)} />
                     <motion.div
                       initial={{ opacity: 0, y: -6, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -618,7 +619,7 @@ export default function SinexaChat({ logo, setPage }) {
                       {INTELLIGENCE_LEVELS.map((level) => (
                         <button
                           key={level.id}
-                          onClick={() => { setIntelligenceLevel(level.id); setShowLevelPicker(false); }}
+                          onClick={() => { setIntelligenceLevel(level.id); setShowTopPicker(false); }}
                           className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition ${
                             intelligenceLevel === level.id
                               ? `${level.bgColor} ${level.textColor}`
@@ -632,7 +633,7 @@ export default function SinexaChat({ logo, setPage }) {
                           </div>
                           {intelligenceLevel === level.id && (
                             <motion.div
-                              layoutId="level-check"
+                              layoutId="level-check-top"
                               className={`h-2 w-2 rounded-full bg-gradient-to-br ${level.color}`}
                             />
                           )}
@@ -725,6 +726,70 @@ export default function SinexaChat({ logo, setPage }) {
               />
 
               <div className="flex shrink-0 items-center gap-2">
+                {/* Intelligence Selection */}
+                <div className={`relative ${showBottomPicker ? "z-[1205]" : "z-10"}`}>
+                  <button
+                    onClick={() => setShowBottomPicker((v) => !v)}
+                    className={`flex h-8 items-center gap-1.5 rounded-xl border px-2.5 text-[11px] font-bold transition hover:bg-white/10 ${
+                      INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.borderColor || "border-white/10"
+                    } ${
+                      INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.bgColor || "bg-white/5"
+                    }`}
+                    title="Change intelligence level"
+                  >
+                    <span>{INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.icon}</span>
+                    <span className={`hidden xs:inline ${INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.textColor || "text-white/60"}`}>
+                      {INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.label}
+                    </span>
+                    <ChevronDown className={`h-3 w-3 transition ${showBottomPicker ? "rotate-180" : ""} ${
+                      INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.textColor || "text-white/40"
+                    }`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {showBottomPicker && (
+                      <>
+                        <div className="fixed inset-0 z-[1200]" onClick={() => setShowBottomPicker(false)} />
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          transition={{ duration: 0.15 }}
+                          className="absolute bottom-full right-0 z-[1201] mb-2 w-56 rounded-2xl border border-white/10 p-1.5 shadow-2xl"
+                          style={{ background: "rgba(15,12,30,0.97)", backdropFilter: "blur(24px)" }}
+                        >
+                          <p className="px-2.5 pb-1.5 pt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/30">
+                            Intelligence Level
+                          </p>
+                          {INTELLIGENCE_LEVELS.map((level) => (
+                            <button
+                              key={level.id}
+                              onClick={() => { setIntelligenceLevel(level.id); setShowBottomPicker(false); }}
+                              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition ${
+                                intelligenceLevel === level.id
+                                  ? `${level.bgColor} ${level.textColor}`
+                                  : "text-white/60 hover:bg-white/6 hover:text-white"
+                              }`}
+                            >
+                              <span className="text-lg">{level.icon}</span>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-xs font-bold">{level.label}</p>
+                                <p className="text-[10px] text-white/35">{level.description}</p>
+                              </div>
+                              {intelligenceLevel === level.id && (
+                                <motion.div
+                                  layoutId="level-check-bottom"
+                                  className={`h-2 w-2 rounded-full bg-gradient-to-br ${level.color}`}
+                                />
+                              )}
+                            </button>
+                          ))}
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+                </div>
+
                 {/* Voice */}
                 <button
                   onClick={startDictation}
