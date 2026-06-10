@@ -1233,6 +1233,121 @@ function Contact({ setPage }) {
   );
 }
 
+// ─── Apple-style Footer ─────────────────────────────────────────────────────
+function SiteFooter({ setPage }) {
+  const footerNav = [
+    {
+      heading: "Products",
+      links: [
+        { label: "AI WhatsApp Bot", page: "whatsapp-ai" },
+        { label: "Website AI Assistant", page: "website-ai" },
+        { label: "AI Voice System", page: "voice-ai" },
+        { label: "Business Automation", page: "automation-ai" },
+        { label: "SinexaChat", page: "sinexa-chat" },
+      ],
+    },
+    {
+      heading: "Demos",
+      links: [
+        { label: "WhatsApp Demo", page: "whatsapp-demo" },
+        { label: "Website Demo", page: "website-demo" },
+        { label: "Voice Demo", page: "voice-demo" },
+        { label: "Automation Demo", page: "automation-demo" },
+      ],
+    },
+    {
+      heading: "Company",
+      links: [
+        { label: "Services", page: "services" },
+        { label: "Pricing", page: "pricing" },
+        { label: "Process", page: "process" },
+        { label: "Contact", page: "contact" },
+      ],
+    },
+    {
+      heading: "Connect",
+      links: [
+        { label: "WhatsApp", href: contactLinks.whatsapp },
+        { label: "Email", href: contactLinks.email },
+        { label: `Call ${DISPLAY_PHONE}`, href: contactLinks.phone },
+      ],
+    },
+  ];
+
+  const legalLinks = ["Privacy Policy", "Terms of Use", "Cookie Policy"];
+
+  return (
+    <footer className="border-t border-border bg-background px-6 pt-10 pb-6 text-sm text-muted">
+      {/* Disclaimer */}
+      <div className="mx-auto max-w-7xl">
+        <p className="text-xs leading-5 text-muted">
+          Sinovex AI provides AI-powered systems for customer support, lead management, and business automation.
+          Features, availability, and pricing may vary depending on your plan and region. All AI systems are
+          custom-configured for each business.
+        </p>
+
+        <hr className="my-6 border-border" />
+
+        {/* Link columns */}
+        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
+          {footerNav.map((col) => (
+            <div key={col.heading}>
+              <p className="mb-3 text-xs font-semibold text-foreground">{col.heading}</p>
+              <ul className="space-y-2.5">
+                {col.links.map((link) =>
+                  link.href ? (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        target={link.href.startsWith("http") ? "_blank" : undefined}
+                        rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                        className="transition hover:text-foreground"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ) : (
+                    <li key={link.label}>
+                      <button
+                        onClick={() => setPage(link.page)}
+                        className="text-left transition hover:text-foreground"
+                      >
+                        {link.label}
+                      </button>
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <hr className="my-6 border-border" />
+
+        {/* Bottom bar */}
+        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+          <p className="text-xs text-muted">
+            Copyright © {new Date().getFullYear()} Sinovex AI. All rights reserved.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+            {legalLinks.map((item, i) => (
+              <span key={item} className="flex items-center gap-4">
+                <button className="transition hover:text-foreground">{item}</button>
+                {i < legalLinks.length - 1 && (
+                  <span className="text-border">|</span>
+                )}
+              </span>
+            ))}
+            <span className="text-border">|</span>
+            <span className="text-muted">Sri Lanka</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
 // ─── Root ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [page, setPage] = useState("home");
@@ -1259,6 +1374,7 @@ export default function App() {
       <Results />
       <Process />
       <Contact setPage={setPage} />
+      <SiteFooter setPage={setPage} />
     </main>
   );
 }
