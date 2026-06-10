@@ -292,8 +292,9 @@ async function callAI(prompt, demoType, intelligenceLevel = "smart") {
 
   if (demoType === "whatsapp") {
     models = [
-      "google/gemini-2.5-flash",
-      "deepseek/deepseek-chat",
+      "google/gemma-4-26b-a4b-it:free",
+      "meta-llama/llama-3.2-3b-instruct:free",
+      "nvidia/nemotron-nano-9b-v2:free",
     ];
     temperature = 0.65;
     max_tokens = 500;
@@ -301,26 +302,28 @@ async function callAI(prompt, demoType, intelligenceLevel = "smart") {
     // demoType === "sinexa" or fallback general-purpose chat
     if (intelligenceLevel === "fast") {
       models = [
-        "google/gemini-2.5-flash",
-        "deepseek/deepseek-chat",
+        "google/gemma-4-26b-a4b-it:free",
+        "nvidia/nemotron-nano-9b-v2:free",
+        "meta-llama/llama-3.2-3b-instruct:free",
       ];
       temperature = 0.5;
       max_tokens = 2000;
     } else if (intelligenceLevel === "genius") {
       models = [
-        "deepseek/deepseek-r1",
-        "google/gemini-2.5-pro",
-        "qwen/qwen-2.5-72b-instruct",
+        "nvidia/nemotron-3-ultra-550b-a55b:free",
+        "qwen/qwen3-coder:free",
+        "openai/gpt-oss-120b:free",
+        "nvidia/nemotron-3-super-120b-a12b:free",
       ];
       temperature = 0.8;
       max_tokens = 8000;
     } else {
       // default: "smart"
       models = [
-        "deepseek/deepseek-chat",
-        "google/gemini-2.5-flash",
-        "qwen/qwen-2.5-72b-instruct",
-        "meta-llama/llama-3.3-70b-instruct",
+        "qwen/qwen3-coder:free",
+        "nvidia/nemotron-3-super-120b-a12b:free",
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "google/gemma-4-31b-it:free",
       ];
       temperature = 0.7;
       max_tokens = 4000;
