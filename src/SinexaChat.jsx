@@ -42,19 +42,7 @@ const QUICK_PROMPTS = [
   "How does the AI voice system work?",
 ];
 
-const BUSINESS_CONTEXT = `You are Sinexa, the AI assistant for SinovexAI — a Sri Lankan AI automation company.
-
-SinovexAI products:
-1. AI WhatsApp Bot — 24/7 customer replies in Sinhala + English, bookings, FAQs, lead capture, human handoff.
-2. Website AI Assistant — smart chat on business websites for visitor support, lead collection, product answers.
-3. AI Voice System — AI answers calls, books appointments, sends call summaries.
-4. Business Automation — CRM updates, auto reports, follow-ups, workflow automation.
-
-Pricing: Custom per business. Customers should book a free demo. Don't give fake prices.
-Contact: WhatsApp 070 6857171, Email sinovexai@outlook.com
-Best for: Restaurants, salons, clinics, shops, hotels, tourism, real estate, education, service businesses in Sri Lanka.
-
-Respond naturally, be helpful and concise. You can reply in Sinhala or English based on what the user writes. Use emojis occasionally to be friendly.`;
+const BUSINESS_CONTEXT = `You are Sinexa AI, a highly advanced, super-intelligent general-purpose AI assistant. You possess exceptional logical reasoning, mathematical solving, and top-tier coding capabilities.`;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -96,33 +84,12 @@ function localReply(userText) {
   const hasSinhala = /[\u0D80-\u0DFF]/.test(userText);
 
   if (/(hi|hello|hey|ayubowan|ආයුබෝවන්|kohomada)/.test(msg)) {
-    return "Hi there! 👋 I'm Sinexa, your AI assistant from SinovexAI. I'm here to help you explore our AI products — WhatsApp bots, website assistants, voice AI, and business automation. What can I help you with today?";
+    return "Hi there! 👋 I'm Sinexa AI, your general-purpose AI assistant. I can help you write code, solve mathematical questions, translate languages, and answer complex queries. What can I do for you today?";
   }
-  if (/(price|pricing|cost|package|aduma|ගාන|මිල)/.test(msg)) {
-    return "Pricing at SinovexAI is custom-tailored to your business — it depends on which products you need, features, and the level of automation. The best way to get accurate pricing is to **book a free demo** so we can recommend the right package. Want me to help you schedule one? 📞";
+  if (hasSinhala) {
+    return "මට සිංහල සහ ඉංග්‍රීසි භාෂා දෙකෙන්ම උදව් කරන්න පුළුවන්. ඔබට මොකක්ද දැනගන්න අවශ්‍ය? 😊";
   }
-  if (/(whatsapp|whats app)/.test(msg)) {
-    return "The **AI WhatsApp Bot** is our most popular product! 🔥 It replies to customer messages 24/7 in both **Sinhala and English** — answering FAQs, taking bookings, capturing leads, and even handing over to a human agent when needed. It's like having a full-time customer service agent on WhatsApp.";
-  }
-  if (/(website|site|chat widget)/.test(msg)) {
-    return "The **Website AI Assistant** turns your website into a smart sales tool. It chats with visitors instantly, explains your services, recommends packages, captures leads, and guides people to WhatsApp or booking. Works 24/7 without any staff.";
-  }
-  if (/(voice|call|phone)/.test(msg)) {
-    return "The **AI Voice System** answers customer phone calls automatically. It speaks naturally, handles common questions, books appointments, and sends your team a summary of each call. No more missed enquiries!";
-  }
-  if (/(automation|crm|workflow|report)/.test(msg)) {
-    return "**Business Automation** connects all your customer touchpoints. When a lead comes in — from WhatsApp, website, or call — the AI logs it to your CRM, schedules a follow-up, sends reminders, and generates daily reports. All hands-free. ⚙️";
-  }
-  if (/(sinhala|singlish|sinhalen)/.test(msg) || hasSinhala) {
-    return "ඔව්! 😊 අපේ AI systems Sinhala සහ Singlish දෙකෙන්ම naturally reply කරන්න පුළුවන්. ඔබේ customers Sinhala වලින් message කළාත් AI perfect replies දෙනවා. Sri Lankan businesses සඳහා specially designed කළ system එකක්.";
-  }
-  if (/(demo|book|contact|talk to|human|agent)/.test(msg)) {
-    return "I'd love to set you up with a free demo! 🎯 You can reach the SinovexAI team directly:\n\n• **WhatsApp**: [070 6857171](https://wa.me/94706857171)\n• **Email**: sinovexai@outlook.com\n\nOr just tell me more about your business and I'll describe the best AI solution for you!";
-  }
-  if (/(service|product|offer|what do you do|what can)/.test(msg)) {
-    return "SinovexAI offers **4 core AI systems** for Sri Lankan businesses:\n\n1. 🤖 **AI WhatsApp Bot** — 24/7 Sinhala/English customer chat\n2. 🌐 **Website AI Assistant** — smart chatbot for your site\n3. 📞 **AI Voice System** — AI that answers your calls\n4. ⚙️ **Business Automation** — CRM, reports, workflows\n\nWhich one interests you most?";
-  }
-  return "Great question! I'd love to help. SinovexAI builds AI systems for Sri Lankan businesses — WhatsApp bots, website assistants, voice AI, and automation. Tell me more about your business and I can recommend the best solution for you! 🚀";
+  return "I understand your request! I'd love to help you with that, but my AI connection is currently offline. Please check your internet connection or backend server setup. 💻";
 }
 
 // ─── Message Bubble ───────────────────────────────────────────────────────────
