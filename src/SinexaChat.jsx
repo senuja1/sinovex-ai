@@ -3,7 +3,7 @@
 // Full-page Sinexa AI Chatbot — Premium Dark UI
 // ==========================
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
@@ -16,6 +16,8 @@ import {
   Mic,
   MicOff,
   MoreHorizontal,
+  Phone,
+  PhoneOff,
   Plus,
   RotateCcw,
   Search,
@@ -23,6 +25,7 @@ import {
   ThumbsDown,
   ThumbsUp,
   Trash2,
+  Volume2,
   X,
   Zap,
 } from "lucide-react";
@@ -115,6 +118,297 @@ function renderText(text) {
       {i < text.split("\n").length - 1 && <br />}
     </span>
   ));
+}
+
+// ─── TTS Helper ───────────────────────────────────────────────────────────────
+
+function speakText(text, onEnd) {
+  window.speechSynthesis.cancel();
+  // Strip markdown for cleaner speech
+  const clean = text
+    .replace(/```[\s\S]*?```/g, "code block omitted")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/[#*`_~>]/g, "")
+    .replace(/\n+/g, ". ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!clean) { onEnd?.(); return; }
+  const utterance = new SpeechSynthesisUtterance(clean);
+  utterance.rate = 1.05;
+  utterance.pitch = 1.0;
+  // Prefer a good English voice
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = voices.find(v => /samantha|google.*us|microsoft.*zira|microsoft.*david/i.test(v.name))
+    || voices.find(v => v.lang.startsWith("en") && v.localService)
+    || voices.find(v => v.lang.startsWith("en"));
+  if (preferred) utterance.voice = preferred;
+  utterance.onend = () => onEnd?.();
+  utterance.onerror = () => onEnd?.();
+  window.speechSynthesis.speak(utterance);
+}
+
+// ─── Voice Mode Overlay ──────────────────────────────────────────────────────
+
+function VoiceMode({ onClose, intelligenceLevel }) {
+  const [phase, setPhase] = useState("idle"); // idle | listening | thinking | speaking
+  const [transcript, setTranscript] = useState("");
+  const [aiText, setAiText] = useState("Tap the orb to start talking");
+  const [history, setHistory] = useState([]);
+  const recognitionRef = useRef(null);
+  const abortRef = useRef(false);
+
+  const cleanup = useCallback(() => {
+    abortRef.current = true;
+    window.speechSynthesis.cancel();
+    recognitionRef.current?.abort();
+    recognitionRef.current = null;
+  }, []);
+
+  useEffect(() => {
+    // Preload voices
+    window.speechSynthesis.getVoices();
+    return cleanup;
+  }, [cleanup]);
+
+  const startListening = useCallback(() => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { setAiText("Voice not supported. Use Chrome or Edge."); return; }
+    abortRef.current = false;
+    setPhase("listening");
+    setTranscript("");
+    setAiText("Listening...");
+
+    const recognition = new SR();
+    recognitionRef.current = recognition;
+    recognition.lang = "en-US";
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = (e) => {
+      let final = "", interim = "";
+      for (let i = 0; i < e.results.length; i++) {
+        const t = e.results[i][0].transcript.trim();
+        if (e.results[i].isFinal) final = `${final} ${t}`.trim();
+        else interim = t;
+      }
+      setTranscript(final || interim);
+    };
+
+    recognition.onend = () => {
+      if (abortRef.current) return;
+      const finalText = document.querySelector("[data-voice-transcript]")?.textContent?.trim();
+      if (finalText) {
+        sendVoiceMessage(finalText);
+      } else {
+        setPhase("idle");
+        setAiText("I didn't catch that. Tap to try again.");
+      }
+    };
+
+    recognition.onerror = (e) => {
+      if (e.error === "aborted" || abortRef.current) return;
+      setPhase("idle");
+      setAiText("Couldn't hear you. Tap to try again.");
+    };
+
+    try { recognition.start(); } catch { setPhase("idle"); }
+  }, [intelligenceLevel]);
+
+  const sendVoiceMessage = async (text) => {
+    if (!text || abortRef.current) return;
+    setPhase("thinking");
+    setAiText("Thinking...");
+    const newHistory = [...history, { role: "user", text }];
+    setHistory(newHistory);
+
+    try {
+      const res = await fetch(`${API_BASE}/api/live-demo`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          demoType: "sinexa",
+          message: text,
+          businessInfo: BUSINESS_CONTEXT,
+          intelligenceLevel,
+          history: newHistory.slice(-10).map(m => ({ role: m.role, text: m.text })),
+        }),
+      });
+      const data = await res.json();
+      const reply = res.ok && data.reply ? data.reply : "Sorry, I couldn't process that.";
+      if (abortRef.current) return;
+      setHistory(prev => [...prev, { role: "ai", text: reply }]);
+      setAiText(reply);
+      setPhase("speaking");
+      speakText(reply, () => {
+        if (abortRef.current) return;
+        // Auto-listen again after speaking
+        startListening();
+      });
+    } catch {
+      if (abortRef.current) return;
+      setAiText("Connection error. Tap to retry.");
+      setPhase("idle");
+    }
+  };
+
+  const handleOrbClick = () => {
+    if (phase === "listening") {
+      recognitionRef.current?.stop();
+    } else if (phase === "speaking") {
+      window.speechSynthesis.cancel();
+      startListening();
+    } else {
+      startListening();
+    }
+  };
+
+  const handleClose = () => {
+    cleanup();
+    onClose();
+  };
+
+  const orbColors = {
+    idle: "from-violet-600 via-fuchsia-500 to-cyan-400",
+    listening: "from-emerald-400 via-cyan-500 to-blue-500",
+    thinking: "from-amber-500 via-orange-500 to-red-500",
+    speaking: "from-violet-500 via-fuchsia-500 to-pink-500",
+  };
+
+  const orbScale = phase === "listening" ? [1, 1.15, 1] : phase === "speaking" ? [1, 1.08, 1] : [1, 1.03, 1];
+  const orbDuration = phase === "listening" ? 1.2 : phase === "speaking" ? 0.8 : 3;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[2000] flex flex-col items-center justify-center"
+      style={{ background: "linear-gradient(135deg, #0a0814 0%, #0d0b1e 40%, #100b20 100%)" }}
+    >
+      {/* Ambient glow */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <motion.div
+          animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style={{ background: `radial-gradient(circle, ${phase === "listening" ? "rgba(52,211,153,0.25)" : phase === "thinking" ? "rgba(251,191,36,0.2)" : "rgba(139,92,246,0.25)"} 0%, transparent 70%)`, filter: "blur(80px)" }}
+        />
+      </div>
+
+      {/* Top bar */}
+      <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-6 py-4 z-10">
+        <div className="flex items-center gap-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-fuchsia-500 shadow-lg shadow-violet-500/40">
+            <Sparkles className="h-4 w-4 text-white" />
+          </div>
+          <span className="text-sm font-bold text-white">Sinexa Voice</span>
+        </div>
+        <button
+          onClick={handleClose}
+          className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-white/60 backdrop-blur-xl transition hover:bg-red-500/20 hover:text-red-400"
+        >
+          <PhoneOff className="h-5 w-5" />
+        </button>
+      </div>
+
+      {/* Status label */}
+      <motion.div
+        key={phase}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-8 flex items-center gap-2"
+      >
+        <span className={`h-2 w-2 rounded-full ${
+          phase === "listening" ? "bg-emerald-400 animate-pulse" :
+          phase === "thinking" ? "bg-amber-400 animate-spin" :
+          phase === "speaking" ? "bg-fuchsia-400 animate-pulse" :
+          "bg-white/30"
+        }`} />
+        <span className={`text-xs font-semibold uppercase tracking-[0.2em] ${
+          phase === "listening" ? "text-emerald-400" :
+          phase === "thinking" ? "text-amber-400" :
+          phase === "speaking" ? "text-fuchsia-400" :
+          "text-white/40"
+        }`}>
+          {phase === "idle" ? "Ready" : phase}
+        </span>
+      </motion.div>
+
+      {/* Pulsing Orb */}
+      <button
+        onClick={handleOrbClick}
+        className="relative mb-10 focus:outline-none"
+        aria-label={phase === "listening" ? "Stop listening" : "Start talking"}
+      >
+        {/* Outer glow rings */}
+        <motion.div
+          animate={{ scale: orbScale, opacity: [0.15, 0.3, 0.15] }}
+          transition={{ duration: orbDuration, repeat: Infinity, ease: "easeInOut" }}
+          className={`absolute inset-[-30px] rounded-full bg-gradient-to-br ${orbColors[phase]} blur-xl`}
+        />
+        <motion.div
+          animate={{ scale: orbScale.map(s => s * 0.95), opacity: [0.1, 0.2, 0.1] }}
+          transition={{ duration: orbDuration * 1.2, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+          className={`absolute inset-[-50px] rounded-full bg-gradient-to-br ${orbColors[phase]} blur-2xl`}
+        />
+        {/* Main orb */}
+        <motion.div
+          animate={{ scale: orbScale }}
+          transition={{ duration: orbDuration, repeat: Infinity, ease: "easeInOut" }}
+          className={`relative flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br ${orbColors[phase]} shadow-2xl sm:h-40 sm:w-40`}
+          style={{ boxShadow: `0 0 60px ${phase === "listening" ? "rgba(52,211,153,0.4)" : phase === "thinking" ? "rgba(251,191,36,0.3)" : "rgba(139,92,246,0.4)"}` }}
+        >
+          {phase === "listening" ? (
+            <Mic className="h-10 w-10 text-white sm:h-12 sm:w-12" />
+          ) : phase === "thinking" ? (
+            <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
+              <Sparkles className="h-10 w-10 text-white sm:h-12 sm:w-12" />
+            </motion.div>
+          ) : phase === "speaking" ? (
+            <Volume2 className="h-10 w-10 text-white sm:h-12 sm:w-12" />
+          ) : (
+            <Mic className="h-10 w-10 text-white/80 sm:h-12 sm:w-12" />
+          )}
+        </motion.div>
+      </button>
+
+      {/* Transcript / AI response */}
+      <div className="mx-auto max-w-md px-6 text-center">
+        {phase === "listening" && transcript && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            data-voice-transcript
+            className="mb-3 text-lg font-medium text-white"
+          >
+            {transcript}
+          </motion.p>
+        )}
+        <motion.p
+          key={aiText}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={`text-sm leading-relaxed ${
+            phase === "speaking" || phase === "idle" ? "text-white/70" : "text-white/40"
+          }`}
+          style={{ maxHeight: 200, overflowY: "auto" }}
+        >
+          {aiText.length > 300 ? aiText.slice(0, 300) + "..." : aiText}
+        </motion.p>
+      </div>
+
+      {/* Bottom hint */}
+      <div className="absolute bottom-8 left-0 right-0 text-center">
+        <p className="text-[11px] text-white/25">
+          {phase === "idle" ? "Tap the orb to start a voice conversation" :
+           phase === "listening" ? "Speak now — tap orb to send" :
+           phase === "thinking" ? "Processing your request..." :
+           "Speaking — tap orb to interrupt"}
+        </p>
+      </div>
+    </motion.div>
+  );
 }
 
 // ─── Local fallback replies ───────────────────────────────────────────────────
@@ -347,6 +641,7 @@ export default function SinexaChat({ logo, setPage }) {
   const [listening, setListening] = useState(false);
   const [intelligenceLevel, setIntelligenceLevel] = useState("smart");
   const [showBottomPicker, setShowBottomPicker] = useState(false);
+  const [voiceMode, setVoiceMode] = useState(false);
 
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -508,6 +803,15 @@ export default function SinexaChat({ logo, setPage }) {
       className="relative flex h-screen flex-col overflow-hidden"
       style={{ background: "linear-gradient(135deg, #0a0814 0%, #0d0b1e 40%, #100b20 100%)" }}
     >
+      {/* Voice Mode Overlay */}
+      <AnimatePresence>
+        {voiceMode && (
+          <VoiceMode
+            onClose={() => setVoiceMode(false)}
+            intelligenceLevel={intelligenceLevel}
+          />
+        )}
+      </AnimatePresence>
       {/* Ambient glow orbs */}
       <div
         className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full opacity-25"
@@ -736,7 +1040,7 @@ export default function SinexaChat({ logo, setPage }) {
                   </AnimatePresence>
                 </div>
 
-                {/* Voice */}
+                {/* Voice input */}
                 <button
                   onClick={startDictation}
                   className={`flex h-8 w-8 items-center justify-center rounded-xl transition ${
@@ -747,6 +1051,15 @@ export default function SinexaChat({ logo, setPage }) {
                   title={listening ? "Stop listening" : "Voice input"}
                 >
                   {listening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                </button>
+
+                {/* Voice call mode */}
+                <button
+                  onClick={() => setVoiceMode(true)}
+                  className="flex h-8 w-8 items-center justify-center rounded-xl text-white/30 transition hover:bg-emerald-500/20 hover:text-emerald-400"
+                  title="Voice conversation"
+                >
+                  <Phone className="h-4 w-4" />
                 </button>
 
                 {/* Send */}
