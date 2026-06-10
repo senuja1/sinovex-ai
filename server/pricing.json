@@ -1,0 +1,212 @@
+{
+  "categories": [
+    {
+      "icon": "MessageCircle",
+      "title": "AI WhatsApp Bots",
+      "description": "Automated customer replies, Sinhala/English support, bookings, FAQs, lead capture, and human handoff.",
+      "plans": [
+        {
+          "name": "Starter Bot",
+          "setup": "LKR 35,000+",
+          "monthly": "LKR 12,000/mo",
+          "tag": "For small businesses",
+          "popular": false,
+          "features": [
+            "FAQ chatbot setup",
+            "Sinhala + English replies",
+            "Basic business training",
+            "Lead capture",
+            "Manual human handoff",
+            "Monthly improvements"
+          ]
+        },
+        {
+          "name": "Business Bot",
+          "setup": "LKR 85,000+",
+          "monthly": "LKR 25,000/mo",
+          "tag": "Most popular",
+          "popular": true,
+          "features": [
+            "Advanced WhatsApp AI bot",
+            "Booking/order flow",
+            "Customer tagging",
+            "Google Sheets or CRM sync",
+            "Auto follow-up messages",
+            "Priority support"
+          ]
+        },
+        {
+          "name": "Scale Bot",
+          "setup": "LKR 180,000+",
+          "monthly": "Custom",
+          "tag": "For high-volume teams",
+          "popular": false,
+          "features": [
+            "Custom AI workflows",
+            "Multi-agent handoff",
+            "API integrations",
+            "Dashboard reporting",
+            "Team training",
+            "Dedicated support"
+          ]
+        }
+      ]
+    },
+    {
+      "icon": "Bot",
+      "title": "Website AI Assistants",
+      "description": "Smart AI assistants for websites that answer questions, collect leads, guide users, and improve conversions.",
+      "plans": [
+        {
+          "name": "Web Starter",
+          "setup": "LKR 25,000+",
+          "monthly": "LKR 8,000/mo",
+          "tag": "For simple websites",
+          "popular": false,
+          "features": [
+            "Website chatbot widget",
+            "Basic FAQ training",
+            "Lead collection",
+            "Contact form routing",
+            "Mobile responsive UI",
+            "Monthly updates"
+          ]
+        },
+        {
+          "name": "Web Business",
+          "setup": "LKR 60,000+",
+          "monthly": "LKR 18,000/mo",
+          "tag": "For service brands",
+          "popular": true,
+          "features": [
+            "Custom branded AI assistant",
+            "Product/service training",
+            "Lead qualification",
+            "Analytics summary",
+            "WhatsApp/email routing",
+            "Priority optimization"
+          ]
+        },
+        {
+          "name": "Web Enterprise",
+          "setup": "LKR 120,000+",
+          "monthly": "Custom",
+          "tag": "For serious companies",
+          "popular": false,
+          "features": [
+            "Advanced website AI assistant",
+            "Multi-page knowledge base",
+            "CRM integration",
+            "Admin dashboard",
+            "Custom prompts and flows",
+            "Dedicated support"
+          ]
+        }
+      ]
+    },
+    {
+      "icon": "PhoneCall",
+      "title": "AI Voice Systems",
+      "description": "AI voice agents that answer calls, qualify leads, book appointments, and reduce missed customer inquiries.",
+      "plans": [
+        {
+          "name": "Voice Starter",
+          "setup": "LKR 75,000+",
+          "monthly": "LKR 25,000/mo",
+          "tag": "For call handling",
+          "popular": false,
+          "features": [
+            "Basic AI voice agent",
+            "Business info training",
+            "Call answering script",
+            "Lead note summary",
+            "Call logs",
+            "Monthly tuning"
+          ]
+        },
+        {
+          "name": "Voice Business",
+          "setup": "LKR 180,000+",
+          "monthly": "LKR 55,000/mo",
+          "tag": "For active sales teams",
+          "popular": true,
+          "features": [
+            "Advanced AI call agent",
+            "Appointment booking",
+            "Customer qualification",
+            "Call summaries",
+            "WhatsApp/email follow-up",
+            "Priority support"
+          ]
+        },
+        {
+          "name": "Voice Enterprise",
+          "setup": "LKR 350,000+",
+          "monthly": "Custom",
+          "tag": "For large operations",
+          "popular": false,
+          "features": [
+            "Custom voice workflows",
+            "CRM/call-center integration",
+            "Multiple voice agents",
+            "Advanced reporting",
+            "Custom call scripts",
+            "Dedicated implementation"
+          ]
+        }
+      ]
+    },
+    {
+      "icon": "Workflow",
+      "title": "Business Automations",
+      "description": "Automate repetitive tasks like reports, CRM updates, notifications, staff workflows, and customer follow-ups.",
+      "plans": [
+        {
+          "name": "Automation Starter",
+          "setup": "LKR 45,000+",
+          "monthly": "LKR 10,000/mo",
+          "tag": "For simple workflows",
+          "popular": false,
+          "features": [
+            "1 automation workflow",
+            "Google Sheets integration",
+            "Email/WhatsApp alerts",
+            "Basic dashboard",
+            "Error monitoring",
+            "Monthly support"
+          ]
+        },
+        {
+          "name": "Automation Pro",
+          "setup": "LKR 120,000+",
+          "monthly": "LKR 30,000/mo",
+          "tag": "For growing teams",
+          "popular": true,
+          "features": [
+            "3–5 automation workflows",
+            "CRM/task automation",
+            "Report generation",
+            "Customer follow-ups",
+            "Admin dashboard",
+            "Priority support"
+          ]
+        },
+        {
+          "name": "Automation Enterprise",
+          "setup": "LKR 250,000+",
+          "monthly": "Custom",
+          "tag": "For full systems",
+          "popular": false,
+          "features": [
+            "Custom automation system",
+            "Multiple integrations",
+            "Role-based dashboard",
+            "Advanced reporting",
+            "Team training",
+            "Dedicated maintenance"
+          ]
+        }
+      ]
+    }
+  ]
+}

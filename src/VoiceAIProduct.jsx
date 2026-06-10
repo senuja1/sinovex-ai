@@ -204,16 +204,16 @@ export default function VoiceAIProduct({ logo, setPage }) {
         </div>
       </section>
 
-      <section className="bg-white px-6 py-24 text-black">
+      <section className="bg-surface px-6 py-24 text-foreground">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.22em] text-neutral-500">The problem</p>
+              <p className="text-sm font-bold uppercase tracking-[0.22em] text-muted">The problem</p>
               <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
                 Missed calls are missed money.
               </h2>
             </div>
-            <p className="text-lg leading-8 text-neutral-600">
+            <p className="text-lg leading-8 text-muted">
               Customers call when they are ready to act. If nobody answers, many will move to another business. AI voice keeps your front desk active even when your team is busy.
             </p>
           </div>
@@ -228,13 +228,13 @@ export default function VoiceAIProduct({ logo, setPage }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
-                  className="rounded-[2rem] bg-[#f5f5f7] p-7 transition hover:-translate-y-1 hover:shadow-xl"
+                  className="rounded-[2rem] bg-background p-7 transition hover:-translate-y-1 hover:shadow-xl"
                 >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black text-white">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-foreground text-background">
                     <Icon className="h-6 w-6" />
                   </div>
                   <h3 className="mt-7 text-xl font-semibold tracking-[-0.03em]">{feature.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-neutral-600">{feature.text}</p>
+                  <p className="mt-3 text-sm leading-6 text-muted">{feature.text}</p>
                 </motion.div>
               );
             })}
@@ -242,10 +242,10 @@ export default function VoiceAIProduct({ logo, setPage }) {
         </div>
       </section>
 
-      <section className="bg-[#f5f5f7] px-6 py-24 text-black">
+      <section className="bg-background px-6 py-24 text-foreground">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
-          <div className="rounded-[2rem] bg-white p-8 shadow-sm">
-            <p className="text-sm font-bold uppercase tracking-[0.22em] text-neutral-500">Call workflow</p>
+          <div className="rounded-[2rem] bg-surface p-8 shadow-sm">
+            <p className="text-sm font-bold uppercase tracking-[0.22em] text-muted">Call workflow</p>
             <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em]">From ringing phone to team summary.</h2>
             <div className="mt-8 space-y-3">
               {callFlow.map((step, index) => (
@@ -255,9 +255,9 @@ export default function VoiceAIProduct({ logo, setPage }) {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.08 }}
-                  className="flex items-center gap-4 rounded-2xl bg-[#f5f5f7] p-4"
+                  className="flex items-center gap-4 rounded-2xl bg-background p-4"
                 >
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-sm font-bold text-white">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-sm font-bold text-background">
                     {index + 1}
                   </div>
                   <p className="text-sm font-semibold">{step}</p>

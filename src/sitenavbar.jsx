@@ -221,13 +221,13 @@ export default function SiteNavbar({ logo, setPage }) {
   }, [mobileOpen, searchOpen]);
 
   const navItemClass =
-    "text-[13px] font-semibold text-neutral-700 transition hover:text-black";
+    "text-[13px] font-semibold text-muted transition hover:text-foreground";
 
   return (
     <>
       <header
         onMouseLeave={() => setMegaOpen(false)}
-        className="fixed left-0 top-0 z-[999] w-full border-b border-black/5 bg-white/80 backdrop-blur-2xl"
+        className="fixed left-0 top-0 z-[999] w-full border-b border-border bg-surface/80 backdrop-blur-2xl"
       >
         <nav className="mx-auto flex h-11 max-w-7xl items-center justify-between px-4 lg:px-6">
           <button
@@ -246,7 +246,7 @@ export default function SiteNavbar({ logo, setPage }) {
               </div>
             )}
 
-            <span className="text-[17px] font-extrabold tracking-[-0.045em] text-black sm:block">
+            <span className="text-[17px] font-extrabold tracking-[-0.045em] text-foreground sm:block">
               SinovexAI
             </span>
           </button>
@@ -320,7 +320,7 @@ export default function SiteNavbar({ logo, setPage }) {
                 setMegaOpen(false);
                 setSearchOpen(true);
               }}
-              className="text-neutral-700 transition hover:text-black"
+              className="text-muted transition hover:text-foreground"
               aria-label="Search"
             >
               <Search className="h-5 w-5" />
@@ -330,7 +330,7 @@ export default function SiteNavbar({ logo, setPage }) {
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-black px-5 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800"
+              className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2 text-xs font-semibold text-background transition hover:opacity-90"
             >
               <Phone className="h-3.5 w-3.5" />
               Demo
@@ -339,7 +339,7 @@ export default function SiteNavbar({ logo, setPage }) {
 
           <button
             onClick={() => setMobileOpen(true)}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-black lg:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-dim text-foreground lg:hidden"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -354,11 +354,11 @@ export default function SiteNavbar({ logo, setPage }) {
               animate={{ opacity: 1, y: 0, height: "auto" }}
               exit={{ opacity: 0, y: -8, height: 0 }}
               transition={{ duration: 0.23, ease: "easeOut" }}
-              className="hidden max-h-[calc(100vh-44px)] overflow-y-auto border-t border-black/5 bg-[#f5f5f7] shadow-2xl shadow-black/10 lg:block"
+              className="hidden max-h-[calc(100vh-44px)] overflow-y-auto border-t border-border bg-background shadow-2xl shadow-black/10 lg:block"
             >
               <div className="mx-auto grid max-w-7xl grid-cols-[1.45fr_1fr_1fr] gap-12 px-6 py-5">
                 <div>
-                  <p className="mb-3 text-xs font-semibold text-neutral-500">
+                  <p className="mb-3 text-xs font-semibold text-muted">
                     Explore Products
                   </p>
 
@@ -373,15 +373,15 @@ export default function SiteNavbar({ logo, setPage }) {
                           className="group block text-left"
                         >
                           <div className="flex items-start gap-4">
-                            <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl bg-white text-black shadow-sm transition group-hover:scale-105 group-hover:bg-black group-hover:text-white">
+                            <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl bg-surface text-foreground shadow-sm transition group-hover:scale-105 group-hover:bg-foreground group-hover:text-background">
                               <Icon className="h-4 w-4" />
                             </div>
 
                             <div>
-                              <p className="text-[23px] font-semibold leading-none tracking-[-0.055em] text-neutral-900">
+                              <p className="text-[23px] font-semibold leading-none tracking-[-0.055em] text-foreground">
                                 {product.title}
                               </p>
-                              <p className="mt-1.5 text-xs text-neutral-500">
+                              <p className="mt-1.5 text-xs text-muted">
                                 {product.desc}
                               </p>
                             </div>
@@ -393,7 +393,7 @@ export default function SiteNavbar({ logo, setPage }) {
                 </div>
 
                 <div>
-                  <p className="mb-3 text-xs font-semibold text-neutral-500">
+                  <p className="mb-3 text-xs font-semibold text-muted">
                     Start with Sinovex
                   </p>
 
@@ -405,7 +405,7 @@ export default function SiteNavbar({ logo, setPage }) {
                           href={link.external}
                           target="_blank"
                           rel="noreferrer"
-                          className="block text-[16px] font-semibold leading-tight tracking-[-0.04em] text-neutral-900 transition hover:text-neutral-500"
+                          className="block text-[16px] font-semibold leading-tight tracking-[-0.04em] text-foreground transition hover:text-muted"
                         >
                           {link.title}
                         </a>
@@ -413,7 +413,7 @@ export default function SiteNavbar({ logo, setPage }) {
                         <button
                           key={link.title}
                           onClick={() => goToPage(link.page)}
-                          className="block text-left text-[16px] font-semibold leading-tight tracking-[-0.04em] text-neutral-900 transition hover:text-neutral-500"
+                          className="block text-left text-[16px] font-semibold leading-tight tracking-[-0.04em] text-foreground transition hover:text-muted"
                         >
                           {link.title}
                         </button>
@@ -421,16 +421,16 @@ export default function SiteNavbar({ logo, setPage }) {
                     )}
                   </div>
 
-                  <div className="mt-5 rounded-[1.25rem] bg-white p-4 shadow-sm">
-                    <p className="text-[9px] font-bold uppercase tracking-[0.22em] text-neutral-400">
+                  <div className="mt-5 rounded-[1.25rem] bg-surface p-4 shadow-sm">
+                    <p className="text-[9px] font-bold uppercase tracking-[0.22em] text-muted">
                       Best for Sri Lanka
                     </p>
 
-                    <p className="mt-2 text-base font-semibold tracking-[-0.04em] text-black">
+                    <p className="mt-2 text-base font-semibold tracking-[-0.04em] text-foreground">
                       Sinhala + English AI customer support.
                     </p>
 
-                    <p className="mt-1.5 text-xs leading-5 text-neutral-500">
+                    <p className="mt-1.5 text-xs leading-5 text-muted">
                       Built for restaurants, salons, shops, clinics, education,
                       tourism and service businesses.
                     </p>
@@ -438,7 +438,7 @@ export default function SiteNavbar({ logo, setPage }) {
                 </div>
 
                 <div>
-                  <p className="mb-3 text-xs font-semibold text-neutral-500">
+                  <p className="mb-3 text-xs font-semibold text-muted">
                     More from Sinovex AI
                   </p>
 
@@ -447,7 +447,7 @@ export default function SiteNavbar({ logo, setPage }) {
                       <button
                         key={link.title}
                         onClick={() => goToPage(link.page)}
-                        className="block text-left text-[16px] font-semibold leading-tight tracking-[-0.04em] text-neutral-900 transition hover:text-neutral-500"
+                        className="block text-left text-[16px] font-semibold leading-tight tracking-[-0.04em] text-foreground transition hover:text-muted"
                       >
                         {link.title}
                       </button>
@@ -464,7 +464,7 @@ export default function SiteNavbar({ logo, setPage }) {
 
                   <button
                     onClick={() => goToPage("whatsapp-ai")}
-                    className="mt-3 inline-flex items-center gap-2 rounded-full bg-black px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-neutral-800"
+                    className="mt-3 inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-xs font-semibold text-background transition hover:opacity-90"
                   >
                     Explore AI WhatsApp Bot
                     <ArrowRight className="h-4 w-4" />
@@ -508,22 +508,22 @@ export default function SiteNavbar({ logo, setPage }) {
               exit={{ opacity: 0, y: -18, scale: 0.98 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
               onMouseDown={(e) => e.stopPropagation()}
-              className="mx-auto max-w-3xl overflow-hidden rounded-[2rem] bg-white shadow-2xl"
+              className="mx-auto max-w-3xl overflow-hidden rounded-[2rem] bg-surface shadow-2xl"
             >
-              <div className="flex items-center gap-3 border-b border-neutral-200 px-5 py-4">
-                <Search className="h-5 w-5 text-neutral-500" />
+              <div className="flex items-center gap-3 border-b border-border px-5 py-4">
+                <Search className="h-5 w-5 text-muted" />
 
                 <input
                   autoFocus
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                   placeholder="Search SinovexAI products, demos, pricing..."
-                  className="flex-1 bg-transparent text-lg font-medium outline-none placeholder:text-neutral-400"
+                  className="flex-1 bg-transparent text-lg font-medium text-foreground outline-none placeholder:text-muted"
                 />
 
                 <button
                   onClick={() => setSearchOpen(false)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-black hover:bg-neutral-200"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-dim text-foreground hover:opacity-80"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -538,39 +538,39 @@ export default function SiteNavbar({ logo, setPage }) {
                       <button
                         key={`${item.type}-${item.title}`}
                         onClick={() => goToPage(item.page)}
-                        className="group flex w-full items-center gap-4 rounded-2xl p-4 text-left transition hover:bg-neutral-100"
+                        className="group flex w-full items-center gap-4 rounded-2xl p-4 text-left transition hover:bg-card-hover"
                       >
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black text-white">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-foreground text-background">
                           <Icon className="h-5 w-5" />
                         </div>
 
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">
-                            <p className="truncate text-base font-bold text-black">
+                            <p className="truncate text-base font-bold text-foreground">
                               {item.title}
                             </p>
 
-                            <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-neutral-500 group-hover:bg-white">
+                            <span className="rounded-full bg-surface-dim px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-muted group-hover:bg-surface">
                               {item.type}
                             </span>
                           </div>
 
-                          <p className="mt-1 text-sm text-neutral-500">
+                          <p className="mt-1 text-sm text-muted">
                             {item.desc}
                           </p>
                         </div>
 
-                        <ArrowRight className="h-4 w-4 text-neutral-400 transition group-hover:translate-x-1 group-hover:text-black" />
+                        <ArrowRight className="h-4 w-4 text-muted transition group-hover:translate-x-1 group-hover:text-foreground" />
                       </button>
                     );
                   })
                 ) : (
                   <div className="px-5 py-12 text-center">
-                    <p className="text-lg font-bold text-black">
+                    <p className="text-lg font-bold text-foreground">
                       No results found
                     </p>
 
-                    <p className="mt-2 text-sm text-neutral-500">
+                    <p className="mt-2 text-sm text-muted">
                       Try searching WhatsApp, Voice, Website, Automation,
                       Pricing, or Demo.
                     </p>
@@ -578,10 +578,10 @@ export default function SiteNavbar({ logo, setPage }) {
                 )}
               </div>
 
-              <div className="border-t border-neutral-200 bg-neutral-50 px-5 py-3 text-xs text-neutral-500">
+              <div className="border-t border-border bg-surface-dim px-5 py-3 text-xs text-muted">
                 Tip: press{" "}
-                <span className="font-bold text-black">Ctrl + K</span> to open
-                search, and <span className="font-bold text-black">Esc</span>{" "}
+                <span className="font-bold text-foreground">Ctrl + K</span> to open
+                search, and <span className="font-bold text-foreground">Esc</span>{" "}
                 to close.
               </div>
             </motion.div>
@@ -597,7 +597,7 @@ export default function SiteNavbar({ logo, setPage }) {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed inset-0 z-[1000] overflow-y-auto bg-white px-5 py-4 lg:hidden"
+            className="fixed inset-0 z-[1000] overflow-y-auto bg-surface px-5 py-4 lg:hidden"
           >
             <div className="flex items-center justify-between">
               <button
@@ -616,14 +616,14 @@ export default function SiteNavbar({ logo, setPage }) {
                   </div>
                 )}
 
-                <span className="text-[18px] font-extrabold tracking-[-0.045em] text-black">
+                <span className="text-[18px] font-extrabold tracking-[-0.045em] text-foreground">
                   SinovexAI
                 </span>
               </button>
 
               <button
                 onClick={() => setMobileOpen(false)}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-surface-dim"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -632,7 +632,7 @@ export default function SiteNavbar({ logo, setPage }) {
             <div className="mt-10 space-y-1">
               <button
                 onClick={() => goToPage("home")}
-                className="block w-full rounded-2xl px-3 py-4 text-left text-2xl font-semibold tracking-[-0.04em] text-black hover:bg-neutral-100"
+                className="block w-full rounded-2xl px-3 py-4 text-left text-2xl font-semibold tracking-[-0.04em] text-foreground hover:bg-card-hover"
               >
                 Home
               </button>
@@ -650,7 +650,7 @@ export default function SiteNavbar({ logo, setPage }) {
 
               <button
                 onClick={() => setMobileProductsOpen((v) => !v)}
-                className="flex w-full items-center justify-between rounded-2xl px-3 py-4 text-left text-2xl font-semibold tracking-[-0.04em] text-black hover:bg-neutral-100"
+                className="flex w-full items-center justify-between rounded-2xl px-3 py-4 text-left text-2xl font-semibold tracking-[-0.04em] text-foreground hover:bg-card-hover"
               >
                 Products
                 <ChevronDown
@@ -676,17 +676,17 @@ export default function SiteNavbar({ logo, setPage }) {
                           <button
                             key={product.title}
                             onClick={() => goToPage(product.page)}
-                            className="flex w-full items-center gap-3 rounded-2xl bg-neutral-100 p-4 text-left"
+                            className="flex w-full items-center gap-3 rounded-2xl bg-surface-dim p-4 text-left"
                           >
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-black text-white">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground text-background">
                               <Icon className="h-5 w-5" />
                             </div>
 
                             <div>
-                              <p className="text-sm font-bold text-black">
+                              <p className="text-sm font-bold text-foreground">
                                 {product.title}
                               </p>
-                              <p className="text-xs text-neutral-500">
+                              <p className="text-xs text-muted">
                                 {product.desc}
                               </p>
                             </div>
@@ -700,28 +700,28 @@ export default function SiteNavbar({ logo, setPage }) {
 
               <button
                 onClick={() => goToPage("services")}
-                className="block w-full rounded-2xl px-3 py-4 text-left text-2xl font-semibold tracking-[-0.04em] text-black hover:bg-neutral-100"
+                className="block w-full rounded-2xl px-3 py-4 text-left text-2xl font-semibold tracking-[-0.04em] text-foreground hover:bg-card-hover"
               >
                 Services
               </button>
 
               <button
                 onClick={() => goToPage("pricing")}
-                className="block w-full rounded-2xl px-3 py-4 text-left text-2xl font-semibold tracking-[-0.04em] text-black hover:bg-neutral-100"
+                className="block w-full rounded-2xl px-3 py-4 text-left text-2xl font-semibold tracking-[-0.04em] text-foreground hover:bg-card-hover"
               >
                 Pricing
               </button>
 
               <button
                 onClick={() => goToPage("process")}
-                className="block w-full rounded-2xl px-3 py-4 text-left text-2xl font-semibold tracking-[-0.04em] text-black hover:bg-neutral-100"
+                className="block w-full rounded-2xl px-3 py-4 text-left text-2xl font-semibold tracking-[-0.04em] text-foreground hover:bg-card-hover"
               >
                 Process
               </button>
 
               <button
                 onClick={() => goToPage("contact")}
-                className="block w-full rounded-2xl px-3 py-4 text-left text-2xl font-semibold tracking-[-0.04em] text-black hover:bg-neutral-100"
+                className="block w-full rounded-2xl px-3 py-4 text-left text-2xl font-semibold tracking-[-0.04em] text-foreground hover:bg-card-hover"
               >
                 Contact
               </button>

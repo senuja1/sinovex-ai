@@ -252,8 +252,8 @@ const results = [
 
 function Button({ children, dark = true, onClick, href, target }) {
   const styles = dark
-    ? "bg-black text-white hover:bg-neutral-800"
-    : "bg-white text-black border border-neutral-200 hover:bg-neutral-100";
+    ? "bg-foreground text-background hover:opacity-90"
+    : "bg-surface text-foreground border border-border hover:opacity-90";
 
   if (href) {
     return (
@@ -280,7 +280,7 @@ function Button({ children, dark = true, onClick, href, target }) {
 
 function TypingDots() {
   return (
-    <div className="flex items-center gap-1 rounded-2xl bg-white px-3 py-2 shadow-sm">
+    <div className="flex items-center gap-1 rounded-2xl bg-surface px-3 py-2 shadow-sm">
       {[0, 1, 2].map((dot) => (
         <motion.span
           key={dot}
@@ -291,7 +291,7 @@ function TypingDots() {
             delay: dot * 0.15,
             ease: "easeInOut",
           }}
-          className="h-1.5 w-1.5 rounded-full bg-neutral-500"
+          className="h-1.5 w-1.5 rounded-full bg-muted"
         />
       ))}
     </div>
@@ -784,16 +784,16 @@ function UseCases() {
   const activeCase = useCases[active];
 
   return (
-    <section className="bg-[#f5f5f7] px-6 py-28">
+    <section className="bg-background px-6 py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted">
             Industries
           </p>
           <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
             Built for businesses like yours.
           </h2>
-          <p className="mt-6 text-lg leading-8 text-neutral-600">
+          <p className="mt-6 text-lg leading-8 text-muted">
             People buy faster when they see themselves. Here's how Sinovex AI
             works inside real industries every day.
           </p>
@@ -807,8 +807,8 @@ function UseCases() {
               onClick={() => setActive(index)}
               className={`flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
                 active === index
-                  ? "border-black bg-black text-white shadow-lg"
-                  : "border-neutral-200 bg-white text-neutral-700 hover:border-neutral-400"
+                  ? "border-foreground bg-foreground text-background shadow-lg"
+                  : "border-border bg-surface text-muted hover:border-muted-light"
               }`}
             >
               <span>{uc.emoji}</span>
@@ -834,7 +834,7 @@ function UseCases() {
             <h3 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-black sm:text-4xl">
               {activeCase.headline}
             </h3>
-            <p className="mt-5 text-base leading-7 text-neutral-600">{activeCase.description}</p>
+            <p className="mt-5 text-base leading-7 text-muted">{activeCase.description}</p>
 
             <div className="mt-8 space-y-3">
               {activeCase.wins.map((win, i) => (
@@ -845,10 +845,10 @@ function UseCases() {
                   transition={{ delay: i * 0.1 }}
                   className="flex items-center gap-3"
                 >
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-black text-white">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-foreground text-background">
                     <Check className="h-3.5 w-3.5" />
                   </div>
-                  <span className="text-sm font-semibold text-neutral-800">{win}</span>
+                  <span className="text-sm font-semibold text-foreground">{win}</span>
                 </motion.div>
               ))}
             </div>
@@ -869,20 +869,20 @@ function UseCases() {
                 className={`rounded-[1.5rem] border p-5 text-left transition ${
                   active === index
                     ? `${uc.border} ${uc.color} shadow-md`
-                    : "border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50"
+                    : "border-border bg-surface hover:border-muted-light hover:bg-card-hover"
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{uc.emoji}</span>
                   <div>
-                    <p className="text-sm font-semibold text-black">{uc.industry}</p>
-                    <p className="text-xs text-neutral-500">{uc.headline}</p>
+                    <p className="text-sm font-semibold text-foreground">{uc.industry}</p>
+                    <p className="text-xs text-muted">{uc.headline}</p>
                   </div>
                   {active === index && (
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="ml-auto flex h-6 w-6 items-center justify-center rounded-full bg-black text-white"
+                      className="ml-auto flex h-6 w-6 items-center justify-center rounded-full bg-foreground text-background"
                     >
                       <Check className="h-3 w-3" />
                     </motion.div>
@@ -903,16 +903,16 @@ function Results() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section className="bg-white px-6 py-28">
+    <section className="bg-surface px-6 py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted">
             Results
           </p>
           <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
             What changes when AI runs your business.
           </h2>
-          <p className="mt-6 text-lg leading-8 text-neutral-600">
+          <p className="mt-6 text-lg leading-8 text-muted">
             Real outcomes. Not just features.
           </p>
         </div>
@@ -953,9 +953,9 @@ function Results() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.6 }}
-          className="mx-auto mt-16 max-w-3xl rounded-[2rem] border border-neutral-200 bg-[#f5f5f7] p-10 text-center"
+          className="mx-auto mt-16 max-w-3xl rounded-[2rem] border border-border bg-background p-10 text-center"
         >
-          <p className="text-xl font-semibold leading-8 tracking-[-0.03em] text-black">
+          <p className="text-xl font-semibold leading-8 tracking-[-0.03em] text-foreground">
             "Never miss a lead again. Never lose a booking. Never leave a customer
             waiting." — That's what Sinovex AI makes possible.
           </p>
@@ -977,7 +977,7 @@ function Results() {
 
 function Hero({ setPage }) {
   return (
-    <section id="home" className="relative overflow-hidden bg-[#f5f5f7] px-6 pt-24 text-black">
+    <section id="home" className="relative overflow-hidden bg-background px-6 pt-24 text-foreground">
       <div className="absolute left-1/2 top-24 h-96 w-96 -translate-x-1/2 rounded-full bg-blue-200/40 blur-3xl" />
       <div className="absolute right-10 top-72 h-80 w-80 rounded-full bg-purple-200/30 blur-3xl" />
 
@@ -987,7 +987,7 @@ function Hero({ setPage }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-700 shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-muted shadow-sm">
             <Sparkles className="h-4 w-4" />
             AI systems for modern businesses
           </div>
@@ -996,7 +996,7 @@ function Hero({ setPage }) {
             Build smarter customer support, sales, and automation with AI.
           </h1>
 
-          <p className="mt-6 max-w-2xl text-base leading-7 text-neutral-600">
+          <p className="mt-6 max-w-2xl text-base leading-7 text-muted">
             Sinovex AI builds premium AI WhatsApp bots, website AI assistants, AI voice systems,
             and business automations for companies that want to save time, reply faster, and grow smarter.
           </p>
@@ -1014,7 +1014,7 @@ function Hero({ setPage }) {
             {["Sinhala + English AI", "Business-ready systems", "Custom automation"].map((item) => (
               <div
                 key={item}
-                className="rounded-2xl border border-neutral-200 bg-white p-3 text-sm font-semibold text-neutral-700 shadow-sm"
+                className="rounded-2xl border border-border bg-surface p-3 text-sm font-semibold text-muted shadow-sm"
               >
                 <Check className="mb-2 h-4 w-4" />
                 {item}
@@ -1027,7 +1027,7 @@ function Hero({ setPage }) {
           initial={{ opacity: 0, scale: 0.96, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="rounded-[2rem] bg-white p-3 shadow-2xl shadow-neutral-300/40"
+          className="rounded-[2rem] bg-surface p-3 shadow-2xl shadow-neutral-300/20"
         >
           <AutoCompanyPreview />
         </motion.div>
@@ -1038,14 +1038,14 @@ function Hero({ setPage }) {
 
 function Services() {
   return (
-    <section id="services" className="bg-white px-6 py-28">
+    <section id="services" className="bg-surface px-6 py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">Services</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted">Services</p>
           <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
             Business-ready AI systems for real companies.
           </h2>
-          <p className="mt-6 text-lg leading-8 text-neutral-600">
+          <p className="mt-6 text-lg leading-8 text-muted">
             We design AI tools that help businesses reply faster, reduce manual work, capture more
             leads, and deliver better customer experiences.
           </p>
@@ -1061,18 +1061,18 @@ function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.06 }}
-                className="rounded-[2rem] bg-[#f5f5f7] p-7 transition hover:-translate-y-1 hover:shadow-xl"
+                className="rounded-[2rem] bg-background p-7 transition hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black text-white">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-foreground text-background">
                   <Icon className="h-7 w-7" />
                 </div>
                 <h3 className="mt-8 text-xl font-semibold">{service.title}</h3>
-                <p className="mt-4 text-sm leading-6 text-neutral-600">{service.text}</p>
+                <p className="mt-4 text-sm leading-6 text-muted">{service.text}</p>
                 <div className="mt-6 space-y-3">
                   {service.points.map((point) => (
                     <div key={point} className="flex items-center gap-2">
                       <Check className="h-4 w-4" />
-                      <span className="text-sm font-medium text-neutral-700">{point}</span>
+                      <span className="text-sm font-medium text-muted">{point}</span>
                     </div>
                   ))}
                 </div>
@@ -1087,20 +1087,20 @@ function Services() {
 
 function WhyChoose() {
   return (
-    <section className="bg-[#f5f5f7] px-6 py-28">
+    <section className="bg-background px-6 py-28">
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-center">
         <motion.div
           initial={{ opacity: 0, x: -24 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
         >
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted">
             Why Sinovex AI
           </p>
           <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
             Not just chatbots. Complete AI business systems.
           </h2>
-          <p className="mt-6 text-lg leading-8 text-neutral-600">
+          <p className="mt-6 text-lg leading-8 text-muted">
             We focus on practical AI systems that connect with your real business process: customer
             messages, bookings, orders, calls, reports, follow-ups, and internal workflows.
           </p>
@@ -1123,10 +1123,10 @@ function WhyChoose() {
           ].map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.title} className="rounded-[2rem] bg-white p-7 shadow-sm">
+              <div key={item.title} className="rounded-[2rem] bg-surface p-7 shadow-sm">
                 <Icon className="h-7 w-7" />
                 <h3 className="mt-6 text-xl font-semibold">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-neutral-600">{item.text}</p>
+                <p className="mt-3 text-sm leading-6 text-muted">{item.text}</p>
               </div>
             );
           })}
@@ -1138,14 +1138,14 @@ function WhyChoose() {
 
 function Process() {
   return (
-    <section id="process" className="bg-white px-6 py-28">
+    <section id="process" className="bg-surface px-6 py-28">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">Process</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted">Process</p>
           <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
             From idea to working AI system.
           </h2>
-          <p className="mt-6 text-lg leading-8 text-neutral-600">
+          <p className="mt-6 text-lg leading-8 text-muted">
             We build in clear steps, so your AI system is not random. It is planned, tested,
             launched, and improved.
           </p>
@@ -1159,10 +1159,10 @@ function Process() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.06 }}
-              className="rounded-[2rem] border border-neutral-200 bg-white p-7 shadow-sm"
+              className="rounded-[2rem] border border-border bg-surface p-7 shadow-sm"
             >
               <h3 className="text-2xl font-semibold">{step.title}</h3>
-              <p className="mt-5 text-sm leading-6 text-neutral-600">{step.text}</p>
+              <p className="mt-5 text-sm leading-6 text-muted">{step.text}</p>
             </motion.div>
           ))}
         </div>
@@ -1249,7 +1249,7 @@ export default function App() {
   if (page === "automation-demo") return <PlatformDemo platform="automation" logo={logo} setPage={setPage} />;
 
   return (
-    <main className="min-h-screen bg-white font-sans">
+    <main className="min-h-screen bg-background font-sans">
       <SiteNavbar logo={logo} setPage={setPage} currentPage="home" />
       <Hero setPage={setPage} />
       <Services />

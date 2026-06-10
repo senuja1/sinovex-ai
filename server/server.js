@@ -1,6 +1,12 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import { readFileSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 8787;
@@ -506,6 +512,18 @@ app.get("/api/health", (req, res) => {
 
 app.post("/api/live-demo", rateLimit, handleDemoRequest);
 app.post("/api/chat", rateLimit, handleDemoRequest);
+
+// ─── Pricing API ──────────────────────────────────────────────────────────────
+app.get("/api/pricing", (req, res) => {
+  try {
+    const data = readFileSync(join(__dirname, "pricing.json"), "utf-8");
+    res.setHeader("Cache-Control", "public, max-age=60");
+    res.json(JSON.parse(data));
+  } catch (err) {
+    console.error("Failed to read pricing.json:", err.message);
+    res.status(500).json({ error: "Pricing data unavailable" });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`SinovexAI backend running on port ${PORT}`);

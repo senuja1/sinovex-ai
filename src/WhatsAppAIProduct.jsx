@@ -215,16 +215,16 @@ export default function WhatsAppAIProduct({ logo, setPage }) {
         </div>
       </section>
 
-      <section className="bg-white px-6 py-24 text-black">
+      <section className="bg-surface px-6 py-24 text-foreground">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.22em] text-neutral-500">The pitch</p>
+              <p className="text-sm font-bold uppercase tracking-[0.22em] text-muted">The pitch</p>
               <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
                 Stop losing customers because of late replies.
               </h2>
             </div>
-            <p className="text-lg leading-8 text-neutral-600">
+            <p className="text-lg leading-8 text-muted">
               Most businesses do not lose customers because the product is bad. They lose them because replies are slow. The WhatsApp AI bot answers instantly, collects the right details and keeps the customer moving toward a booking, order or inquiry.
             </p>
           </div>
@@ -239,13 +239,13 @@ export default function WhatsAppAIProduct({ logo, setPage }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
-                  className="rounded-[2rem] bg-[#f5f5f7] p-7 transition hover:-translate-y-1 hover:shadow-xl"
+                  className="rounded-[2rem] bg-background p-7 transition hover:-translate-y-1 hover:shadow-xl"
                 >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black p-3 text-white">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-foreground p-3 text-background">
                     <Icon className="h-6 w-6" />
                   </div>
                   <h3 className="mt-7 text-xl font-semibold tracking-[-0.03em]">{feature.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-neutral-600">{feature.text}</p>
+                  <p className="mt-3 text-sm leading-6 text-muted">{feature.text}</p>
                 </motion.div>
               );
             })}
@@ -253,7 +253,7 @@ export default function WhatsAppAIProduct({ logo, setPage }) {
         </div>
       </section>
 
-      <section className="bg-[#f5f5f7] px-6 py-24 text-black">
+      <section className="bg-background px-6 py-24 text-foreground">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
           <div className="rounded-[2rem] bg-black p-8 text-white">
             <p className="text-sm font-bold uppercase tracking-[0.22em] text-neutral-400">How it works</p>
@@ -277,12 +277,12 @@ export default function WhatsAppAIProduct({ logo, setPage }) {
             </div>
           </div>
 
-          <div className="rounded-[2rem] bg-white p-8 shadow-sm">
-            <p className="text-sm font-bold uppercase tracking-[0.22em] text-neutral-500">Perfect for</p>
+          <div className="rounded-[2rem] bg-surface p-8 shadow-sm">
+            <p className="text-sm font-bold uppercase tracking-[0.22em] text-muted">Perfect for</p>
             <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em]">Local businesses that get many WhatsApp messages.</h2>
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {industries.map((industry) => (
-                <div key={industry} className="rounded-2xl border border-neutral-200 bg-[#f5f5f7] p-4">
+                <div key={industry} className="rounded-2xl border border-border bg-background p-4">
                   <Check className="mb-3 h-5 w-5" />
                   <p className="text-sm font-semibold">{industry}</p>
                 </div>
@@ -290,7 +290,7 @@ export default function WhatsAppAIProduct({ logo, setPage }) {
             </div>
             <div className="mt-8 rounded-[1.5rem] bg-[#eaf7ee] p-5">
               <p className="text-sm font-semibold text-[#128C7E]">Example result</p>
-              <p className="mt-2 text-sm leading-6 text-neutral-700">
+              <p className="mt-2 text-sm leading-6 text-muted">
                 Customer asks for price → bot answers → customer asks delivery → bot confirms → customer gives details → team receives order summary.
               </p>
             </div>

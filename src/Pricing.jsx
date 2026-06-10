@@ -2,10 +2,12 @@
 // Pricing.jsx
 // ==========================
 
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   Bot,
   Check,
+  Loader2,
   Mail,
   MessageCircle,
   Phone,
@@ -20,15 +22,30 @@ const WHATSAPP_NUMBER = "94706857171";
 const DISPLAY_PHONE = "070 6857171";
 const EMAIL = "sinovexai@outlook.com";
 
+const API_BASE =
+  import.meta.env.VITE_API_URL ||
+  (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+    ? "http://localhost:8787"
+    : "https://sinovexai.com");
+
 const contactLinks = {
   whatsapp: `https://wa.me/${WHATSAPP_NUMBER}`,
   email: `mailto:${EMAIL}`,
   phone: `tel:${DISPLAY_PHONE.replace(/\s/g, "")}`,
 };
 
-const pricingCategories = [
+// Icon mapping from string names (from JSON) to Lucide components
+const ICON_MAP = {
+  MessageCircle,
+  Bot,
+  PhoneCall,
+  Workflow,
+};
+
+// ─── Fallback pricing (used if API fails) ─────────────────────────────────────
+const FALLBACK_CATEGORIES = [
   {
-    icon: MessageCircle,
+    icon: "MessageCircle",
     title: "AI WhatsApp Bots",
     description:
       "Automated customer replies, Sinhala/English support, bookings, FAQs, lead capture, and human handoff.",
@@ -79,7 +96,7 @@ const pricingCategories = [
     ],
   },
   {
-    icon: Bot,
+    icon: "Bot",
     title: "Website AI Assistants",
     description:
       "Smart AI assistants for websites that answer questions, collect leads, guide users, and improve conversions.",
@@ -130,7 +147,7 @@ const pricingCategories = [
     ],
   },
   {
-    icon: PhoneCall,
+    icon: "PhoneCall",
     title: "AI Voice Systems",
     description:
       "AI voice agents that answer calls, qualify leads, book appointments, and reduce missed customer inquiries.",
@@ -181,7 +198,7 @@ const pricingCategories = [
     ],
   },
   {
-    icon: Workflow,
+    icon: "Workflow",
     title: "Business Automations",
     description:
       "Automate repetitive tasks like reports, CRM updates, notifications, staff workflows, and customer follow-ups.",
@@ -233,6 +250,31 @@ const pricingCategories = [
   },
 ];
 
+// ─── Loading skeleton ─────────────────────────────────────────────────────────
+
+function PricingSkeleton() {
+  return (
+    <div className="space-y-16">
+      {[1, 2].map((i) => (
+        <div key={i} className="animate-pulse">
+          <div className="mb-8">
+            <div className="h-14 w-14 rounded-2xl bg-surface-dim" />
+            <div className="mt-6 h-10 w-72 rounded-2xl bg-surface-dim" />
+            <div className="mt-4 h-5 w-96 rounded-xl bg-surface-dim" />
+          </div>
+          <div className="grid gap-6 lg:grid-cols-3">
+            {[1, 2, 3].map((j) => (
+              <div key={j} className="h-96 rounded-[2.5rem] bg-surface-dim" />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── Plan Card ────────────────────────────────────────────────────────────────
+
 function PlanCard({ plan, index }) {
   return (
     <motion.div
@@ -241,18 +283,20 @@ function PlanCard({ plan, index }) {
       viewport={{ once: true }}
       transition={{ delay: index * 0.06 }}
       className={`relative flex h-full flex-col rounded-[2.5rem] p-8 shadow-xl transition hover:-translate-y-1 ${
-        plan.popular ? "bg-black text-white" : "bg-white text-black"
+        plan.popular
+          ? "bg-foreground text-background"
+          : "bg-surface text-foreground"
       }`}
     >
       {plan.popular && (
-        <span className="absolute right-6 top-6 rounded-full bg-white px-3 py-1 text-xs font-bold text-black">
+        <span className="absolute right-6 top-6 rounded-full bg-background px-3 py-1 text-xs font-bold text-foreground">
           POPULAR
         </span>
       )}
 
       <p
         className={`text-sm font-semibold ${
-          plan.popular ? "text-neutral-300" : "text-neutral-500"
+          plan.popular ? "text-muted" : "text-muted"
         }`}
       >
         {plan.tag}
@@ -270,8 +314,12 @@ function PlanCard({ plan, index }) {
         </p>
       </div>
 
-      <div className="mt-5 rounded-3xl border border-black/10 bg-neutral-100 p-4 text-black">
-        <p className="text-sm font-medium text-neutral-500">
+      <div className={`mt-5 rounded-3xl border p-4 ${
+        plan.popular
+          ? "border-white/20 bg-white/10 text-background"
+          : "border-border bg-surface-dim text-foreground"
+      }`}>
+        <p className={`text-sm font-medium ${plan.popular ? "text-white/60" : "text-muted"}`}>
           Maintenance from
         </p>
 
@@ -285,7 +333,7 @@ function PlanCard({ plan, index }) {
 
             <span
               className={`text-sm leading-6 ${
-                plan.popular ? "text-neutral-200" : "text-neutral-700"
+                plan.popular ? "text-muted-light" : "text-muted"
               }`}
             >
               {feature}
@@ -300,8 +348,8 @@ function PlanCard({ plan, index }) {
         rel="noreferrer"
         className={`mt-10 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition ${
           plan.popular
-            ? "bg-white text-black hover:bg-neutral-200"
-            : "bg-black text-white hover:bg-neutral-800"
+            ? "bg-background text-foreground hover:opacity-90"
+            : "bg-foreground text-background hover:opacity-90"
         }`}
       >
         Get Started <ArrowRight className="h-4 w-4" />
@@ -311,27 +359,27 @@ function PlanCard({ plan, index }) {
 }
 
 function PricingCategory({ category }) {
-  const Icon = category.icon;
+  const Icon = ICON_MAP[category.icon] || Sparkles;
 
   return (
-    <section className="border-t border-neutral-200 py-20">
+    <section className="border-t border-border py-20">
       <div className="mb-10 grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
         <div>
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black text-white">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-foreground text-background">
             <Icon className="h-7 w-7" />
           </div>
 
-          <h2 className="mt-6 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+          <h2 className="mt-6 text-4xl font-semibold tracking-[-0.04em] text-foreground sm:text-5xl">
             {category.title}
           </h2>
 
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-neutral-600">
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted">
             {category.description}
           </p>
         </div>
 
-        <div className="rounded-[2rem] bg-white p-6 shadow-sm">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500">
+        <div className="rounded-[2rem] bg-surface p-6 shadow-sm">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted">
             Included with every package
           </p>
 
@@ -343,9 +391,9 @@ function PricingCategory({ category }) {
               "Support & improvements",
             ].map((item) => (
               <div key={item} className="flex items-center gap-3">
-                <Check className="h-5 w-5" />
+                <Check className="h-5 w-5 text-foreground" />
 
-                <span className="text-sm font-medium text-neutral-700">
+                <span className="text-sm font-medium text-muted">
                   {item}
                 </span>
               </div>
@@ -364,8 +412,35 @@ function PricingCategory({ category }) {
 }
 
 export default function Pricing({ logo, setPage }) {
+  const [categories, setCategories] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchPricing() {
+      try {
+        const res = await fetch(`${API_BASE}/api/pricing`);
+        if (!res.ok) throw new Error("API error");
+        const data = await res.json();
+        if (!cancelled && data.categories) {
+          setCategories(data.categories);
+        }
+      } catch {
+        if (!cancelled) {
+          setCategories(FALLBACK_CATEGORIES);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    fetchPricing();
+    return () => { cancelled = true; };
+  }, []);
+
+  const pricingCategories = categories || FALLBACK_CATEGORIES;
+
   return (
-    <main className="min-h-screen bg-[#f5f5f7] text-black">
+    <main className="min-h-screen bg-background text-foreground">
       <SiteNavbar logo={logo} setPage={setPage} currentPage="pricing" />
 
       <section id="pricing" className="px-6 pb-20 pt-40">
@@ -375,16 +450,16 @@ export default function Pricing({ logo, setPage }) {
             animate={{ opacity: 1, y: 0 }}
             className="mx-auto max-w-4xl text-center"
           >
-            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 shadow-sm">
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold text-muted shadow-sm">
               <Sparkles className="h-4 w-4" />
               AI pricing for real business growth
             </div>
 
-            <h1 className="mt-6 text-5xl font-semibold tracking-[-0.06em] sm:text-7xl">
+            <h1 className="mt-6 text-5xl font-semibold tracking-[-0.06em] text-foreground sm:text-7xl">
               Simple packages for powerful AI systems.
             </h1>
 
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-neutral-600">
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-muted">
               Choose a starting package for WhatsApp bots, website AI
               assistants, AI voice agents, and business automation systems.
               Every project can be customized after consultation.
@@ -395,7 +470,7 @@ export default function Pricing({ logo, setPage }) {
                 href={contactLinks.whatsapp}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-black px-7 py-4 text-sm font-semibold text-white transition hover:bg-neutral-800"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-7 py-4 text-sm font-semibold text-background transition hover:opacity-90"
               >
                 <Phone className="h-4 w-4" />
                 WhatsApp {DISPLAY_PHONE}
@@ -403,7 +478,7 @@ export default function Pricing({ logo, setPage }) {
 
               <a
                 href={contactLinks.email}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white px-7 py-4 text-sm font-semibold text-black transition hover:bg-neutral-100"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-7 py-4 text-sm font-semibold text-foreground transition hover:opacity-90"
               >
                 <Mail className="h-4 w-4" />
                 {EMAIL}
@@ -411,48 +486,54 @@ export default function Pricing({ logo, setPage }) {
             </div>
           </motion.div>
 
-          <div className="mt-20 rounded-[2.5rem] bg-black p-8 text-white shadow-2xl">
+          <div className="mt-20 rounded-[2.5rem] bg-foreground p-8 text-background shadow-2xl">
             <div className="grid gap-8 md:grid-cols-3">
               <div>
                 <p className="text-4xl font-bold">4+</p>
-                <p className="mt-2 text-sm text-neutral-300">
+                <p className="mt-2 text-sm text-muted-light">
                   AI service categories
                 </p>
               </div>
 
               <div>
                 <p className="text-4xl font-bold">24/7</p>
-                <p className="mt-2 text-sm text-neutral-300">
+                <p className="mt-2 text-sm text-muted-light">
                   Customer automation support
                 </p>
               </div>
 
               <div>
                 <p className="text-4xl font-bold">Custom</p>
-                <p className="mt-2 text-sm text-neutral-300">
+                <p className="mt-2 text-sm text-muted-light">
                   Pricing for advanced systems
                 </p>
               </div>
             </div>
           </div>
 
-          {pricingCategories.map((category) => (
-            <PricingCategory key={category.title} category={category} />
-          ))}
+          {loading ? (
+            <div className="mt-20">
+              <PricingSkeleton />
+            </div>
+          ) : (
+            pricingCategories.map((category) => (
+              <PricingCategory key={category.title} category={category} />
+            ))
+          )}
 
           <section
             id="pricing-contact"
-            className="mt-8 rounded-[3rem] bg-white p-8 text-center shadow-xl sm:p-12"
+            className="mt-8 rounded-[3rem] bg-surface p-8 text-center shadow-xl sm:p-12"
           >
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted">
               Start your AI project
             </p>
 
-            <h2 className="mx-auto mt-5 max-w-3xl text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
+            <h2 className="mx-auto mt-5 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-foreground sm:text-6xl">
               Need a custom AI system for your company?
             </h2>
 
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-neutral-600">
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-muted">
               Tell us your business type, customer flow, and the tasks you want
               to automate. We will recommend the best AI setup for your budget.
             </p>
@@ -462,7 +543,7 @@ export default function Pricing({ logo, setPage }) {
                 href={contactLinks.whatsapp}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-black px-7 py-4 text-sm font-semibold text-white transition hover:bg-neutral-800"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-7 py-4 text-sm font-semibold text-background transition hover:opacity-90"
               >
                 <Phone className="h-4 w-4" />
                 WhatsApp {DISPLAY_PHONE}
@@ -470,14 +551,14 @@ export default function Pricing({ logo, setPage }) {
 
               <a
                 href={contactLinks.email}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white px-7 py-4 text-sm font-semibold text-black transition hover:bg-neutral-100"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-7 py-4 text-sm font-semibold text-foreground transition hover:opacity-90"
               >
                 <Mail className="h-4 w-4" />
                 Email Us
               </a>
             </div>
 
-            <p className="mt-8 text-sm text-neutral-500">
+            <p className="mt-8 text-sm text-muted">
               Note: API fees, WhatsApp provider charges, hosting, and
               third-party platform costs are not included in the setup price.
             </p>

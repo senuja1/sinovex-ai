@@ -1,7 +1,94 @@
 @import "tailwindcss";
 
+/* ─── Light Mode (default) ──────────────────────────────────────────────────── */
+:root {
+  --color-background: #f5f5f7;
+  --color-background-pure: #ffffff;
+  --color-foreground: #000000;
+  --color-surface: #ffffff;
+  --color-surface-dim: #e8e8ed;
+  --color-muted: #6b7280;
+  --color-muted-light: #d1d5db;
+  --color-border: #e5e5e5;
+  --color-accent-bg: #f5f5f7;
+  --color-card-hover: #f0f0f2;
+}
+
+/* ─── Dark Mode (auto via OS preference) ────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #0a0a0f;
+    --color-background-pure: #111118;
+    --color-foreground: #f0f0f5;
+    --color-surface: #1a1a25;
+    --color-surface-dim: #15151e;
+    --color-muted: #9ca3af;
+    --color-muted-light: #6b7280;
+    --color-border: #2a2a38;
+    --color-accent-bg: #111118;
+    --color-card-hover: #22222e;
+  }
+}
+
+/* ─── Base styles ───────────────────────────────────────────────────────────── */
 body {
   margin: 0;
-  background: white;
+  background: var(--color-background);
+  color: var(--color-foreground);
   font-family: Inter, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ─── Utility classes using CSS vars ────────────────────────────────────────── */
+
+/* Backgrounds */
+.bg-background { background-color: var(--color-background) !important; }
+.bg-background-pure { background-color: var(--color-background-pure) !important; }
+.bg-surface { background-color: var(--color-surface) !important; }
+.bg-surface-dim { background-color: var(--color-surface-dim) !important; }
+.bg-foreground { background-color: var(--color-foreground) !important; }
+.bg-accent-bg { background-color: var(--color-accent-bg) !important; }
+.bg-card-hover { background-color: var(--color-card-hover) !important; }
+
+/* Text */
+.text-foreground { color: var(--color-foreground) !important; }
+.text-background { color: var(--color-background) !important; }
+.text-muted { color: var(--color-muted) !important; }
+.text-muted-light { color: var(--color-muted-light) !important; }
+
+/* Borders */
+.border-border { border-color: var(--color-border) !important; }
+
+/* Scrollbar styling for dark mode */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-background);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-muted-light);
+  }
+}
+
+/* Smooth transitions for theme changes */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+/* Opt out animations from getting the transition */
+[class*="animate-"],
+[class*="transition"],
+motion,
+svg {
+  transition-property: none;
 }

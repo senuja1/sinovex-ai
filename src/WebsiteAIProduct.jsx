@@ -61,8 +61,8 @@ const journey = [
 
 function Button({ children, onClick, href, dark = true }) {
   const className = dark
-    ? "bg-black text-white hover:bg-neutral-800"
-    : "border border-neutral-200 bg-white text-black hover:bg-neutral-100";
+    ? "bg-foreground text-background hover:opacity-90"
+    : "border border-border bg-surface text-foreground hover:opacity-90";
 
   if (href) {
     return (
@@ -173,14 +173,14 @@ function WebsiteMockup() {
 
 export default function WebsiteAIProduct({ logo, setPage }) {
   return (
-    <main className="min-h-screen bg-white text-black">
+    <main className="min-h-screen bg-surface text-foreground">
       <SiteNavbar logo={logo} setPage={setPage} currentPage="website-ai" />
 
-      <section className="relative overflow-hidden bg-[#f5f5f7] px-6 pb-24 pt-32 lg:pt-40">
+      <section className="relative overflow-hidden bg-background px-6 pb-24 pt-32 lg:pt-40">
         <div className="absolute left-1/2 top-20 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-blue-300/30 blur-3xl" />
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm font-semibold shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold shadow-sm">
               <Globe className="h-4 w-4" />
               Website AI Assistant
             </div>
@@ -189,7 +189,7 @@ export default function WebsiteAIProduct({ logo, setPage }) {
               Turn your website into a smart sales assistant.
             </h1>
 
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-neutral-600">
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-muted">
               A premium AI chat experience for your website. It explains your services, recommends the best package, answers questions, collects leads and guides visitors to WhatsApp or email.
             </p>
 
@@ -216,11 +216,11 @@ export default function WebsiteAIProduct({ logo, setPage }) {
       <section className="px-6 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.22em] text-neutral-500">Why it works</p>
+            <p className="text-sm font-bold uppercase tracking-[0.22em] text-muted">Why it works</p>
             <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
               Your best salesperson should be on every page.
             </h2>
-            <p className="mt-5 text-lg leading-8 text-neutral-600">
+            <p className="mt-5 text-lg leading-8 text-muted">
               People leave websites when they cannot find answers fast. Website AI keeps them engaged, helps them choose and turns curiosity into leads.
             </p>
           </div>
@@ -235,13 +235,13 @@ export default function WebsiteAIProduct({ logo, setPage }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
-                  className="rounded-[2rem] bg-[#f5f5f7] p-7 transition hover:-translate-y-1 hover:shadow-xl"
+                  className="rounded-[2rem] bg-background p-7 transition hover:-translate-y-1 hover:shadow-xl"
                 >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black text-white">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-foreground text-background">
                     <Icon className="h-6 w-6" />
                   </div>
                   <h3 className="mt-7 text-xl font-semibold tracking-[-0.03em]">{feature.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-neutral-600">{feature.text}</p>
+                  <p className="mt-3 text-sm leading-6 text-muted">{feature.text}</p>
                 </motion.div>
               );
             })}
@@ -282,13 +282,13 @@ export default function WebsiteAIProduct({ logo, setPage }) {
         </div>
       </section>
 
-      <section className="bg-[#f5f5f7] px-6 py-24">
-        <div className="mx-auto max-w-5xl rounded-[2.5rem] bg-white p-10 text-center shadow-sm">
+      <section className="bg-background px-6 py-24">
+        <div className="mx-auto max-w-5xl rounded-[2.5rem] bg-surface p-10 text-center shadow-sm">
           <TrendingUp className="mx-auto h-10 w-10" />
           <h2 className="mt-6 text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
             Make your website feel premium and intelligent.
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-neutral-600">
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-muted">
             Add Website AI to capture more leads from the traffic you already have.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">

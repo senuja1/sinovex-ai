@@ -61,8 +61,8 @@ const automations = [
 
 function Button({ children, onClick, href, dark = true }) {
   const className = dark
-    ? "bg-black text-white hover:bg-neutral-800"
-    : "border border-neutral-200 bg-white text-black hover:bg-neutral-100";
+    ? "bg-foreground text-background hover:opacity-90"
+    : "border border-border bg-surface text-foreground hover:opacity-90";
 
   if (href) {
     return (
@@ -159,14 +159,14 @@ function AutomationMockup() {
 
 export default function AutomationAIProduct({ logo, setPage }) {
   return (
-    <main className="min-h-screen bg-white text-black">
+    <main className="min-h-screen bg-surface text-foreground">
       <SiteNavbar logo={logo} setPage={setPage} currentPage="automation-ai" />
 
-      <section className="relative overflow-hidden bg-[#f5f5f7] px-6 pb-24 pt-32 lg:pt-40">
+      <section className="relative overflow-hidden bg-background px-6 pb-24 pt-32 lg:pt-40">
         <div className="absolute left-1/2 top-20 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-orange-300/30 blur-3xl" />
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm font-semibold shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold shadow-sm">
               <Sparkles className="h-4 w-4" />
               Business Automation
             </div>
@@ -175,7 +175,7 @@ export default function AutomationAIProduct({ logo, setPage }) {
               Automate the boring work behind your business.
             </h1>
 
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-neutral-600">
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-muted">
               Sinovex AI connects customer messages, leads, forms, CRM updates, reports and team notifications into one intelligent workflow that saves hours every week.
             </p>
 
@@ -202,11 +202,11 @@ export default function AutomationAIProduct({ logo, setPage }) {
       <section className="px-6 py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.22em] text-neutral-500">What it automates</p>
+            <p className="text-sm font-bold uppercase tracking-[0.22em] text-muted">What it automates</p>
             <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
               Less copy-paste. More control.
             </h2>
-            <p className="mt-5 text-lg leading-8 text-neutral-600">
+            <p className="mt-5 text-lg leading-8 text-muted">
               Your team should not spend the whole day moving details from one place to another. Automation handles the repetitive steps and keeps humans focused on important decisions.
             </p>
           </div>
@@ -221,13 +221,13 @@ export default function AutomationAIProduct({ logo, setPage }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
-                  className="rounded-[2rem] bg-[#f5f5f7] p-7 transition hover:-translate-y-1 hover:shadow-xl"
+                  className="rounded-[2rem] bg-background p-7 transition hover:-translate-y-1 hover:shadow-xl"
                 >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black text-white">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-foreground text-background">
                     <Icon className="h-6 w-6" />
                   </div>
                   <h3 className="mt-7 text-xl font-semibold tracking-[-0.03em]">{feature.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-neutral-600">{feature.text}</p>
+                  <p className="mt-3 text-sm leading-6 text-muted">{feature.text}</p>
                 </motion.div>
               );
             })}
@@ -270,7 +270,7 @@ export default function AutomationAIProduct({ logo, setPage }) {
         </div>
       </section>
 
-      <section className="bg-[#f5f5f7] px-6 py-24">
+      <section className="bg-background px-6 py-24">
         <div className="mx-auto grid max-w-7xl gap-5 md:grid-cols-3">
           {[
             { icon: FileCheck2, title: "Lead operations", text: "Perfect for teams handling many inquiries every day." },
@@ -279,17 +279,17 @@ export default function AutomationAIProduct({ logo, setPage }) {
           ].map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.title} className="rounded-[2rem] bg-white p-8 shadow-sm">
+              <div key={item.title} className="rounded-[2rem] bg-surface p-8 shadow-sm">
                 <Icon className="h-8 w-8" />
                 <h3 className="mt-6 text-2xl font-semibold tracking-[-0.04em]">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-neutral-600">{item.text}</p>
+                <p className="mt-3 text-sm leading-6 text-muted">{item.text}</p>
               </div>
             );
           })}
         </div>
       </section>
 
-      <section className="bg-white px-6 py-24 text-black">
+      <section className="bg-surface px-6 py-24 text-foreground">
         <div className="mx-auto max-w-5xl rounded-[2.5rem] bg-black p-10 text-center text-white shadow-2xl">
           <Zap className="mx-auto h-10 w-10 text-orange-300" />
           <h2 className="mt-6 text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
