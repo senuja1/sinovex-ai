@@ -2,24 +2,33 @@
 // App.jsx
 // ==========================
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import logo from "./assets/logo.png";
 import Pricing from "./Pricing";
+import WhatsAppDemo from "./whatsappdemo";
+import PlatformDemo from "./platformDemo";
+import SiteNavbar from "./siteNavbar";
+import WhatsAppAIProduct from "./WhatsAppAIProduct";
+import WebsiteAIProduct from "./WebsiteAIProduct";
+import VoiceAIProduct from "./VoiceAIProduct";
+import AutomationAIProduct from "./AutomationAIProduct";
+import SinexaChat from "./SinexaChat";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import {
   ArrowRight,
   Bot,
   Check,
+  Clock,
   Mail,
-  Menu,
   MessageCircle,
   Phone,
   PhoneCall,
   ShieldCheck,
   Sparkles,
+  TrendingUp,
+  Users,
   Workflow,
-  X,
   Zap,
 } from "lucide-react";
 
@@ -118,6 +127,129 @@ const previewSystems = [
   },
 ];
 
+// ─── Use Cases data ────────────────────────────────────────────────────────────
+const useCases = [
+  {
+    emoji: "🍽️",
+    industry: "Restaurants",
+    headline: "Take orders, not calls",
+    description:
+      "AI handles table reservations, takeaway orders, menu questions, and daily specials — automatically.",
+    wins: ["Booking automation", "Menu Q&A", "Order confirmations"],
+    color: "bg-orange-50",
+    accent: "text-orange-600",
+    border: "border-orange-100",
+  },
+  {
+    emoji: "✂️",
+    industry: "Salons & Spas",
+    headline: "Book while you're with clients",
+    description:
+      "Never miss a booking again. AI handles appointment slots, cancellations, and service pricing 24/7.",
+    wins: ["Slot booking", "Cancellations", "Price enquiries"],
+    color: "bg-pink-50",
+    accent: "text-pink-600",
+    border: "border-pink-100",
+  },
+  {
+    emoji: "🏥",
+    industry: "Clinics & Hospitals",
+    headline: "Patient intake on autopilot",
+    description:
+      "AI books appointments, answers common health questions, and sends reminders — so staff can focus on care.",
+    wins: ["Appointment booking", "Patient reminders", "FAQ handling"],
+    color: "bg-blue-50",
+    accent: "text-blue-600",
+    border: "border-blue-100",
+  },
+  {
+    emoji: "🏨",
+    industry: "Hotels & Guesthouses",
+    headline: "Check-ins that check themselves",
+    description:
+      "AI answers room availability, pricing, check-in details, and local recommendations instantly.",
+    wins: ["Room enquiries", "Pricing replies", "Local tips"],
+    color: "bg-amber-50",
+    accent: "text-amber-600",
+    border: "border-amber-100",
+  },
+  {
+    emoji: "🚚",
+    industry: "Delivery & Logistics",
+    headline: "Track, update, confirm — hands-free",
+    description:
+      "AI sends order updates, handles delivery queries, and confirms addresses without human input.",
+    wins: ["Order tracking", "Delivery updates", "Address confirm"],
+    color: "bg-green-50",
+    accent: "text-green-600",
+    border: "border-green-100",
+  },
+];
+
+// ─── How It Works flow steps ───────────────────────────────────────────────────
+const flowSteps = [
+  {
+    icon: MessageCircle,
+    label: "Customer message",
+    sub: "WhatsApp / Website / Call",
+    color: "bg-[#25D366]",
+  },
+  {
+    icon: Sparkles,
+    label: "AI understands",
+    sub: "Sinhala or English",
+    color: "bg-blue-500",
+  },
+  {
+    icon: Zap,
+    label: "Action taken",
+    sub: "Reply / Book / Save lead",
+    color: "bg-purple-500",
+  },
+  {
+    icon: Workflow,
+    label: "CRM updated",
+    sub: "Notifications sent",
+    color: "bg-orange-500",
+  },
+  {
+    icon: Check,
+    label: "Business notified",
+    sub: "You stay in control",
+    color: "bg-black",
+  },
+];
+
+// ─── Results stats ─────────────────────────────────────────────────────────────
+const results = [
+  {
+    icon: Clock,
+    stat: "90%",
+    label: "Faster reply time",
+    detail: "vs. manual WhatsApp replies",
+  },
+  {
+    icon: Users,
+    stat: "24/7",
+    label: "Customer support",
+    detail: "No staff needed after hours",
+  },
+  {
+    icon: TrendingUp,
+    stat: "3×",
+    label: "More leads captured",
+    detail: "Every enquiry gets a response",
+  },
+  {
+    icon: MessageCircle,
+    stat: "100%",
+    label: "Bilingual coverage",
+    detail: "Sinhala + English automation",
+  },
+];
+
+// ──────────────────────────────────────────────────────────────────────────────
+
 function Button({ children, dark = true, onClick, href, target }) {
   const styles = dark
     ? "bg-black text-white hover:bg-neutral-800"
@@ -166,132 +298,6 @@ function TypingDots() {
   );
 }
 
-function Navbar({ setPage }) {
-  const [open, setOpen] = useState(false);
-
-  const goHome = () => {
-    setPage("home");
-    setOpen(false);
-    window.history.replaceState(null, "", window.location.pathname);
-    setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 50);
-  };
-
-  const goPricing = () => {
-    setPage("pricing");
-    setOpen(false);
-  };
-
-  return (
-    <header className="fixed left-0 right-0 top-0 z-50 border-b border-neutral-200 bg-white/85 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
-        <button onClick={goHome} className="flex items-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center overflow-visible rounded-3xl bg-transparent">
-            <img
-              src={logo}
-              alt="Sinovex AI"
-              className="h-[90%] w-[90%] object-contain scale-125 drop-shadow-[0_10px_25px_rgba(0,0,0,0.35)] transition duration-300 hover:scale-150"
-            />
-          </div>
-
-          <div className="text-left">
-            <p className="text-lg font-bold tracking-tight text-neutral-950">
-              Sinovex AI
-            </p>
-            <p className="text-sm text-neutral-500">
-              AI Solutions & Automation
-            </p>
-          </div>
-        </button>
-
-        <nav className="hidden items-center gap-8 md:flex">
-          <button
-            onClick={goHome}
-            className="text-sm font-medium text-neutral-600 hover:text-black"
-          >
-            Home
-          </button>
-          <a
-            href="#services"
-            className="text-sm font-medium text-neutral-600 hover:text-black"
-          >
-            Services
-          </a>
-          <a
-            href="#process"
-            className="text-sm font-medium text-neutral-600 hover:text-black"
-          >
-            Process
-          </a>
-          <button
-            onClick={goPricing}
-            className="text-sm font-medium text-neutral-600 hover:text-black"
-          >
-            Pricing
-          </button>
-          <a
-            href="#contact"
-            className="text-sm font-medium text-neutral-600 hover:text-black"
-          >
-            Contact
-          </a>
-        </nav>
-
-        <div className="hidden md:block">
-          <Button href={contactLinks.whatsapp} target="_blank">
-            contact us
-          </Button>
-        </div>
-
-        <button className="md:hidden" onClick={() => setOpen(!open)}>
-          {open ? <X /> : <Menu />}
-        </button>
-      </div>
-
-      {open && (
-        <div className="border-t border-neutral-200 bg-white px-6 py-5 md:hidden">
-          <div className="flex flex-col gap-4">
-            <button onClick={goHome} className="text-left text-neutral-700">
-              Home
-            </button>
-            <a
-              href="#services"
-              onClick={() => setOpen(false)}
-              className="text-neutral-700"
-            >
-              Services
-            </a>
-            <a
-              href="#process"
-              onClick={() => setOpen(false)}
-              className="text-neutral-700"
-            >
-              Process
-            </a>
-            <button onClick={goPricing} className="text-left text-neutral-700">
-              Pricing
-            </button>
-            <a
-              href="#contact"
-              onClick={() => setOpen(false)}
-              className="text-neutral-700"
-            >
-              Contact
-            </a>
-            <a
-              href={contactLinks.whatsapp}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full bg-black px-5 py-3 text-center text-sm font-semibold text-white"
-            >
-              WhatsApp Us
-            </a>
-          </div>
-        </div>
-      )}
-    </header>
-  );
-}
-
 function AutoCompanyPreview() {
   const [active, setActive] = useState(0);
 
@@ -299,7 +305,6 @@ function AutoCompanyPreview() {
     const timer = setInterval(() => {
       setActive((current) => (current + 1) % previewSystems.length);
     }, 4300);
-
     return () => clearInterval(timer);
   }, []);
 
@@ -325,17 +330,14 @@ function AutoCompanyPreview() {
             >
               <MessageCircle className="h-4 w-4" />
             </motion.div>
-
             <div>
               <p className="text-xs font-bold">Sinovex AI Bot</p>
               <p className="text-[11px] text-neutral-600">WhatsApp Business</p>
             </div>
-
             <span className="ml-auto rounded-full bg-white px-2 py-1 text-[9px] font-bold text-[#128C7E]">
               online
             </span>
           </div>
-
           <div className="flex-1">
             {chats.map(([role, text], index) => (
               <motion.div
@@ -343,9 +345,7 @@ function AutoCompanyPreview() {
                 initial={{ opacity: 0, y: 10, scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ delay: index * 0.25, duration: 0.35 }}
-                className={`mt-2 flex ${
-                  role === "ai" ? "justify-end" : "justify-start"
-                }`}
+                className={`mt-2 flex ${role === "ai" ? "justify-end" : "justify-start"}`}
               >
                 <div
                   className={`max-w-[86%] rounded-2xl px-3 py-2 text-xs leading-5 shadow-sm ${
@@ -356,7 +356,6 @@ function AutoCompanyPreview() {
                 </div>
               </motion.div>
             ))}
-
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -366,7 +365,6 @@ function AutoCompanyPreview() {
               <TypingDots />
             </motion.div>
           </div>
-
           <div className="mt-3 rounded-full bg-white px-3 py-2 text-[11px] text-neutral-500">
             Type a message...
           </div>
@@ -391,22 +389,12 @@ function AutoCompanyPreview() {
                 <span className="h-2 w-2 rounded-full bg-yellow-400" />
                 <span className="h-2 w-2 rounded-full bg-green-400" />
               </div>
-
-              <p className="text-[10px] font-bold text-neutral-500">
-                businesswebsite.com
-              </p>
-
-              <span className="rounded-full bg-black px-2 py-1 text-[10px] text-white">
-                AI Chat
-              </span>
+              <p className="text-[10px] font-bold text-neutral-500">businesswebsite.com</p>
+              <span className="rounded-full bg-black px-2 py-1 text-[10px] text-white">AI Chat</span>
             </div>
-
             <div className="flex flex-1 flex-col rounded-2xl bg-white p-3 shadow-sm">
               <div className="mb-2 flex items-center justify-between">
-                <p className="text-[11px] font-semibold text-neutral-500">
-                  Website Assistant
-                </p>
-
+                <p className="text-[11px] font-semibold text-neutral-500">Website Assistant</p>
                 <motion.span
                   animate={{ opacity: [0.45, 1, 0.45] }}
                   transition={{ repeat: Infinity, duration: 1.6 }}
@@ -415,7 +403,6 @@ function AutoCompanyPreview() {
                   live
                 </motion.span>
               </div>
-
               <div className="flex-1">
                 {chats.map(([role, text], index) => (
                   <motion.div
@@ -423,9 +410,7 @@ function AutoCompanyPreview() {
                     initial={{ opacity: 0, x: role === "ai" ? 14 : -14 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.23, duration: 0.35 }}
-                    className={`mt-2 flex ${
-                      role === "ai" ? "justify-end" : "justify-start"
-                    }`}
+                    className={`mt-2 flex ${role === "ai" ? "justify-end" : "justify-start"}`}
                   >
                     <div
                       className={`max-w-[86%] rounded-2xl px-3 py-2 text-xs leading-5 ${
@@ -437,7 +422,6 @@ function AutoCompanyPreview() {
                   </motion.div>
                 ))}
               </div>
-
               <motion.div
                 animate={{ y: [0, -3, 0] }}
                 transition={{ repeat: Infinity, duration: 2 }}
@@ -469,39 +453,27 @@ function AutoCompanyPreview() {
             >
               <PhoneCall className="h-7 w-7" />
             </motion.div>
-
-            <p className="mt-3 text-xs text-neutral-400">
-              Incoming customer call
-            </p>
+            <p className="mt-3 text-xs text-neutral-400">Incoming customer call</p>
             <h3 className="mt-1 text-xl font-bold">AI Voice Agent</h3>
           </div>
-
           <div className="mt-5 flex items-end justify-center gap-2">
             {[25, 42, 62, 35, 54, 72, 38, 58, 30].map((height, index) => (
               <motion.div
                 key={index}
                 animate={{ height: [height, height + 22, height] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 0.9,
-                  delay: index * 0.07,
-                  ease: "easeInOut",
-                }}
+                transition={{ repeat: Infinity, duration: 0.9, delay: index * 0.07, ease: "easeInOut" }}
                 className="w-2 rounded-full bg-white"
                 style={{ height }}
               />
             ))}
           </div>
-
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-5 rounded-2xl bg-white/10 p-3 text-xs leading-5 text-neutral-200"
           >
-            “Hello, this is Sinovex AI assistant. I can help with bookings,
-            services, and customer support.”
+            "Hello, this is Sinovex AI assistant. I can help with bookings, services, and customer support."
           </motion.div>
-
           <div className="mt-3 grid grid-cols-3 gap-2">
             {["Listen", "Reply", "Summarize"].map((label, index) => (
               <motion.div
@@ -537,16 +509,11 @@ function AutoCompanyPreview() {
             >
               <motion.div
                 animate={{ scale: [1, 1.08, 1] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 2,
-                  delay: index * 0.2,
-                }}
+                transition={{ repeat: Infinity, duration: 2, delay: index * 0.2 }}
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white"
               >
                 <Check className="h-4 w-4" />
               </motion.div>
-
               <div>
                 <p className="text-xs font-bold">{title}</p>
                 <p className="text-[11px] text-neutral-500">{sub}</p>
@@ -554,7 +521,6 @@ function AutoCompanyPreview() {
             </motion.div>
           ))}
         </div>
-
         <div className="mt-4 overflow-hidden rounded-full bg-neutral-200">
           <motion.div
             animate={{ width: ["15%", "100%", "15%"] }}
@@ -562,7 +528,6 @@ function AutoCompanyPreview() {
             className="h-2 rounded-full bg-black"
           />
         </div>
-
         <p className="mt-3 text-center text-[11px] font-semibold text-neutral-500">
           Automation running...
         </p>
@@ -577,7 +542,6 @@ function AutoCompanyPreview() {
           <p className="text-[11px] text-neutral-400">Company Preview</p>
           <h2 className="text-lg font-semibold">See Sinovex AI in action</h2>
         </div>
-
         <motion.span
           animate={{ opacity: [0.65, 1, 0.65] }}
           transition={{ repeat: Infinity, duration: 1.8 }}
@@ -622,14 +586,8 @@ function AutoCompanyPreview() {
             <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-200">
               {item.tag}
             </p>
-
-            <h3 className="mt-2 text-xl font-semibold tracking-[-0.04em]">
-              {item.title}
-            </h3>
-
-            <p className="mt-3 text-xs leading-5 text-neutral-300">
-              {item.description}
-            </p>
+            <h3 className="mt-2 text-xl font-semibold tracking-[-0.04em]">{item.title}</h3>
+            <p className="mt-3 text-xs leading-5 text-neutral-300">{item.description}</p>
 
             <div className="mt-4 space-y-2">
               {item.points.map((point, index) => (
@@ -643,20 +601,14 @@ function AutoCompanyPreview() {
                   <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white text-black">
                     <Check className="h-3 w-3" />
                   </div>
-                  <span className="text-xs font-medium text-neutral-200">
-                    {point}
-                  </span>
+                  <span className="text-xs font-medium text-neutral-200">{point}</span>
                 </motion.div>
               ))}
             </div>
 
             <div className="mt-auto rounded-2xl border border-white/10 bg-white/5 p-3">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-400">
-                System status
-              </p>
-              <p className="mt-1 text-xs font-semibold text-white">
-                Running smoothly
-              </p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-400">System status</p>
+              <p className="mt-1 text-xs font-semibold text-white">Running smoothly</p>
             </div>
           </div>
         </motion.div>
@@ -665,7 +617,6 @@ function AutoCompanyPreview() {
       <div className="grid gap-2 p-3 sm:grid-cols-2 lg:grid-cols-4">
         {previewSystems.map((system, index) => {
           const SystemIcon = system.icon;
-
           return (
             <button
               key={system.label}
@@ -677,9 +628,7 @@ function AutoCompanyPreview() {
               }`}
             >
               <SystemIcon className="mb-1 h-4 w-4" />
-              <p className="text-[10px] font-bold leading-tight">
-                {system.label}
-              </p>
+              <p className="text-[10px] font-bold leading-tight">{system.label}</p>
             </button>
           );
         })}
@@ -688,12 +637,347 @@ function AutoCompanyPreview() {
   );
 }
 
+// ─── NEW: How It Works ─────────────────────────────────────────────────────────
+function HowItWorks() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section className="overflow-hidden bg-black px-6 py-28 text-white">
+      <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-400">
+            How It Works
+          </p>
+          <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
+            From message to action in seconds.
+          </h2>
+          <p className="mt-6 text-lg leading-8 text-neutral-400">
+            Every customer touchpoint flows through a single intelligent pipeline —
+            no missed enquiries, no manual steps.
+          </p>
+        </div>
+
+        {/* Flow diagram */}
+        <div ref={ref} className="mt-16 flex flex-col items-center gap-0 lg:flex-row lg:items-stretch lg:justify-center">
+          {flowSteps.map((step, index) => {
+            const Icon = step.icon;
+            const isLast = index === flowSteps.length - 1;
+
+            return (
+              <div key={step.label} className="flex flex-col items-center lg:flex-row lg:items-center">
+                {/* Step card */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                  animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                  transition={{ duration: 0.55, delay: index * 0.14, ease: "easeOut" }}
+                  className="group relative flex w-44 flex-col items-center rounded-[1.5rem] border border-white/10 bg-white/5 p-6 text-center backdrop-blur-md transition hover:border-white/30 hover:bg-white/10"
+                >
+                  {/* Step number */}
+                  <span className="mb-3 text-[10px] font-bold uppercase tracking-[0.25em] text-neutral-500">
+                    Step {index + 1}
+                  </span>
+
+                  {/* Icon circle */}
+                  <motion.div
+                    animate={inView ? { scale: [1, 1.1, 1] } : {}}
+                    transition={{ repeat: Infinity, duration: 2.2, delay: index * 0.3 }}
+                    className={`flex h-12 w-12 items-center justify-center rounded-full ${step.color} text-white shadow-lg`}
+                  >
+                    <Icon className="h-5 w-5" />
+                  </motion.div>
+
+                  <p className="mt-4 text-sm font-semibold leading-tight">{step.label}</p>
+                  <p className="mt-1.5 text-[11px] leading-4 text-neutral-400">{step.sub}</p>
+
+                  {/* Animated pulse dot */}
+                  <motion.div
+                    animate={inView ? { opacity: [0, 1, 0], scale: [0.5, 1.4, 0.5] } : {}}
+                    transition={{ repeat: Infinity, duration: 2, delay: index * 0.4 }}
+                    className="absolute -top-1.5 -right-1.5 h-3 w-3 rounded-full bg-white"
+                  />
+                </motion.div>
+
+                {/* Connector arrow */}
+                {!isLast && (
+                  <div className="flex flex-col items-center lg:flex-row">
+                    {/* Vertical connector (mobile) */}
+                    <div className="flex flex-col items-center lg:hidden">
+                      <motion.div
+                        initial={{ scaleY: 0 }}
+                        animate={inView ? { scaleY: 1 } : {}}
+                        transition={{ duration: 0.4, delay: index * 0.14 + 0.3 }}
+                        style={{ transformOrigin: "top" }}
+                        className="h-8 w-0.5 bg-gradient-to-b from-white/30 to-white/5"
+                      />
+                      <motion.div
+                        animate={inView ? { y: [0, 4, 0] } : {}}
+                        transition={{ repeat: Infinity, duration: 1.4, delay: index * 0.2 }}
+                        className="text-neutral-500"
+                      >
+                        ↓
+                      </motion.div>
+                      <div className="h-8 w-0.5 bg-gradient-to-b from-white/5 to-white/30" />
+                    </div>
+
+                    {/* Horizontal connector (desktop) */}
+                    <div className="hidden lg:flex lg:items-center">
+                      <motion.div
+                        initial={{ scaleX: 0 }}
+                        animate={inView ? { scaleX: 1 } : {}}
+                        transition={{ duration: 0.4, delay: index * 0.14 + 0.3 }}
+                        style={{ transformOrigin: "left" }}
+                        className="h-0.5 w-6 bg-gradient-to-r from-white/30 to-white/5"
+                      />
+                      <motion.div
+                        animate={inView ? { x: [0, 3, 0] } : {}}
+                        transition={{ repeat: Infinity, duration: 1.4, delay: index * 0.2 }}
+                        className="text-xs text-neutral-500"
+                      >
+                        →
+                      </motion.div>
+                      <motion.div
+                        initial={{ scaleX: 0 }}
+                        animate={inView ? { scaleX: 1 } : {}}
+                        transition={{ duration: 0.4, delay: index * 0.14 + 0.3 }}
+                        style={{ transformOrigin: "right" }}
+                        className="h-0.5 w-6 bg-gradient-to-r from-white/5 to-white/30"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Bottom callout */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="mx-auto mt-14 max-w-2xl rounded-[2rem] border border-white/10 bg-white/5 p-8 text-center backdrop-blur-md"
+        >
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-400">
+            End result
+          </p>
+          <p className="mt-3 text-xl font-semibold tracking-[-0.03em]">
+            Your business runs smarter — even while you sleep.
+          </p>
+          <p className="mt-3 text-sm leading-6 text-neutral-400">
+            AI handles the repetitive work. You focus on what matters.
+          </p>
+          <div className="mt-6">
+            <Button href={contactLinks.whatsapp} target="_blank">
+              See it live <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ─── NEW: Use Cases ────────────────────────────────────────────────────────────
+function UseCases() {
+  const [active, setActive] = useState(0);
+  const activeCase = useCases[active];
+
+  return (
+    <section className="bg-[#f5f5f7] px-6 py-28">
+      <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
+            Industries
+          </p>
+          <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
+            Built for businesses like yours.
+          </h2>
+          <p className="mt-6 text-lg leading-8 text-neutral-600">
+            People buy faster when they see themselves. Here's how Sinovex AI
+            works inside real industries every day.
+          </p>
+        </div>
+
+        {/* Industry tab pills */}
+        <div className="mt-12 flex flex-wrap justify-center gap-3">
+          {useCases.map((uc, index) => (
+            <button
+              key={uc.industry}
+              onClick={() => setActive(index)}
+              className={`flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
+                active === index
+                  ? "border-black bg-black text-white shadow-lg"
+                  : "border-neutral-200 bg-white text-neutral-700 hover:border-neutral-400"
+              }`}
+            >
+              <span>{uc.emoji}</span>
+              {uc.industry}
+            </button>
+          ))}
+        </div>
+
+        {/* Active case detail */}
+        <motion.div
+          key={activeCase.industry}
+          initial={{ opacity: 0, y: 20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="mt-10 grid gap-6 lg:grid-cols-[1.4fr_1fr]"
+        >
+          {/* Main card */}
+          <div className={`rounded-[2rem] border ${activeCase.border} ${activeCase.color} p-10`}>
+            <span className="text-5xl">{activeCase.emoji}</span>
+            <p className={`mt-4 text-sm font-bold uppercase tracking-[0.2em] ${activeCase.accent}`}>
+              {activeCase.industry}
+            </p>
+            <h3 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-black sm:text-4xl">
+              {activeCase.headline}
+            </h3>
+            <p className="mt-5 text-base leading-7 text-neutral-600">{activeCase.description}</p>
+
+            <div className="mt-8 space-y-3">
+              {activeCase.wins.map((win, i) => (
+                <motion.div
+                  key={win}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="flex items-center gap-3"
+                >
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-black text-white">
+                    <Check className="h-3.5 w-3.5" />
+                  </div>
+                  <span className="text-sm font-semibold text-neutral-800">{win}</span>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="mt-10">
+              <Button href={contactLinks.whatsapp} target="_blank">
+                Talk to us about {activeCase.industry} <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Side panel — all industries */}
+          <div className="flex flex-col gap-3">
+            {useCases.map((uc, index) => (
+              <button
+                key={uc.industry}
+                onClick={() => setActive(index)}
+                className={`rounded-[1.5rem] border p-5 text-left transition ${
+                  active === index
+                    ? `${uc.border} ${uc.color} shadow-md`
+                    : "border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">{uc.emoji}</span>
+                  <div>
+                    <p className="text-sm font-semibold text-black">{uc.industry}</p>
+                    <p className="text-xs text-neutral-500">{uc.headline}</p>
+                  </div>
+                  {active === index && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="ml-auto flex h-6 w-6 items-center justify-center rounded-full bg-black text-white"
+                    >
+                      <Check className="h-3 w-3" />
+                    </motion.div>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ─── NEW: Results ──────────────────────────────────────────────────────────────
+function Results() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  return (
+    <section className="bg-white px-6 py-28">
+      <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
+            Results
+          </p>
+          <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
+            What changes when AI runs your business.
+          </h2>
+          <p className="mt-6 text-lg leading-8 text-neutral-600">
+            Real outcomes. Not just features.
+          </p>
+        </div>
+
+        <div ref={ref} className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {results.map((result, index) => {
+            const Icon = result.icon;
+            return (
+              <motion.div
+                key={result.label}
+                initial={{ opacity: 0, y: 24 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.55, delay: index * 0.1, ease: "easeOut" }}
+                className="group rounded-[2rem] bg-black p-8 text-white transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/20"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-white transition group-hover:bg-white group-hover:text-black">
+                  <Icon className="h-6 w-6" />
+                </div>
+
+                <motion.p
+                  initial={{ opacity: 0, scale: 0.6 }}
+                  animate={inView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ duration: 0.5, delay: index * 0.1 + 0.25, ease: "backOut" }}
+                  className="mt-6 text-5xl font-bold tracking-[-0.06em]"
+                >
+                  {result.stat}
+                </motion.p>
+
+                <p className="mt-3 text-base font-semibold">{result.label}</p>
+                <p className="mt-2 text-sm leading-5 text-neutral-400">{result.detail}</p>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Divider quote */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.6 }}
+          className="mx-auto mt-16 max-w-3xl rounded-[2rem] border border-neutral-200 bg-[#f5f5f7] p-10 text-center"
+        >
+          <p className="text-xl font-semibold leading-8 tracking-[-0.03em] text-black">
+            "Never miss a lead again. Never lose a booking. Never leave a customer
+            waiting." — That's what Sinovex AI makes possible.
+          </p>
+          <div className="mt-8 flex justify-center gap-4">
+            <Button href={contactLinks.whatsapp} target="_blank">
+              Get started <ArrowRight className="h-4 w-4" />
+            </Button>
+            <Button dark={false} href={contactLinks.email}>
+              Email us
+            </Button>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Existing sections (unchanged) ────────────────────────────────────────────
+
 function Hero({ setPage }) {
   return (
-    <section
-      id="home"
-      className="relative overflow-hidden bg-[#f5f5f7] px-6 pt-24 text-black"
-    >
+    <section id="home" className="relative overflow-hidden bg-[#f5f5f7] px-6 pt-24 text-black">
       <div className="absolute left-1/2 top-24 h-96 w-96 -translate-x-1/2 rounded-full bg-blue-200/40 blur-3xl" />
       <div className="absolute right-10 top-72 h-80 w-80 rounded-full bg-purple-200/30 blur-3xl" />
 
@@ -713,27 +997,21 @@ function Hero({ setPage }) {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-7 text-neutral-600">
-            Sinovex AI builds premium AI WhatsApp bots, website AI assistants,
-            AI voice systems, and business automations for companies that want
-            to save time, reply faster, and grow smarter.
+            Sinovex AI builds premium AI WhatsApp bots, website AI assistants, AI voice systems,
+            and business automations for companies that want to save time, reply faster, and grow smarter.
           </p>
 
           <div className="mt-7 flex flex-col gap-4 sm:flex-row">
             <Button href={contactLinks.whatsapp} target="_blank">
               Start on WhatsApp <ArrowRight className="h-4 w-4" />
             </Button>
-
             <Button dark={false} onClick={() => setPage("pricing")}>
               View Pricing
             </Button>
           </div>
 
           <div className="mt-7 grid max-w-xl gap-3 sm:grid-cols-3">
-            {[
-              "Sinhala + English AI",
-              "Business-ready systems",
-              "Custom automation",
-            ].map((item) => (
+            {["Sinhala + English AI", "Business-ready systems", "Custom automation"].map((item) => (
               <div
                 key={item}
                 className="rounded-2xl border border-neutral-200 bg-white p-3 text-sm font-semibold text-neutral-700 shadow-sm"
@@ -763,24 +1041,19 @@ function Services() {
     <section id="services" className="bg-white px-6 py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
-            Services
-          </p>
-
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">Services</p>
           <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
             Business-ready AI systems for real companies.
           </h2>
-
           <p className="mt-6 text-lg leading-8 text-neutral-600">
-            We design AI tools that help businesses reply faster, reduce manual
-            work, capture more leads, and deliver better customer experiences.
+            We design AI tools that help businesses reply faster, reduce manual work, capture more
+            leads, and deliver better customer experiences.
           </p>
         </div>
 
         <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {services.map((service, index) => {
             const Icon = service.icon;
-
             return (
               <motion.div
                 key={service.title}
@@ -793,20 +1066,13 @@ function Services() {
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black text-white">
                   <Icon className="h-7 w-7" />
                 </div>
-
                 <h3 className="mt-8 text-xl font-semibold">{service.title}</h3>
-
-                <p className="mt-4 text-sm leading-6 text-neutral-600">
-                  {service.text}
-                </p>
-
+                <p className="mt-4 text-sm leading-6 text-neutral-600">{service.text}</p>
                 <div className="mt-6 space-y-3">
                   {service.points.map((point) => (
                     <div key={point} className="flex items-center gap-2">
                       <Check className="h-4 w-4" />
-                      <span className="text-sm font-medium text-neutral-700">
-                        {point}
-                      </span>
+                      <span className="text-sm font-medium text-neutral-700">{point}</span>
                     </div>
                   ))}
                 </div>
@@ -831,22 +1097,17 @@ function WhyChoose() {
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
             Why Sinovex AI
           </p>
-
           <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
             Not just chatbots. Complete AI business systems.
           </h2>
-
           <p className="mt-6 text-lg leading-8 text-neutral-600">
-            We focus on practical AI systems that connect with your real
-            business process: customer messages, bookings, orders, calls,
-            reports, follow-ups, and internal workflows.
+            We focus on practical AI systems that connect with your real business process: customer
+            messages, bookings, orders, calls, reports, follow-ups, and internal workflows.
           </p>
-
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Button href={contactLinks.whatsapp} target="_blank">
               Talk to Us <ArrowRight className="h-4 w-4" />
             </Button>
-
             <Button dark={false} href={contactLinks.email}>
               Email Us
             </Button>
@@ -855,39 +1116,17 @@ function WhyChoose() {
 
         <div className="grid gap-5 sm:grid-cols-2">
           {[
-            {
-              icon: ShieldCheck,
-              title: "Professional setup",
-              text: "Clean, branded, and business-ready systems.",
-            },
-            {
-              icon: MessageCircle,
-              title: "Local language support",
-              text: "Sinhala and English customer communication.",
-            },
-            {
-              icon: Workflow,
-              title: "Workflow automation",
-              text: "Connect AI with your real business tasks.",
-            },
-            {
-              icon: Zap,
-              title: "Fast launch",
-              text: "Start small, then scale with advanced features.",
-            },
+            { icon: ShieldCheck, title: "Professional setup", text: "Clean, branded, and business-ready systems." },
+            { icon: MessageCircle, title: "Local language support", text: "Sinhala and English customer communication." },
+            { icon: Workflow, title: "Workflow automation", text: "Connect AI with your real business tasks." },
+            { icon: Zap, title: "Fast launch", text: "Start small, then scale with advanced features." },
           ].map((item) => {
             const Icon = item.icon;
-
             return (
-              <div
-                key={item.title}
-                className="rounded-[2rem] bg-white p-7 shadow-sm"
-              >
+              <div key={item.title} className="rounded-[2rem] bg-white p-7 shadow-sm">
                 <Icon className="h-7 w-7" />
                 <h3 className="mt-6 text-xl font-semibold">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-neutral-600">
-                  {item.text}
-                </p>
+                <p className="mt-3 text-sm leading-6 text-neutral-600">{item.text}</p>
               </div>
             );
           })}
@@ -902,17 +1141,13 @@ function Process() {
     <section id="process" className="bg-white px-6 py-28">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">
-            Process
-          </p>
-
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-500">Process</p>
           <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
             From idea to working AI system.
           </h2>
-
           <p className="mt-6 text-lg leading-8 text-neutral-600">
-            We build in clear steps, so your AI system is not random. It is
-            planned, tested, launched, and improved.
+            We build in clear steps, so your AI system is not random. It is planned, tested,
+            launched, and improved.
           </p>
         </div>
 
@@ -927,9 +1162,7 @@ function Process() {
               className="rounded-[2rem] border border-neutral-200 bg-white p-7 shadow-sm"
             >
               <h3 className="text-2xl font-semibold">{step.title}</h3>
-              <p className="mt-5 text-sm leading-6 text-neutral-600">
-                {step.text}
-              </p>
+              <p className="mt-5 text-sm leading-6 text-neutral-600">{step.text}</p>
             </motion.div>
           ))}
         </div>
@@ -942,17 +1175,13 @@ function Contact({ setPage }) {
   return (
     <section id="contact" className="bg-black px-6 py-28 text-white">
       <div className="mx-auto max-w-6xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-400">
-          Contact
-        </p>
-
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-400">Contact</p>
         <h2 className="mx-auto mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
           Build your next AI system with Sinovex AI.
         </h2>
-
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-neutral-300">
-          Tell us what your business does and what you want to automate. We’ll
-          help you choose the right AI system and package.
+          Tell us what your business does and what you want to automate. We'll help you choose
+          the right AI system and package.
         </p>
 
         <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
@@ -965,7 +1194,6 @@ function Contact({ setPage }) {
             <Phone className="h-4 w-4" />
             WhatsApp {DISPLAY_PHONE}
           </a>
-
           <a
             href={contactLinks.email}
             className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-7 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
@@ -973,7 +1201,6 @@ function Contact({ setPage }) {
             <Mail className="h-4 w-4" />
             {EMAIL}
           </a>
-
           <button
             onClick={() => setPage("pricing")}
             className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-7 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
@@ -985,17 +1212,9 @@ function Contact({ setPage }) {
 
         <div className="mt-14 grid gap-5 text-left md:grid-cols-3">
           {[
-            {
-              title: "WhatsApp",
-              value: DISPLAY_PHONE,
-              href: contactLinks.whatsapp,
-            },
+            { title: "WhatsApp", value: DISPLAY_PHONE, href: contactLinks.whatsapp },
             { title: "Email", value: EMAIL, href: contactLinks.email },
-            {
-              title: "Services",
-              value: "AI bots, voice agents, automations",
-              href: "#services",
-            },
+            { title: "Services", value: "AI bots, voice agents, automations", href: "#services" },
           ].map((item) => (
             <a
               key={item.title}
@@ -1014,19 +1233,30 @@ function Contact({ setPage }) {
   );
 }
 
+// ─── Root ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [page, setPage] = useState("home");
 
-  if (page === "pricing") {
-    return <Pricing logo={logo} setPage={setPage} />;
-  }
+  if (page === "sinexa-chat") return <SinexaChat logo={logo} setPage={setPage} />;
+  if (page === "pricing") return <Pricing logo={logo} setPage={setPage} />;
+  if (page === "whatsapp-ai") return <WhatsAppAIProduct logo={logo} setPage={setPage} />;
+  if (page === "website-ai") return <WebsiteAIProduct logo={logo} setPage={setPage} />;
+  if (page === "voice-ai") return <VoiceAIProduct logo={logo} setPage={setPage} />;
+  if (page === "automation-ai") return <AutomationAIProduct logo={logo} setPage={setPage} />;
+  if (page === "whatsapp-demo") return <WhatsAppDemo logo={logo} setPage={setPage} />;
+  if (page === "website-demo") return <PlatformDemo platform="website" logo={logo} setPage={setPage} />;
+  if (page === "voice-demo") return <PlatformDemo platform="voice" logo={logo} setPage={setPage} />;
+  if (page === "automation-demo") return <PlatformDemo platform="automation" logo={logo} setPage={setPage} />;
 
   return (
     <main className="min-h-screen bg-white font-sans">
-      <Navbar setPage={setPage} />
+      <SiteNavbar logo={logo} setPage={setPage} currentPage="home" />
       <Hero setPage={setPage} />
       <Services />
+      <HowItWorks />
+      <UseCases />
       <WhyChoose />
+      <Results />
       <Process />
       <Contact setPage={setPage} />
     </main>

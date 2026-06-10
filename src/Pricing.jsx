@@ -2,21 +2,19 @@
 // Pricing.jsx
 // ==========================
 
-import React, { useState } from "react";
 import {
   ArrowRight,
   Bot,
   Check,
   Mail,
-  Menu,
   MessageCircle,
   Phone,
   PhoneCall,
   Sparkles,
   Workflow,
-  X,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import SiteNavbar from "./siteNavbar";
 
 const WHATSAPP_NUMBER = "94706857171";
 const DISPLAY_PHONE = "070 6857171";
@@ -27,177 +25,6 @@ const contactLinks = {
   email: `mailto:${EMAIL}`,
   phone: `tel:${DISPLAY_PHONE.replace(/\s/g, "")}`,
 };
-
-function Button({ children, dark = true, onClick, href, target }) {
-  const styles = dark
-    ? "bg-black text-white hover:bg-neutral-800"
-    : "bg-white text-black border border-neutral-200 hover:bg-neutral-100";
-
-  if (href) {
-    return (
-      <a
-        href={href}
-        target={target}
-        rel={target === "_blank" ? "noreferrer" : undefined}
-        className={`inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition ${styles}`}
-      >
-        {children}
-      </a>
-    );
-  }
-
-  return (
-    <button
-      onClick={onClick}
-      className={`inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition ${styles}`}
-    >
-      {children}
-    </button>
-  );
-}
-
-function PricingNavbar({ logo, setPage }) {
-  const [open, setOpen] = useState(false);
-
-  const goHome = () => {
-    setPage("home");
-    setOpen(false);
-  };
-
-  const goPricing = () => {
-    setPage("pricing");
-    setOpen(false);
-  };
-
-  const goHomeAndScroll = (sectionId) => {
-    setPage("home");
-    setOpen(false);
-
-    setTimeout(() => {
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 80);
-  };
-
-  return (
-    <header className="fixed left-0 right-0 top-0 z-50 border-b border-neutral-200 bg-white/85 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <button onClick={goHome} className="flex items-center gap-5">
-          <div className="flex h-20 w-20 items-center justify-center overflow-visible rounded-3xl bg-transparent">
-            <img
-              src={logo}
-              alt="Sinovex AI"
-              className="h-[90%] w-[90%] object-contain scale-125 drop-shadow-[0_10px_25px_rgba(0,0,0,0.35)] transition duration-300 hover:scale-150"
-            />
-          </div>
-
-          <div className="text-left">
-            <p className="text-xl font-bold tracking-tight text-neutral-950">
-              Sinovex AI
-            </p>
-
-            <p className="text-sm text-neutral-500">
-              AI Solutions & Automation
-            </p>
-          </div>
-        </button>
-
-        <nav className="hidden items-center gap-8 md:flex">
-          <button
-            onClick={goHome}
-            className="text-sm font-medium text-neutral-600 hover:text-black"
-          >
-            Home
-          </button>
-
-          <button
-            onClick={() => goHomeAndScroll("services")}
-            className="text-sm font-medium text-neutral-600 hover:text-black"
-          >
-            Services
-          </button>
-
-          <button
-            onClick={() => goHomeAndScroll("process")}
-            className="text-sm font-medium text-neutral-600 hover:text-black"
-          >
-            Process
-          </button>
-
-          <button
-            onClick={goPricing}
-            className="text-sm font-semibold text-black"
-          >
-            Pricing
-          </button>
-
-          <button
-            onClick={() => goHomeAndScroll("contact")}
-            className="text-sm font-medium text-neutral-600 hover:text-black"
-          >
-            Contact
-          </button>
-        </nav>
-
-        <div className="hidden md:block">
-          <Button href={contactLinks.whatsapp} target="_blank">
-            contact us
-          </Button>
-        </div>
-
-        <button className="md:hidden" onClick={() => setOpen(!open)}>
-          {open ? <X /> : <Menu />}
-        </button>
-      </div>
-
-      {open && (
-        <div className="border-t border-neutral-200 bg-white px-6 py-5 md:hidden">
-          <div className="flex flex-col gap-4">
-            <button onClick={goHome} className="text-left text-neutral-700">
-              Home
-            </button>
-
-            <button
-              onClick={() => goHomeAndScroll("services")}
-              className="text-left text-neutral-700"
-            >
-              Services
-            </button>
-
-            <button
-              onClick={() => goHomeAndScroll("process")}
-              className="text-left text-neutral-700"
-            >
-              Process
-            </button>
-
-            <button onClick={goPricing} className="text-left font-semibold text-black">
-              Pricing
-            </button>
-
-            <button
-              onClick={() => goHomeAndScroll("contact")}
-              className="text-left text-neutral-700"
-            >
-              Contact
-            </button>
-
-            <a
-              href={contactLinks.whatsapp}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full bg-black px-5 py-3 text-center text-sm font-semibold text-white"
-            >
-              WhatsApp Us
-            </a>
-          </div>
-        </div>
-      )}
-    </header>
-  );
-}
 
 const pricingCategories = [
   {
@@ -539,7 +366,7 @@ function PricingCategory({ category }) {
 export default function Pricing({ logo, setPage }) {
   return (
     <main className="min-h-screen bg-[#f5f5f7] text-black">
-      <PricingNavbar logo={logo} setPage={setPage} />
+      <SiteNavbar logo={logo} setPage={setPage} currentPage="pricing" />
 
       <section id="pricing" className="px-6 pb-20 pt-40">
         <div className="mx-auto max-w-7xl">
