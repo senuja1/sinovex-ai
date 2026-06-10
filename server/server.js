@@ -275,7 +275,7 @@ Reply now with your full intelligence.
 `;
 }
 
-async function callAI(prompt, demoType) {
+async function callAI(prompt, demoType, intelligenceLevel = "smart") {
   let apiKey = process.env.OPENROUTER_API_KEY;
 
   if (demoType === "whatsapp") {
@@ -286,13 +286,51 @@ async function callAI(prompt, demoType) {
     throw new Error("OPENROUTER_API_KEY missing");
   }
 
-  const models = [
-    process.env.OPENROUTER_MODEL || "google/gemini-2.5-flash:free",
-    "deepseek/deepseek-chat:free",
-    "meta-llama/llama-3.3-70b-instruct:free",
-    "qwen/qwen-2.5-72b-instruct:free",
-    "deepseek/deepseek-r1:free",
-  ];
+  let models = [];
+  let temperature = 0.7;
+  let max_tokens = 4000;
+
+  if (demoType === "whatsapp") {
+    models = [
+      "google/gemini-2.5-flash:free",
+      "deepseek/deepseek-chat:free",
+    ];
+    temperature = 0.65;
+    max_tokens = 500;
+  } else {
+    // demoType === "sinexa" or fallback general-purpose chat
+    if (intelligenceLevel === "fast") {
+      models = [
+        "google/gemini-2.5-flash:free",
+        "deepseek/deepseek-chat:free",
+      ];
+      temperature = 0.5;
+      max_tokens = 2000;
+    } else if (intelligenceLevel === "genius") {
+      models = [
+        "deepseek/deepseek-r1:free",
+        "qwen/qwen-2.5-72b-instruct:free",
+        "meta-llama/llama-3.3-70b-instruct:free",
+      ];
+      temperature = 0.8;
+      max_tokens = 8000;
+    } else {
+      // default: "smart"
+      models = [
+        "deepseek/deepseek-chat:free",
+        "qwen/qwen-2.5-72b-instruct:free",
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "google/gemini-2.5-flash:free",
+      ];
+      temperature = 0.7;
+      max_tokens = 4000;
+    }
+  }
+
+  // Allow overriding first model via env variable if present
+  if (process.env.OPENROUTER_MODEL) {
+    models.unshift(process.env.OPENROUTER_MODEL);
+  }
 
   let lastError = "";
 
@@ -312,7 +350,9 @@ async function callAI(prompt, demoType) {
             {
               role: "system",
               content: demoType === "sinexa"
-                ? "You are Sinexa AI, a highly advanced super-intelligent general-purpose AI assistant with exceptional coding, math, reasoning, and multilingual capabilities. You are NOT a business assistant. Help the user with anything they ask."
+                ? (intelligenceLevel === "genius"
+                    ? "You are Sinexa AI, a highly advanced super-intelligent general-purpose AI assistant in Genius Mode. You have maximum reasoning capabilities, exceptional coding expertise, and mathematical mastery. Show step-by-step thinking or analysis where helpful, and write production-grade optimized code."
+                    : "You are Sinexa AI, a highly advanced super-intelligent general-purpose AI assistant with exceptional coding, math, reasoning, and multilingual capabilities. You are NOT a business assistant. Help the user with anything they ask.")
                 : "You are a helpful human-like WhatsApp business assistant.",
             },
             {
@@ -320,8 +360,8 @@ async function callAI(prompt, demoType) {
               content: prompt,
             },
           ],
-          temperature: demoType === "sinexa" ? 0.7 : 0.65,
-          max_tokens: demoType === "sinexa" ? 4000 : 500,
+          temperature,
+          max_tokens,
         }),
       });
 
@@ -336,7 +376,7 @@ async function callAI(prompt, demoType) {
       const text = data?.choices?.[0]?.message?.content?.trim();
 
       if (text) {
-        console.log(`REAL AI USED: ${model}`);
+        console.log(`REAL AI USED: ${model} (Level: ${intelligenceLevel})`);
         return text;
       }
     } catch (error) {
@@ -355,6 +395,7 @@ async function handleDemoRequest(req, res) {
     history = [],
     chatHistory = [],
     demoType,
+    intelligenceLevel = "smart",
   } = req.body || {};
 
   if (!message) {
@@ -407,7 +448,7 @@ async function handleDemoRequest(req, res) {
       crawledContext,
     });
 
-    const reply = await callAI(prompt, demoType);
+    const reply = await callAI(prompt, demoType, intelligenceLevel);
 
     return res.json({
       reply,

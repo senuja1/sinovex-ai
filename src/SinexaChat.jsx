@@ -9,7 +9,9 @@ import {
   ArrowLeft,
   ArrowUp,
   Bot,
+  Brain,
   CheckCheck,
+  ChevronDown,
   Copy,
   Mic,
   MicOff,
@@ -22,6 +24,7 @@ import {
   ThumbsUp,
   Trash2,
   X,
+  Zap,
 } from "lucide-react";
 import SiteNavbar from "./siteNavbar";
 
@@ -43,6 +46,39 @@ const QUICK_PROMPTS = [
 ];
 
 const BUSINESS_CONTEXT = `You are Sinexa AI, a highly advanced, super-intelligent general-purpose AI assistant. You possess exceptional logical reasoning, mathematical solving, and top-tier coding capabilities.`;
+
+const INTELLIGENCE_LEVELS = [
+  {
+    id: "fast",
+    label: "Fast",
+    icon: "⚡",
+    description: "Quick responses, lightweight model",
+    color: "from-cyan-500 to-blue-500",
+    textColor: "text-cyan-400",
+    bgColor: "bg-cyan-500/10",
+    borderColor: "border-cyan-500/30",
+  },
+  {
+    id: "smart",
+    label: "Smart",
+    icon: "🧠",
+    description: "Balanced speed & intelligence",
+    color: "from-violet-500 to-fuchsia-500",
+    textColor: "text-violet-400",
+    bgColor: "bg-violet-500/10",
+    borderColor: "border-violet-500/30",
+  },
+  {
+    id: "genius",
+    label: "Genius",
+    icon: "🔮",
+    description: "Maximum reasoning power",
+    color: "from-amber-500 to-orange-500",
+    textColor: "text-amber-400",
+    bgColor: "bg-amber-500/10",
+    borderColor: "border-amber-500/30",
+  },
+];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -305,6 +341,8 @@ export default function SinexaChat({ logo, setPage }) {
   const [typing, setTyping] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [listening, setListening] = useState(false);
+  const [intelligenceLevel, setIntelligenceLevel] = useState("smart");
+  const [showLevelPicker, setShowLevelPicker] = useState(false);
 
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -367,6 +405,7 @@ export default function SinexaChat({ logo, setPage }) {
           demoType: "sinexa",
           message: text,
           businessInfo: BUSINESS_CONTEXT,
+          intelligenceLevel,
           history: currentMessages.slice(-12).map((m) => ({
             role: m.role,
             text: m.text,
@@ -532,7 +571,7 @@ export default function SinexaChat({ logo, setPage }) {
             </button>
           </div>
 
-          {/* Brand */}
+          {/* Brand + Intelligence Level */}
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-fuchsia-500 shadow-lg shadow-violet-500/40">
               <Sparkles className="h-4 w-4 text-white" />
@@ -541,13 +580,69 @@ export default function SinexaChat({ logo, setPage }) {
               <p className="text-sm font-bold text-white leading-none">Sinexa</p>
               <p className="text-[10px] text-violet-400 leading-none mt-0.5">by SinovexAI</p>
             </div>
-            <motion.span
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="ml-1 rounded-full bg-green-500/20 px-2 py-0.5 text-[10px] font-bold text-green-400"
-            >
-              Online
-            </motion.span>
+
+            {/* Intelligence Level Selector */}
+            <div className="relative ml-1">
+              <button
+                onClick={() => setShowLevelPicker((v) => !v)}
+                className={`flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-bold transition hover:bg-white/10 ${
+                  INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.borderColor || "border-white/10"
+                } ${
+                  INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.bgColor || "bg-white/5"
+                }`}
+              >
+                <span>{INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.icon}</span>
+                <span className={INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.textColor || "text-white/60"}>
+                  {INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.label}
+                </span>
+                <ChevronDown className={`h-3 w-3 transition ${showLevelPicker ? "rotate-180" : ""} ${
+                  INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.textColor || "text-white/40"
+                }`} />
+              </button>
+
+              <AnimatePresence>
+                {showLevelPicker && (
+                  <>
+                    <div className="fixed inset-0 z-[1200]" onClick={() => setShowLevelPicker(false)} />
+                    <motion.div
+                      initial={{ opacity: 0, y: -6, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -6, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute left-1/2 top-full z-[1201] mt-2 w-56 -translate-x-1/2 rounded-2xl border border-white/10 p-1.5 shadow-2xl"
+                      style={{ background: "rgba(15,12,30,0.97)", backdropFilter: "blur(24px)" }}
+                    >
+                      <p className="px-2.5 pb-1.5 pt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/30">
+                        Intelligence Level
+                      </p>
+                      {INTELLIGENCE_LEVELS.map((level) => (
+                        <button
+                          key={level.id}
+                          onClick={() => { setIntelligenceLevel(level.id); setShowLevelPicker(false); }}
+                          className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition ${
+                            intelligenceLevel === level.id
+                              ? `${level.bgColor} ${level.textColor}`
+                              : "text-white/60 hover:bg-white/6 hover:text-white"
+                          }`}
+                        >
+                          <span className="text-lg">{level.icon}</span>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-xs font-bold">{level.label}</p>
+                            <p className="text-[10px] text-white/35">{level.description}</p>
+                          </div>
+                          {intelligenceLevel === level.id && (
+                            <motion.div
+                              layoutId="level-check"
+                              className={`h-2 w-2 rounded-full bg-gradient-to-br ${level.color}`}
+                            />
+                          )}
+                        </button>
+                      ))}
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* Actions */}
