@@ -1,4 +1,4 @@
-# Sinovex AI 🚀
+# Sinovex AI 
 ### Modern Multi-Channel AI Agent & Business Automation System
 
 [![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
@@ -10,34 +10,34 @@ Sinovex AI is a premium, industry-grade AI automation platform designed to strea
 
 ---
 
-## 🌟 Core Modules & Features
+##  Core Modules & Features
 
-### 💬 AI WhatsApp Bot Simulation
+###  AI WhatsApp Bot Simulation
 A replica of the WhatsApp interface running on an interactive iOS mockup.
 *   **Multilingual Support**: Fully understands and replies in natural **English, Sinhala, and Singlish** (Sri Lankan colloquial romanized script).
 *   **Intent Detection**: Instantly recognizes greetings, price inquiries, scheduling requests, and complaints.
 *   **Interactive Calls-to-Action**: Renders buttons for booking confirmation and automated transition to human agents.
 
-### 🌐 Website AI Sales Assistant
+###  Website AI Sales Assistant
 A modern, floating live chat widget that sits on business websites.
 *   **Lead Capture & Qualification**: Collects and validates visitors' contact info, business requirements, and interests.
 *   **Dynamic Recommendations**: Evaluates user answers to recommend specific pricing tiers or packages.
 *   **Sales Handoff**: Transitions conversations to email or direct WhatsApp links.
 
-### 📞 AI Voice Call System
+###  AI Voice Call System
 A voice agent call handler simulating business phone interactions.
 *   **Real-time Transcription**: Translates speech input directly on the screen.
 *   **Speech Recognition & Synthesis**: Utilizes browser-native speech synthesis and dictation to simulate an interactive voice call.
 *   **Auto-Summary generation**: Formulates a structural call log summarizing caller intent and action items.
 
-### ⚙️ Workflow Automation Engine
+###  Workflow Automation Engine
 A pipeline processor showcasing how customer interactions feed directly into business CRM systems.
 *   **Lead Assessment**: Ranks and scores lead value.
 *   **Automated Step Updates**: Visualizes pipeline progression (Lead Capture ➡️ Intent Scoring ➡️ CRM record creation ➡️ Follow-up scheduling ➡️ Team summary).
 
 ---
 
-## 🧠 Backend Intelligence & Architecture
+##  Backend Intelligence & Architecture
 
 Sinovex AI features a hybrid architecture built for maximum reliability:
 
@@ -52,7 +52,7 @@ Sinovex AI features a hybrid architecture built for maximum reliability:
 
 ---
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 *   **Frontend**: React (v19), Vite (v8), Tailwind CSS (v4), Framer Motion (animations), Lucide React (icons)
 *   **Backend**: Node.js, Express.js (v5), Cors, Dotenv, Fetch APIs
@@ -60,7 +60,7 @@ Sinovex AI features a hybrid architecture built for maximum reliability:
 
 ---
 
-## 📂 Project Directory Structure
+##  Project Directory Structure
 
 ```text
 sinovex-ai/
@@ -91,7 +91,7 @@ sinovex-ai/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 Make sure you have [Node.js](https://nodejs.org/) installed (v18+ recommended).
@@ -132,7 +132,7 @@ Open your browser at `http://localhost:5173`.
 
 ---
 
-## 🎓 Academic Credentials
+##  Academic Credentials
 
 **Developer**: Senuja Ekanayaka  
 **Degree**: Software Engineering Undergraduate  
@@ -141,5 +141,5 @@ Open your browser at `http://localhost:5173`.
 
 ---
 
-## 📜 License
+##  License
 This project is built for educational, research, and portfolio demonstration purposes. All rights reserved. © 2026 Senuja Ekanayaka.
