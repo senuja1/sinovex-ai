@@ -342,7 +342,6 @@ export default function SinexaChat({ logo, setPage }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [listening, setListening] = useState(false);
   const [intelligenceLevel, setIntelligenceLevel] = useState("smart");
-  const [showTopPicker, setShowTopPicker] = useState(false);
   const [showBottomPicker, setShowBottomPicker] = useState(false);
 
   const messagesEndRef = useRef(null);
@@ -582,67 +581,10 @@ export default function SinexaChat({ logo, setPage }) {
               <p className="text-[10px] text-violet-400 leading-none mt-0.5">by SinovexAI</p>
             </div>
 
-            {/* Intelligence Level Selector */}
-            <div className={`relative ml-1 ${showTopPicker ? "z-[1205]" : "z-10"}`}>
-              <button
-                onClick={() => setShowTopPicker((v) => !v)}
-                className={`flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-bold transition hover:bg-white/10 ${
-                  INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.borderColor || "border-white/10"
-                } ${
-                  INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.bgColor || "bg-white/5"
-                }`}
-              >
-                <span>{INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.icon}</span>
-                <span className={INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.textColor || "text-white/60"}>
-                  {INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.label}
-                </span>
-                <ChevronDown className={`h-3 w-3 transition ${showTopPicker ? "rotate-180" : ""} ${
-                  INTELLIGENCE_LEVELS.find((l) => l.id === intelligenceLevel)?.textColor || "text-white/40"
-                }`} />
-              </button>
-
-              <AnimatePresence>
-                {showTopPicker && (
-                  <>
-                    <div className="fixed inset-0 z-[1200]" onClick={() => setShowTopPicker(false)} />
-                    <motion.div
-                      initial={{ opacity: 0, y: -6, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -6, scale: 0.95 }}
-                      transition={{ duration: 0.15 }}
-                      className="absolute left-1/2 top-full z-[1201] mt-2 w-56 -translate-x-1/2 rounded-2xl border border-white/10 p-1.5 shadow-2xl"
-                      style={{ background: "rgba(15,12,30,0.97)", backdropFilter: "blur(24px)" }}
-                    >
-                      <p className="px-2.5 pb-1.5 pt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/30">
-                        Intelligence Level
-                      </p>
-                      {INTELLIGENCE_LEVELS.map((level) => (
-                        <button
-                          key={level.id}
-                          onClick={() => { setIntelligenceLevel(level.id); setShowTopPicker(false); }}
-                          className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition ${
-                            intelligenceLevel === level.id
-                              ? `${level.bgColor} ${level.textColor}`
-                              : "text-white/60 hover:bg-white/6 hover:text-white"
-                          }`}
-                        >
-                          <span className="text-lg">{level.icon}</span>
-                          <div className="min-w-0 flex-1">
-                            <p className="text-xs font-bold">{level.label}</p>
-                            <p className="text-[10px] text-white/35">{level.description}</p>
-                          </div>
-                          {intelligenceLevel === level.id && (
-                            <motion.div
-                              layoutId="level-check-top"
-                              className={`h-2 w-2 rounded-full bg-gradient-to-br ${level.color}`}
-                            />
-                          )}
-                        </button>
-                      ))}
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
+            {/* Status indicator */}
+            <div className="ml-1.5 flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold text-emerald-400 border border-emerald-500/20">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Online</span>
             </div>
           </div>
 
