@@ -311,15 +311,17 @@ async function callAI(prompt, demoType) {
           messages: [
             {
               role: "system",
-              content: "You are a helpful human-like WhatsApp business assistant.",
+              content: demoType === "sinexa"
+                ? "You are Sinexa AI, a highly advanced super-intelligent general-purpose AI assistant with exceptional coding, math, reasoning, and multilingual capabilities. You are NOT a business assistant. Help the user with anything they ask."
+                : "You are a helpful human-like WhatsApp business assistant.",
             },
             {
               role: "user",
               content: prompt,
             },
           ],
-          temperature: 0.65,
-          max_tokens: 500,
+          temperature: demoType === "sinexa" ? 0.7 : 0.65,
+          max_tokens: demoType === "sinexa" ? 4000 : 500,
         }),
       });
 

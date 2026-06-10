@@ -31,15 +31,15 @@ const WHATSAPP_NUMBER = "94706857171";
 const API_BASE = import.meta.env.VITE_API_URL || "https://sinovexai.com";
 
 const STARTER_MESSAGE =
-  "Hi! I'm **Sinexa**, your Sinovex AI assistant. I can help you with:\n\n• AI WhatsApp bots for your business\n• Website AI assistants\n• AI voice call systems\n• Business automation workflows\n• Pricing and packages\n\nWhat would you like to know? 🚀";
+  "Hi! I'm **Sinexa AI** — a super-intelligent general-purpose assistant powered by SinovexAI.\n\nI can help you with:\n\n• 💻 Writing & debugging code in any language\n• 🧮 Solving complex math & logic problems\n• 🌐 Analyzing websites (just paste a URL)\n• 📝 Writing essays, articles & content\n• 🔁 Translating between languages (English, Sinhala, Singlish)\n• 🧠 Explaining algorithms & concepts\n\nAsk me anything! ✨";
 
 const QUICK_PROMPTS = [
-  "What AI products does SinovexAI offer?",
-  "How does the WhatsApp AI bot work?",
-  "Can you handle Sinhala messages?",
-  "What's the pricing for AI bots?",
-  "Book a free demo",
-  "How does the AI voice system work?",
+  "Write a Python sorting algorithm",
+  "Explain how React hooks work",
+  "Solve: integral of x²·sin(x) dx",
+  "Translate to Sinhala: How are you?",
+  "Write a REST API in Node.js",
+  "Explain Big-O notation simply",
 ];
 
 const BUSINESS_CONTEXT = `You are Sinexa AI, a highly advanced, super-intelligent general-purpose AI assistant. You possess exceptional logical reasoning, mathematical solving, and top-tier coding capabilities.`;
