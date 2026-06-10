@@ -376,6 +376,8 @@ function looksWeakAiReply(userText, aiText = "") {
   const userIntent = detectFrontendIntent(userText);
   const lowerReply = reply.toLowerCase();
 
+  if (reply.includes("```")) return false;
+
   if (!reply || reply.length < 28) return true;
 
   const genericSinovexReply =
