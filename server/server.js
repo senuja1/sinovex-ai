@@ -229,8 +229,12 @@ Reply now with your full intelligence.
 `;
 }
 
-async function callAI(prompt) {
-  const apiKey = process.env.OPENROUTER_API_KEY;
+async function callAI(prompt, demoType) {
+  let apiKey = process.env.OPENROUTER_API_KEY;
+
+  if (demoType === "whatsapp") {
+    apiKey = process.env.WHATSAPP_OPENROUTER_API_KEY || process.env.OPENROUTER_API_KEY;
+  }
 
   if (!apiKey) {
     throw new Error("OPENROUTER_API_KEY missing");
@@ -302,6 +306,7 @@ async function handleDemoRequest(req, res) {
     businessInfo = "",
     history = [],
     chatHistory = [],
+    demoType,
   } = req.body || {};
 
   if (!message) {
@@ -320,7 +325,7 @@ async function handleDemoRequest(req, res) {
       history: safeHistory,
     });
 
-    const reply = await callAI(prompt);
+    const reply = await callAI(prompt, demoType);
 
     return res.json({
       reply,
