@@ -292,8 +292,8 @@ async function callAI(prompt, demoType, intelligenceLevel = "smart") {
 
   if (demoType === "whatsapp") {
     models = [
-      "google/gemini-2.5-flash:free",
-      "deepseek/deepseek-chat:free",
+      "google/gemini-2.5-flash",
+      "deepseek/deepseek-chat",
     ];
     temperature = 0.65;
     max_tokens = 500;
@@ -301,35 +301,30 @@ async function callAI(prompt, demoType, intelligenceLevel = "smart") {
     // demoType === "sinexa" or fallback general-purpose chat
     if (intelligenceLevel === "fast") {
       models = [
-        "google/gemini-2.5-flash:free",
-        "deepseek/deepseek-chat:free",
+        "google/gemini-2.5-flash",
+        "deepseek/deepseek-chat",
       ];
       temperature = 0.5;
       max_tokens = 2000;
     } else if (intelligenceLevel === "genius") {
       models = [
-        "deepseek/deepseek-r1:free",
-        "qwen/qwen-2.5-72b-instruct:free",
-        "meta-llama/llama-3.3-70b-instruct:free",
+        "deepseek/deepseek-r1",
+        "google/gemini-2.5-pro",
+        "qwen/qwen-2.5-72b-instruct",
       ];
       temperature = 0.8;
       max_tokens = 8000;
     } else {
       // default: "smart"
       models = [
-        "deepseek/deepseek-chat:free",
-        "qwen/qwen-2.5-72b-instruct:free",
-        "meta-llama/llama-3.3-70b-instruct:free",
-        "google/gemini-2.5-flash:free",
+        "deepseek/deepseek-chat",
+        "google/gemini-2.5-flash",
+        "qwen/qwen-2.5-72b-instruct",
+        "meta-llama/llama-3.3-70b-instruct",
       ];
       temperature = 0.7;
       max_tokens = 4000;
     }
-  }
-
-  // Allow overriding first model via env variable if present
-  if (process.env.OPENROUTER_MODEL) {
-    models.unshift(process.env.OPENROUTER_MODEL);
   }
 
   let lastError = "";
