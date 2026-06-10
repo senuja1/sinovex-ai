@@ -31,7 +31,11 @@ import SiteNavbar from "./siteNavbar";
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const WHATSAPP_NUMBER = "94706857171";
-const API_BASE = import.meta.env.VITE_API_URL || "https://sinovexai.com";
+const API_BASE =
+  import.meta.env.VITE_API_URL ||
+  (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+    ? "http://localhost:8787"
+    : "https://sinovexai.com");
 
 const STARTER_MESSAGE =
   "Hi! I'm **Sinexa AI** — a super-intelligent general-purpose assistant powered by SinovexAI.\n\nI can help you with:\n\n• 💻 Writing & debugging code in any language\n• 🧮 Solving complex math & logic problems\n• 🌐 Analyzing websites (just paste a URL)\n• 📝 Writing essays, articles & content\n• 🔁 Translating between languages (English, Sinhala, Singlish)\n• 🧠 Explaining algorithms & concepts\n\nAsk me anything! ✨";
