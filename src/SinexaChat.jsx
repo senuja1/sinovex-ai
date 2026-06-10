@@ -582,7 +582,7 @@ export default function SinexaChat({ logo, setPage }) {
             </div>
 
             {/* Intelligence Level Selector */}
-            <div className="relative ml-1">
+            <div className={`relative ml-1 ${showLevelPicker ? "z-[1205]" : "z-10"}`}>
               <button
                 onClick={() => setShowLevelPicker((v) => !v)}
                 className={`flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-bold transition hover:bg-white/10 ${
