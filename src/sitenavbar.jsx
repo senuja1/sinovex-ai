@@ -229,7 +229,7 @@ export default function SiteNavbar({ logo, setPage }) {
         onMouseLeave={() => setMegaOpen(false)}
         className="fixed left-0 top-0 z-[999] w-full border-b border-border bg-surface/80 backdrop-blur-2xl"
       >
-        <nav className="mx-auto flex h-11 max-w-7xl items-center justify-between px-4 lg:px-6">
+        <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 lg:px-6">
           <button
             onClick={() => goToPage("home")}
             className="flex items-center gap-3"
@@ -238,10 +238,10 @@ export default function SiteNavbar({ logo, setPage }) {
               <img
                 src={logo}
                 alt="Sinovex AI"
-                className="h-9 w-9 object-contain"
+                className="h-12 w-12 object-contain"
               />
             ) : (
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-white">
                 <Sparkles className="h-4 w-4" />
               </div>
             )}
@@ -354,7 +354,7 @@ export default function SiteNavbar({ logo, setPage }) {
               animate={{ opacity: 1, y: 0, height: "auto" }}
               exit={{ opacity: 0, y: -8, height: 0 }}
               transition={{ duration: 0.23, ease: "easeOut" }}
-              className="hidden max-h-[calc(100vh-44px)] overflow-y-auto border-t border-border bg-background shadow-2xl shadow-black/10 lg:block"
+              className="hidden max-h-[calc(100vh-56px)] overflow-y-auto border-t border-border bg-background shadow-2xl shadow-black/10 lg:block"
             >
               <div className="mx-auto grid max-w-7xl grid-cols-[1.45fr_1fr_1fr] gap-12 px-6 py-5">
                 <div>
@@ -487,7 +487,7 @@ export default function SiteNavbar({ logo, setPage }) {
             exit={{ opacity: 0 }}
             onMouseEnter={() => setMegaOpen(false)}
             onClick={() => setMegaOpen(false)}
-            className="fixed inset-0 top-11 z-[998] hidden bg-black/10 backdrop-blur-[2px] lg:block"
+            className="fixed inset-0 top-14 z-[998] hidden bg-black/10 backdrop-blur-[2px] lg:block"
           />
         )}
       </AnimatePresence>
@@ -608,10 +608,10 @@ export default function SiteNavbar({ logo, setPage }) {
                   <img
                     src={logo}
                     alt="Sinovex AI"
-                    className="h-10 w-10 object-contain"
+                    className="h-12 w-12 object-contain"
                   />
                 ) : (
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-white">
                     <Sparkles className="h-4 w-4" />
                   </div>
                 )}

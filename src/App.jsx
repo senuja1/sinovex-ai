@@ -13,6 +13,8 @@ import WebsiteAIProduct from "./WebsiteAIProduct";
 import VoiceAIProduct from "./VoiceAIProduct";
 import AutomationAIProduct from "./AutomationAIProduct";
 import SinexaChat from "./SinexaChat";
+import TechSuite from "./TechSuite";
+import SinexaWidget from "./SinexaWidget";
 
 import { motion, useInView } from "framer-motion";
 import {
@@ -1326,9 +1328,22 @@ function SiteFooter({ setPage }) {
 
         {/* Bottom bar */}
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-          <p className="text-xs text-muted">
-            Copyright © {new Date().getFullYear()} Sinovex AI. All rights reserved.
-          </p>
+          <div className="flex flex-col gap-1">
+            <p className="partner-text text-xs text-muted font-medium">
+              Strategic Technology Partner:{" "}
+              <a
+                href="https://vasterglobal.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-foreground hover:underline"
+              >
+                Vaster Global
+              </a>
+            </p>
+            <p className="text-xs text-muted">
+              Copyright © {new Date().getFullYear()} Sinovex AI. All rights reserved.
+            </p>
+          </div>
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
             {legalLinks.map((item, i) => (
@@ -1352,29 +1367,40 @@ function SiteFooter({ setPage }) {
 export default function App() {
   const [page, setPage] = useState("home");
 
-  if (page === "sinexa-chat") return <SinexaChat logo={logo} setPage={setPage} />;
-  if (page === "pricing") return <Pricing logo={logo} setPage={setPage} />;
-  if (page === "whatsapp-ai") return <WhatsAppAIProduct logo={logo} setPage={setPage} />;
-  if (page === "website-ai") return <WebsiteAIProduct logo={logo} setPage={setPage} />;
-  if (page === "voice-ai") return <VoiceAIProduct logo={logo} setPage={setPage} />;
-  if (page === "automation-ai") return <AutomationAIProduct logo={logo} setPage={setPage} />;
-  if (page === "whatsapp-demo") return <WhatsAppDemo logo={logo} setPage={setPage} />;
-  if (page === "website-demo") return <PlatformDemo platform="website" logo={logo} setPage={setPage} />;
-  if (page === "voice-demo") return <PlatformDemo platform="voice" logo={logo} setPage={setPage} />;
-  if (page === "automation-demo") return <PlatformDemo platform="automation" logo={logo} setPage={setPage} />;
+  let content = null;
+  if (page === "sinexa-chat") content = <SinexaChat logo={logo} setPage={setPage} />;
+  else if (page === "pricing") content = <Pricing logo={logo} setPage={setPage} />;
+  else if (page === "whatsapp-ai") content = <WhatsAppAIProduct logo={logo} setPage={setPage} />;
+  else if (page === "website-ai") content = <WebsiteAIProduct logo={logo} setPage={setPage} />;
+  else if (page === "voice-ai") content = <VoiceAIProduct logo={logo} setPage={setPage} />;
+  else if (page === "automation-ai") content = <AutomationAIProduct logo={logo} setPage={setPage} />;
+  else if (page === "whatsapp-demo") content = <WhatsAppDemo logo={logo} setPage={setPage} />;
+  else if (page === "website-demo") content = <PlatformDemo platform="website" logo={logo} setPage={setPage} />;
+  else if (page === "voice-demo") content = <PlatformDemo platform="voice" logo={logo} setPage={setPage} />;
+  else if (page === "automation-demo") content = <PlatformDemo platform="automation" logo={logo} setPage={setPage} />;
+  else {
+    content = (
+      <>
+        <SiteNavbar logo={logo} setPage={setPage} currentPage="home" />
+        <Hero setPage={setPage} />
+        <Services />
+        <TechSuite />
+        <UseCases />
+        <WhyChoose />
+        <Results />
+        <Process />
+        <Contact setPage={setPage} />
+        <SiteFooter setPage={setPage} />
+      </>
+    );
+  }
+
+  const showWidget = !["sinexa-chat", "whatsapp-demo", "website-demo", "voice-demo", "automation-demo"].includes(page);
 
   return (
-    <main className="min-h-screen bg-background font-sans">
-      <SiteNavbar logo={logo} setPage={setPage} currentPage="home" />
-      <Hero setPage={setPage} />
-      <Services />
-      <HowItWorks />
-      <UseCases />
-      <WhyChoose />
-      <Results />
-      <Process />
-      <Contact setPage={setPage} />
-      <SiteFooter setPage={setPage} />
+    <main className="min-h-screen bg-background font-sans relative">
+      {content}
+      {showWidget && <SinexaWidget />}
     </main>
   );
 }
